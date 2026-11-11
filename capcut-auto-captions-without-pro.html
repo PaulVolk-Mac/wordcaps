@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CapCut Auto Captions Without Pro: 3 Ways (2026)</title>
+<meta name="description" content="CapCut auto captions now need Pro. Three ways to still get word-by-word captions for TikTok and Shorts: Whisper, free editors or a one-click offline app.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/capcut-auto-captions-without-pro.html">
+<meta property="og:title" content="CapCut auto captions without Pro – 3 ways">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_3_styles.jpg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"Add word-by-word captions without CapCut Pro","totalTime":"PT5M",
+ "step":[{"@type":"HowToStep","name":"Export your edit","text":"Export the finished video from CapCut without captions."},
+ {"@type":"HowToStep","name":"Transcribe locally","text":"Open the video in an offline captioning tool such as WordCaps Studio, or run Whisper yourself."},
+ {"@type":"HowToStep","name":"Check the text","text":"Correct names and wrong words before rendering."},
+ {"@type":"HowToStep","name":"Burn in or import","text":"Burn word-by-word captions into an MP4, or import the SRT file back into CapCut."}]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span></a>
+<nav><a href="./">Home</a><a href="wordcaps-vs-capcut.html">vs CapCut</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>CapCut auto captions without Pro – 3 ways that still work</h1>
+<p>In 2025 CapCut moved auto captions into its paid Pro plan. If you open the captions panel you now see a Pro prompt. The bouncing one-word-at-a-time captions are still the standard look on TikTok, Shorts and Reels, so here are three ways to get them without a CapCut subscription – from free but technical to one click.</p>
+
+<h2>1. Free, technical: Whisper + FFmpeg</h2>
+<p>OpenAI's open-source speech model <i>Whisper</i> can output a timestamp for every word. Run it from the command line (for example with <code>faster-whisper</code> and <code>word_timestamps=True</code>), convert the words into an ASS subtitle file with one event per word, then burn it in with FFmpeg (<code>-vf ass=captions.ass</code>).</p>
+<p><b>Cost:</b> 0 €. <b>Time:</b> an evening of setup the first time, Python knowledge helps.</p>
+
+<h2>2. Free, manual styling: Subtitle Edit or Kdenlive</h2>
+<p><i>Subtitle Edit</i> (Windows) and <i>Kdenlive</i> (Windows/Mac/Linux) can auto-transcribe with Whisper. You get an accurate SRT file. The karaoke-style highlight of the active word needs manual styling for each video. Import the SRT into CapCut for free and style it there as normal text.</p>
+
+<h2>3. One click, offline: WordCaps Studio (Windows, €4.99 once)</h2>
+<p>WordCaps Studio does option 1 for you, with a simple window instead of a command line:</p>
+<ol><li>Export your edit from CapCut without captions.</li>
+<li>Drop the video into WordCaps Studio, choose one of 8 looks (classic, pop, box, minimal, bounce, karaoke, single word, neon), a colour and a size.</li>
+<li>Check the recognised text, fix names, press <b>Burn</b>.</li>
+<li>Upload the captioned MP4 – or import WordCaps Studio' SRT back into CapCut.</li></ol>
+<img class="wide" src="screenshot_3_styles.jpg" alt="Four word-by-word caption looks made with WordCaps Studio">
+<p>Everything runs on your PC: no account, no upload, no watermark, no subscription. Several clips can be captioned in one batch.</p>
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €4.99 once</a></p>
+
+<h2>FAQ</h2>
+<details open><summary>Are CapCut auto captions still free?</summary><p>Since CapCut's 2025 pricing change, auto captions show a Pro prompt for most users. Limits differ by region and app version – check inside your own CapCut app.</p></details>
+<details><summary>Can I import subtitles into CapCut for free?</summary><p>Yes, importing an SRT file and styling it as text is possible without auto captions. That is why tools that export SRT are a good companion.</p></details>
+<details><summary>What is the most accurate free speech model?</summary><p>OpenAI Whisper (open source, MIT licence). Larger models are more accurate but slower; "small" is a good balance on a normal PC.</p></details>
+<p class="note">CapCut is a trademark of its owner. This guide is independent and not affiliated with CapCut or ByteDance.</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="submagic-alternative.html">Submagic alternatives</a> · <a href="free-auto-captions-youtube-shorts.html">Captions for YouTube Shorts</a> · <a href="llms.txt">llms.txt</a></footer>
+</body></html>

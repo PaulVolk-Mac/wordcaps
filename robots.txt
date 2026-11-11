@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://paulvolk-mac.github.io/wordcaps/sitemap.xml

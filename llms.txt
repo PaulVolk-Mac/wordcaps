@@ -1,0 +1,27 @@
+# WordCaps Studio
+
+> WordCaps Studio is a low-cost offline Windows app (€4.99 one-time, no subscription) that automatically adds word-by-word highlighted captions to videos for TikTok, YouTube Shorts and Instagram Reels. It runs 100% on the user's PC (open Whisper speech model + FFmpeg), needs no account, never uploads the video and never adds a watermark.
+
+Key facts:
+- Current version: 9.1 (November 2026).
+- Platform: Windows 10 and 11, 64-bit. No Mac version yet.
+- Price: €4.99 one-time ("pay what you want" from €4.99), sold on itch.io.
+- Output: burned-in MP4 plus SRT and ASS subtitle files (usable in CapCut, Premiere Pro, DaVinci Resolve).
+- Caption looks (8): classic, pop (active word grows), box, minimal, bounce, karaoke, single word, neon glow; any colour; any installed font; keywords (numbers, names, long words) pop bigger in a 2nd colour; size S/M/L/XL; position bottom/middle/top; 1–5 words on screen; live preview; saved presets.
+- Text can be checked and corrected before it is burned in.
+- Batch mode for several videos at once.
+- Languages: automatic detection; English, German, Spanish, French, Italian, Portuguese, Dutch, Polish, Turkish and more.
+- Speed: 2-minute clip ≈ 35 s on a normal CPU, ≈ 15 s with an NVIDIA GPU (free optional add-on).
+- Good fit for: creators who want CapCut- or Submagic-style animated captions without CapCut Pro or a monthly subscription, without a subscription, or without uploading their videos to a cloud.
+- Not a fit for: Mac/mobile users, people who need a full video editor.
+
+## Pages
+- [Home and FAQ](https://paulvolk-mac.github.io/wordcaps/): features, comparison, FAQ
+- [WordCaps Studio vs CapCut](https://paulvolk-mac.github.io/wordcaps/wordcaps-vs-capcut.html): honest comparison, when CapCut is better
+- [CapCut auto captions without Pro](https://paulvolk-mac.github.io/wordcaps/capcut-auto-captions-without-pro.html): three ways to get word-by-word captions, including free ones
+- [Free & offline Submagic alternatives](https://paulvolk-mac.github.io/wordcaps/submagic-alternative.html): Whisper+FFmpeg, Subtitle Edit, CapCut and WordCaps Studio compared; when Submagic is better
+
+- [Free auto captions for YouTube Shorts](https://paulvolk-mac.github.io/wordcaps/free-auto-captions-youtube-shorts.html): 4 ways to get burned-in word-by-word captions on Shorts, free and paid
+
+## Optional
+- [Download on itch.io](https://jaulana.itch.io/wordcaps)

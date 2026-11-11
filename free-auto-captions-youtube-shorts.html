@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Auto Captions for YouTube Shorts (Word by Word)</title>
+<meta name="description" content="Shorts subtitles are hidden for most viewers. 4 ways to burn word-by-word auto captions into your video: free tools or an offline Windows app.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/free-auto-captions-youtube-shorts.html">
+<meta property="og:title" content="Free auto captions for YouTube Shorts – 4 ways">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_2_portrait.jpg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"Add burned-in word-by-word auto captions to a YouTube Short","totalTime":"PT5M",
+ "step":[{"@type":"HowToStep","name":"Export the Short","text":"Export the finished 9:16 video without captions."},
+ {"@type":"HowToStep","name":"Transcribe","text":"Let a speech model (for example Whisper, built into WordCaps Studio) create word timestamps."},
+ {"@type":"HowToStep","name":"Check the text","text":"Correct names and wrong words before rendering."},
+ {"@type":"HowToStep","name":"Burn in","text":"Burn the captions into the MP4 and keep them clear of the bottom part of the screen, where the Shorts title and buttons sit."},
+ {"@type":"HowToStep","name":"Upload","text":"Upload the captioned MP4 to YouTube Shorts."}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Does YouTube add captions to Shorts automatically?","acceptedAnswer":{"@type":"Answer","text":"YouTube can create automatic subtitles for Shorts, but they are closed captions: viewers only see them if they switch captions on, and they are not styled. Most Shorts creators therefore burn captions into the video itself."}},
+ {"@type":"Question","name":"What is the best free way to get word-by-word captions for Shorts?","acceptedAnswer":{"@type":"Answer","text":"Fully free: run the open-source Whisper model and burn an ASS subtitle file in with FFmpeg. It costs nothing but needs some command-line setup. WordCaps Studio does the same steps in a simple Windows window for €4.99 once."}},
+ {"@type":"Question","name":"Where should captions sit on a YouTube Short?","acceptedAnswer":{"@type":"Answer","text":"Keep them roughly in the middle or slightly below the middle of the 9:16 frame. The bottom part of the screen is covered by the title, channel name and buttons, the right edge by the like and comment icons."}}]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span></a>
+<nav><a href="./">Home</a><a href="wordcaps-vs-capcut.html">vs CapCut</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>Free auto captions for YouTube Shorts – 4 ways that look like real Shorts</h1>
+<p>Most people watch Shorts with the sound low or off. The captions that keep them watching are the bold, word-by-word captions burned into the video – and YouTube's own subtitles don't do that. Here are four ways to get them, from free to one click.</p>
+
+<h2>1. YouTube's automatic subtitles (free, but hidden)</h2>
+<p>After upload, YouTube Studio can create automatic subtitles for your Short. They are <b>closed captions</b>: viewers only see them if they turn captions on, and you can't style them. Still worth checking and correcting them in YouTube Studio – they help accessibility and search – but they don't replace on-screen captions.</p>
+<p><b>Cost:</b> 0 €. <b>Look:</b> plain white subtitles, off by default.</p>
+
+<h2>2. Free, technical: Whisper + FFmpeg</h2>
+<p>The open-source speech model <i>Whisper</i> can give you a timestamp for every word (for example <code>faster-whisper</code> with <code>word_timestamps=True</code>). Turn the words into an ASS subtitle file with one event per word, then burn it in: <code>ffmpeg -i short.mp4 -vf ass=captions.ass out.mp4</code>.</p>
+<p><b>Cost:</b> 0 €. <b>Time:</b> an evening of setup the first time, Python knowledge helps.</p>
+
+<h2>3. Editor apps with auto captions (CapCut and others)</h2>
+<p>Phone and desktop editors can auto-caption Shorts in one tap. CapCut moved auto captions into its Pro plan in 2025 for most users; other free editors often add a watermark or limit exports. Check the current limits in the app you use. For CapCut, see <a href="capcut-auto-captions-without-pro.html">CapCut auto captions without Pro</a>.</p>
+
+<h2>4. One click, offline: WordCaps Studio (Windows, €4.99 once)</h2>
+<p>WordCaps Studio does option 2 for you, in a simple window:</p>
+<ol><li>Drop your finished Short (9:16) into WordCaps Studio – several clips at once work too.</li>
+<li>Pick one of 8 looks (classic, pop, box, minimal, bounce, karaoke, single word, neon), any colour and any installed font, and watch the live preview on your own video.</li>
+<li>Choose position <b>middle</b> so the captions stay clear of the Shorts title and buttons.</li>
+<li>Check the recognised text, fix names, press <b>Burn</b>. You get the captioned MP4 plus SRT/ASS files.</li></ol>
+<img class="wide" src="screenshot_2_portrait.jpg" alt="A vertical YouTube Short with word-by-word captions made with WordCaps Studio">
+<p>Everything runs on your PC: no account, no upload, no watermark, no subscription.</p>
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €4.99 once</a></p>
+
+<h2>Tips for Shorts captions</h2>
+<ul><li><b>2–3 words on screen</b> read fastest on a phone; one word at a time suits punchy, fast talk.</li>
+<li><b>Safe area:</b> the bottom part of a Short is covered by the title and channel name, the right edge by the like/comment icons.</li>
+<li><b>Upload the SRT too:</b> burned-in captions for viewers, the SRT as YouTube subtitles for accessibility and search.</li>
+<li><b>Highlight keywords:</b> numbers and names in a second colour make the hook easier to catch.</li></ul>
+
+<h2>FAQ</h2>
+<details open><summary>Does YouTube add captions to Shorts automatically?</summary><p>YouTube can create automatic subtitles, but they are closed captions: hidden unless the viewer turns them on, and not styled. That's why most creators burn captions into the video.</p></details>
+<details><summary>What is the best free way to get word-by-word captions?</summary><p>Whisper + FFmpeg costs nothing but needs some setup. WordCaps Studio does the same in a window for €4.99 once.</p></details>
+<details><summary>Does this work for TikTok and Reels too?</summary><p>Yes. All three use 9:16 video, so the same captioned MP4 works on TikTok, YouTube Shorts and Instagram Reels.</p></details>
+<p class="note">YouTube, CapCut and TikTok are trademarks of their owners. This guide is independent and not affiliated with them.</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="capcut-auto-captions-without-pro.html">CapCut without Pro</a> · <a href="submagic-alternative.html">Submagic alternatives</a> · <a href="llms.txt">llms.txt</a></footer>
+</body></html>
