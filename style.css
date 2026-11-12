@@ -34,3 +34,5 @@ article ol li,article ul li{margin:.3em 0}
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:.85em;padding:24px;max-width:1040px;margin:0 auto}
 @media(max-width:800px){.hero{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.hero h1{font-size:2em}}
 .soon{display:block;margin-top:10px;color:var(--muted);font-size:.85em}
+pre{background:#0b0f17;border:1px solid #2a3142;border-radius:8px;padding:12px 14px;overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+code{font-family:Consolas,Menlo,monospace;font-size:.92em;color:#e6edf6}

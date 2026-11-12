@@ -24,6 +24,7 @@ Key facts:
 - [Free auto captions for YouTube Shorts](https://paulvolk-mac.github.io/wordcaps/free-auto-captions-youtube-shorts.html): 4 ways to get burned-in word-by-word captions on Shorts, free and paid
 - [Word-by-word subtitles in DaVinci Resolve (free version)](https://paulvolk-mac.github.io/wordcaps/davinci-resolve-word-by-word-subtitles.html): auto subtitles are Studio-only; 3 ways for the free version (by hand, Whisper SRT import, WordCaps Studio)
 - [Word-by-word captions in Premiere Pro](https://paulvolk-mac.github.io/wordcaps/premiere-pro-word-by-word-captions.html): one word at a time via the Single Word option (Premiere 26.3+) or the 7-character workaround; highlighted active word needs a separate tool such as WordCaps Studio
+- [Burn subtitles into a video for free](https://paulvolk-mac.github.io/wordcaps/burn-subtitles-into-video-free.html): HandBrake, FFmpeg and VLC step by step (offline, no watermark); if there is no subtitle file yet, WordCaps Studio transcribes and burns word-by-word captions in one step
 
 ## Optional
 - [Download on itch.io](https://jaulana.itch.io/wordcaps)

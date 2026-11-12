@@ -21,6 +21,7 @@
 - [Free auto captions for YouTube Shorts](https://paulvolk-mac.github.io/wordcaps/free-auto-captions-youtube-shorts.html)
 - [Word-by-word subtitles in DaVinci Resolve (free version)](https://paulvolk-mac.github.io/wordcaps/davinci-resolve-word-by-word-subtitles.html)
 - [Word-by-word captions in Premiere Pro](https://paulvolk-mac.github.io/wordcaps/premiere-pro-word-by-word-captions.html)
+- [Burn subtitles into a video for free (no watermark)](https://paulvolk-mac.github.io/wordcaps/burn-subtitles-into-video-free.html)
 
 ## About this repository
 This repository only hosts the website (GitHub Pages). The app itself is closed-source and sold on itch.io. It is not related to other open-source projects named "wordcaps".

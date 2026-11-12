@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Burn Subtitles into a Video for Free (No Watermark) – HandBrake, FFmpeg, VLC</title>
+<meta name="description" content="How to burn (hardcode) subtitles into an MP4 for free and without a watermark on Windows: HandBrake, FFmpeg and VLC step by step – and what to do if you have no subtitle file yet.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/burn-subtitles-into-video-free.html">
+<meta property="og:title" content="Burn subtitles into a video for free – no watermark, 3 offline ways">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_2_portrait.jpg">
+<meta name="twitter:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_2_portrait.jpg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"Burn subtitles into a video for free with HandBrake","totalTime":"PT5M",
+ "tool":[{"@type":"HowToTool","name":"HandBrake (free, open source)"}],
+ "supply":[{"@type":"HowToSupply","name":"Video file (MP4, MOV, MKV)"},{"@type":"HowToSupply","name":"Subtitle file (SRT or ASS)"}],
+ "step":[{"@type":"HowToStep","name":"Open the video","text":"Open HandBrake and drag your video into the window."},
+ {"@type":"HowToStep","name":"Import the subtitle file","text":"Go to the Subtitles tab, choose Tracks → Import Subtitle and select your SRT or ASS file."},
+ {"@type":"HowToStep","name":"Tick Burn In","text":"In the subtitle row tick Burn In. Only one track can be burned in."},
+ {"@type":"HowToStep","name":"Encode","text":"Pick a preset such as Fast 1080p30, set the output file name and click Start Encode. The subtitles are now part of the picture."}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"How can I burn subtitles into a video for free without a watermark?","acceptedAnswer":{"@type":"Answer","text":"Use HandBrake (Subtitles tab → Import Subtitle → tick Burn In) or FFmpeg (ffmpeg -i video.mp4 -vf subtitles=subs.srt -c:a copy out.mp4). Both are free, open source, run offline on Windows, Mac and Linux and add no watermark."}},
+ {"@type":"Question","name":"What is the difference between hardcoded and soft subtitles?","acceptedAnswer":{"@type":"Answer","text":"Hardcoded (burned-in) subtitles are part of the picture and show on every player and platform, including TikTok, Instagram and WhatsApp. Soft subtitles are a separate track or file that the viewer can switch off, but many social apps ignore them."}},
+ {"@type":"Question","name":"Can VLC burn subtitles into a video?","acceptedAnswer":{"@type":"Answer","text":"Yes, via Media → Convert / Save with the option Overlay subtitles on the video in the profile settings. It works for simple jobs but is slow and fails more often than HandBrake or FFmpeg."}},
+ {"@type":"Question","name":"I have no subtitle file yet. How do I get word-by-word captions burned in?","acceptedAnswer":{"@type":"Answer","text":"You need speech-to-text first. Free route: create an SRT with Whisper or Subtitle Edit, then burn it with HandBrake. One-step route on Windows: WordCaps Studio (€4.99 once, offline) transcribes on your PC and burns animated word-by-word captions with a highlighted active word into the MP4, plus an SRT."}}]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span> <small style="font-weight:600;color:#c9d1e0">Studio</small></a>
+<nav><a href="./">Home</a><a href="wordcaps-vs-capcut.html">vs CapCut</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>Burn subtitles into a video for free – no watermark, 3 offline ways</h1>
+<p>“Burning in” (also called hardcoding) means the subtitles become part of the picture. That is what you want for TikTok, Reels, Shorts or WhatsApp: soft subtitle tracks are ignored there. Online “free” burners usually add a watermark or a size limit and upload your video. These three tools are free, run on your own PC and add nothing.</p>
+<p><b>You need:</b> the video and a subtitle file (<b>.srt</b> or <b>.ass</b>). No subtitle file yet? Skip to <a href="#no-srt">“I have no subtitles yet”</a>.</p>
+
+<h2>1. HandBrake – easiest (Windows, Mac, Linux)</h2>
+<ol><li>Open <b>HandBrake</b> (free, open source, handbrake.fr) and drag your video in.</li>
+<li>Open the <b>Subtitles</b> tab → <b>Tracks → Import Subtitle</b> and pick your SRT or ASS file.</li>
+<li>Tick <b>Burn In</b> in that row. Only one track can be burned in.</li>
+<li>Choose a preset (e.g. <i>Fast 1080p30</i>; it keeps the aspect ratio, so 9:16 stays 9:16), set the file name, click <b>Start Encode</b>.</li></ol>
+<p><b>Styling:</b> an SRT gets HandBrake’s plain white font. For your own font, colour and outline, import an <b>.ass</b> file – HandBrake keeps its styles.</p>
+
+<h2>2. FFmpeg – one command, full control</h2>
+<p>If FFmpeg is installed (free, ffmpeg.org), open a terminal in the folder with your files:</p>
+<pre><code>ffmpeg -i video.mp4 -vf subtitles=subs.srt -c:a copy video_subtitled.mp4</code></pre>
+<p>Bigger, bold captions with an outline, centred lower third:</p>
+<pre><code>ffmpeg -i video.mp4 -vf "subtitles=subs.srt:force_style='FontName=Arial,FontSize=18,Bold=1,Outline=2,MarginV=60'" -c:a copy video_subtitled.mp4</code></pre>
+<p>With an <code>.ass</code> file use <code>-vf ass=subs.ass</code>; the styles inside the file are used. Tip: on Windows, keep the subtitle file in the same folder and use a simple file name – paths with <code>C:\</code> need extra escaping in the filter.</p>
+
+<h2>3. VLC – if it is already installed</h2>
+<ol><li><b>Media → Convert / Save</b>, add the video, tick <b>Use a subtitle file</b> and pick the SRT.</li>
+<li>Click <b>Convert / Save</b>, choose a profile (<i>Video – H.264 + MP3 (MP4)</i>) and open its settings (wrench icon).</li>
+<li>On the <b>Subtitles</b> tab tick <b>Subtitles</b> and <b>Overlay subtitles on the video</b>, save, set a destination file and click <b>Start</b>.</li></ol>
+<p>Works for quick jobs, but it is slow and fails more often than HandBrake (missing audio or no subtitles in the output are common complaints). If it fails, use way 1.</p>
+
+<h2 id="no-srt">I have no subtitles yet</h2>
+<p>All three tools above only burn a file you already have. For talking videos you first need speech-to-text:</p>
+<ul><li><b>Free:</b> make an SRT with <b>Whisper</b> (open source) or <b>Subtitle Edit</b> (Windows, has a Whisper option), fix the text, then burn it with HandBrake. You get classic subtitles – the whole line in one style.</li>
+<li><b>One step, social-media look: WordCaps Studio</b> (Windows, €4.99 once). Drop the video in, pick one of 8 looks (classic, pop, box, minimal, bounce, karaoke, single word, neon), any colour and font, check the text and press Burn. It transcribes <b>on your PC</b> and burns <b>animated word-by-word captions with a highlighted active word</b> into the MP4 – the TikTok/Submagic style that HandBrake and FFmpeg can’t do from a normal SRT. You also get an SRT and ASS file. No account, no upload, no watermark.</li></ul>
+<img class="wide" src="screenshot_2_portrait.jpg" alt="WordCaps Studio: drop a video, pick a look, get burned-in word-by-word captions">
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €4.99 once</a></p>
+<p><small>WordCaps Studio does not import an existing SRT – if you already have one, HandBrake or FFmpeg above is the right (free) tool.</small></p>
+
+<h2>Which way fits you?</h2>
+<table><tr><th></th><th>HandBrake</th><th>FFmpeg</th><th>VLC</th><th>Online burners</th><th>WordCaps Studio</th></tr>
+<tr><td>Price</td><td>free</td><td>free</td><td>free</td><td>free tier, then monthly</td><td>€4.99 once</td></tr>
+<tr><td>Watermark</td><td>no</td><td>no</td><td>no</td><td>often on free tier</td><td>no</td></tr>
+<tr><td>Offline / no upload</td><td>yes</td><td>yes</td><td>yes</td><td>no</td><td>yes</td></tr>
+<tr><td>Needs an SRT first</td><td>yes</td><td>yes</td><td>yes</td><td>usually makes one</td><td>no – transcribes itself</td></tr>
+<tr><td>Word-by-word highlight</td><td>only with a prepared ASS</td><td>only with a prepared ASS</td><td>no</td><td>some, paid</td><td>yes (8 looks)</td></tr>
+<tr><td>Mac</td><td>yes</td><td>yes</td><td>yes</td><td>yes (browser)</td><td>no (Windows only)</td></tr></table>
+<p><small>Menu names as in HandBrake 1.8, FFmpeg 7 and VLC 3, November 2026; check your version.</small></p>
+
+<h2>FAQ</h2>
+<details open><summary>Will burned-in subtitles lower the video quality?</summary><p>The video is re-encoded, so there is a small loss. With HandBrake’s default quality (RF 20–22) or FFmpeg’s default x264 settings it is not visible on a phone.</p></details>
+<details><summary>Can I remove burned-in subtitles later?</summary><p>No – they are part of the picture. Keep the original video and the subtitle file.</p></details>
+<details><summary>SRT or ASS?</summary><p>SRT is plain text with times, every tool reads it. ASS also stores font, colour, outline, position and per-word effects – use it when the look matters.</p></details>
+<details><summary>How do I burn subtitles on Android or iPhone?</summary><p>Mobile editors such as CapCut can add captions on the phone; free tiers may limit styles or exports. The offline tools on this page are for desktop.</p></details>
+<p class="note">HandBrake, FFmpeg and VLC are independent open-source projects named here only to explain how to use them; this guide is not affiliated with them.</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="capcut-auto-captions-without-pro.html">CapCut without Pro</a> · <a href="submagic-alternative.html">Submagic alternatives</a> · <a href="davinci-resolve-word-by-word-subtitles.html">DaVinci Resolve word-by-word</a> · <a href="premiere-pro-word-by-word-captions.html">Premiere Pro word-by-word</a> · <a href="free-auto-captions-youtube-shorts.html">Captions for YouTube Shorts</a> · <a href="llms.txt">llms.txt</a></footer>
+</body></html>
