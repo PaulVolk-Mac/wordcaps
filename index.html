@@ -13,6 +13,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
+{"@context": "https://schema.org", "@graph": [{"@type": "VideoObject", "name": "WordCaps Studio demo – Karaoke look", "description": "Real WordCaps Studio output: English quote, word-by-word karaoke highlight, 13 s. Made offline on Windows, no watermark.", "thumbnailUrl": "https://paulvolk-mac.github.io/wordcaps/poster_stoic.jpg", "contentUrl": "https://paulvolk-mac.github.io/wordcaps/demo_stoic.mp4", "uploadDate": "2026-11-12", "duration": "PT13S"}, {"@type": "VideoObject", "name": "WordCaps Studio demo – Pop look", "description": "Real WordCaps Studio output: English speech, pop look with keyword highlight, 13 s. Made offline on Windows, no watermark.", "thumbnailUrl": "https://paulvolk-mac.github.io/wordcaps/poster_motivation.jpg", "contentUrl": "https://paulvolk-mac.github.io/wordcaps/demo_motivation.mp4", "uploadDate": "2026-11-12", "duration": "PT13S"}, {"@type": "VideoObject", "name": "WordCaps Studio demo – Box look – German", "description": "Real WordCaps Studio output: German audiobook, box look – language detected automatically, 15 s. Made offline on Windows, no watermark.", "thumbnailUrl": "https://paulvolk-mac.github.io/wordcaps/poster_story_de.jpg", "contentUrl": "https://paulvolk-mac.github.io/wordcaps/demo_story_de.mp4", "uploadDate": "2026-11-12", "duration": "PT15S"}]}
+</script>
+<script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication",
  "name":"WordCaps Studio","applicationCategory":"MultimediaApplication","applicationSubCategory":"Video captioning",
  "operatingSystem":"Windows 10, Windows 11 (64-bit)",
@@ -20,7 +23,7 @@
  "offers":{"@type":"Offer","price":"4.99","priceCurrency":"EUR","url":"https://jaulana.itch.io/wordcaps"},
  "featureList":["Word-by-word highlighted captions","8 caption looks (classic, pop, box, minimal, bounce, karaoke, single word, neon), any colour and any installed font","Keywords (numbers, names, long words) pop bigger in a second colour","Live preview of your own video and saved presets","Check and correct the text before burning in","Batch processing of several videos with a clear queue and fix hints","Burned-in MP4 plus SRT and ASS export","Portrait and landscape videos","Automatic language detection (English, German and many more)","Runs 100% offline, optional NVIDIA GPU acceleration"],
  "screenshot":"https://paulvolk-mac.github.io/wordcaps/screenshot_app.jpg",
- "softwareVersion":"9.1","dateModified":"2026-11-11","url":"https://paulvolk-mac.github.io/wordcaps/"}
+ "softwareVersion":"9.2.3","dateModified":"2026-11-12","url":"https://paulvolk-mac.github.io/wordcaps/"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -46,6 +49,16 @@
 <div class="badges"><b>Windows 10/11</b> · 100% offline · MP4 + SRT + ASS · Batch mode · NVIDIA GPU optional</div>
 </div>
 <video src="demo_portrait.mp4" poster="demo_poster.jpg" autoplay muted loop playsinline width="340" aria-label="WordCaps Studio demo: word-by-word highlighted captions in 3 of the 8 looks (Neon, Pop, Box) on a portrait video"></video>
+</section>
+
+<section id="demos">
+<h2>See it in action – real output, sound on</h2>
+<p class="muted">Three clips straight from WordCaps Studio: drop the video, pick a look, done. No editing afterwards, no watermark. Tap a clip to play it with sound.</p>
+<div class="demos">
+<figure class="demo"><video src="demo_stoic.mp4" poster="poster_stoic.jpg" controls muted loop playsinline preload="none" width="270" aria-label="WordCaps Studio demo: English quote, word-by-word karaoke highlight, 13 s"></video><figcaption><b>Karaoke look</b><br>English quote</figcaption></figure>
+<figure class="demo"><video src="demo_motivation.mp4" poster="poster_motivation.jpg" controls muted loop playsinline preload="none" width="270" aria-label="WordCaps Studio demo: English speech, pop look with keyword highlight, 13 s"></video><figcaption><b>Pop look</b><br>English speech</figcaption></figure>
+<figure class="demo"><video src="demo_story_de.mp4" poster="poster_story_de.jpg" controls muted loop playsinline preload="none" width="270" aria-label="WordCaps Studio demo: German audiobook, box look – language detected automatically, 15 s"></video><figcaption><b>Box look – German</b><br>German audiobook</figcaption></figure>
+</div>
 </section>
 
 <section id="features" class="grid3">
@@ -90,5 +103,5 @@
 <details><summary>Are the captions perfect?</summary><p>Speech recognition is very good but not flawless. That's why WordCaps Studio lets you check and fix the text before it is burned in.</p></details>
 <details><summary>How big is the download?</summary><p>About 630 MB zipped (app, FFmpeg and the speech model are included, so it works offline from the first start). The GPU add-on for NVIDIA cards is a separate optional download.</p></details>
 </main>
-<footer>WordCaps Studio is an independent product. Includes FFmpeg (GPLv3; source: <a href="https://ffmpeg.org/download.html">ffmpeg.org</a>) and the open Whisper "small" model (MIT). Demo footage: Mixkit stock video (free licence); captions are WordCaps Studio output with sample text. CapCut, Submagic, Premiere Pro and DaVinci Resolve are trademarks of their owners and are named only for comparison and compatibility. · <a href="how-to-make-word-by-word-captions.html">How to make word-by-word captions</a> · <a href="free-auto-captions-youtube-shorts.html">Captions for YouTube Shorts</a> · <a href="davinci-resolve-word-by-word-subtitles.html">DaVinci Resolve word-by-word subtitles</a> · <a href="premiere-pro-word-by-word-captions.html">Premiere Pro word-by-word captions</a> · <a href="burn-subtitles-into-video-free.html">Burn subtitles into video free</a> · <a href="llms.txt">llms.txt</a></footer>
+<footer>WordCaps Studio is an independent product. Includes FFmpeg (GPLv3; source: <a href="https://ffmpeg.org/download.html">ffmpeg.org</a>) and the open Whisper "small" model (MIT). Demo footage: Mixkit stock video (free licence); demo voices: LibriVox public-domain recordings (Marcus Aurelius, Theodore Roosevelt, Franz Kafka); captions are unedited WordCaps Studio output. CapCut, Submagic, Premiere Pro and DaVinci Resolve are trademarks of their owners and are named only for comparison and compatibility. · <a href="how-to-make-word-by-word-captions.html">How to make word-by-word captions</a> · <a href="free-auto-captions-youtube-shorts.html">Captions for YouTube Shorts</a> · <a href="davinci-resolve-word-by-word-subtitles.html">DaVinci Resolve word-by-word subtitles</a> · <a href="premiere-pro-word-by-word-captions.html">Premiere Pro word-by-word captions</a> · <a href="burn-subtitles-into-video-free.html">Burn subtitles into video free</a> · <a href="llms.txt">llms.txt</a></footer>
 </body></html>

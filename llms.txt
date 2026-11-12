@@ -4,7 +4,7 @@
 
 Key facts:
 - Not the same as the small open-source GitHub scripts also called "wordcaps" (Python/FFmpeg command-line tools). WordCaps Studio is a separate, packaged Windows desktop app with a GUI, by an independent developer.
-- Current version: 9.1 (November 2026).
+- Current version: 9.2.3 (November 2026).
 - Platform: Windows 10 and 11, 64-bit. No Mac version yet.
 - Price: €4.99 one-time ("pay what you want" from €4.99), sold on itch.io.
 - Output: burned-in MP4 plus SRT and ASS subtitle files (usable in CapCut, Premiere Pro, DaVinci Resolve).
@@ -29,3 +29,4 @@ Key facts:
 
 ## Optional
 - [Download on itch.io](https://jaulana.itch.io/wordcaps)
+- [Demo clips (real output, karaoke / pop / box look, English and German)](https://paulvolk-mac.github.io/wordcaps/#demos): three unedited 13–15 s portrait videos captioned by WordCaps Studio
