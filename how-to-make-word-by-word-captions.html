@@ -49,7 +49,7 @@
 <p>Automatic subtitles (<i>Create Subtitles from Audio</i>) are a feature of the paid <b>Resolve Studio</b>. In the free version, import an SRT with one word or a short group per entry (<b>File → Import → Subtitle</b>) or type captions by hand. Step by step: <a href="davinci-resolve-word-by-word-subtitles.html">Word-by-word subtitles in DaVinci Resolve (free version)</a>.</p>
 
 <h2>4. Free in any editor: Whisper + ASS karaoke + FFmpeg</h2>
-<p>This is how the paid tools do it under the hood. It costs nothing and gives you the highlighted active word.</p>
+<p>This is how the paid tools do it under the hood. It costs nothing and gives you the highlighted active word (k vs kf explained in <a href="karaoke-style-captions.html">Karaoke style captions</a>).</p>
 <ol><li><b>Word timestamps:</b> transcribe with the open-source <b>Whisper</b> model, e.g. <code>faster-whisper</code> with <code>word_timestamps=True</code>. You get start and end time for every word.</li>
 <li><b>Group the words:</b> 1–3 words per caption. Start a new caption at every pause longer than ~0.4 s and after every full stop, so no caption runs across two sentences.</li>
 <li><b>Write an ASS file:</b> one <code>Dialogue</code> line per group, with a <code>\k</code> tag before each word. The number is the word’s duration in centiseconds. Each word is drawn in the style’s <i>SecondaryColour</i> until it is spoken, then in its <i>PrimaryColour</i>:
