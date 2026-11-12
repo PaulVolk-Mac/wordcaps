@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Best Offline Subtitle Generators for Windows (Free &amp; Paid, 2026)</title>
+<meta name="description" content="Offline subtitle generators that never upload your video: Subtitle Edit, Buzz, Kdenlive, Premiere Pro, DaVinci Resolve Studio, Whisper and WordCaps Studio compared honestly.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/offline-subtitle-generator.html">
+<meta property="og:title" content="Best offline subtitle generators for Windows (2026)">
+<meta property="og:description" content="Automatic subtitles without uploading your video – free and paid options, what each one is good at.">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_3_styles.jpg">
+<meta name="twitter:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_3_styles.jpg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"What is the best free offline subtitle generator?","acceptedAnswer":{"@type":"Answer","text":"For accurate subtitle files (SRT), Subtitle Edit and Buzz are the best free offline options on Windows. Both use the open Whisper speech model on your own PC. Neither makes animated word-by-word captions; for that you need Whisper + FFmpeg (free, technical) or a tool like WordCaps Studio (€4.99 once)."}},
+ {"@type":"Question","name":"Is there an offline AI subtitle generator?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenAI Whisper is an open AI speech model that runs locally. Subtitle Edit, Buzz, Kdenlive and WordCaps Studio all use Whisper on your PC, so after the one-time model download no internet connection is needed."}},
+ {"@type":"Question","name":"Can I generate subtitles without uploading my video?","acceptedAnswer":{"@type":"Answer","text":"Yes. Offline tools such as Subtitle Edit, Buzz, Kdenlive, Premiere Pro (with installed language packs), DaVinci Resolve Studio and WordCaps Studio process the audio on your own computer. Browser tools like CapCut online, Submagic or Veed upload the video to their servers."}},
+ {"@type":"Question","name":"Which offline subtitle generator burns animated word-by-word captions into the video?","acceptedAnswer":{"@type":"Answer","text":"WordCaps Studio does this in one step on Windows: it transcribes offline and burns in captions with a highlighted active word (8 looks) and also saves SRT and ASS files. With free tools you can get the same result by combining Whisper word timestamps, an ASS karaoke file and FFmpeg."}},
+ {"@type":"Question","name":"Do offline subtitle generators need a good GPU?","acceptedAnswer":{"@type":"Answer","text":"No. Whisper runs on a normal CPU; small models are fine for short clips. An NVIDIA GPU makes the larger, more accurate models much faster."}}
+]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span> <small style="font-weight:600;color:#c9d1e0">Studio</small></a>
+<nav><a href="./">Home</a><a href="wordcaps-vs-capcut.html">vs CapCut</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>Best offline subtitle generators for Windows (free &amp; paid)</h1>
+<p>Most “auto subtitle” websites want you to upload your video first. That is slow for big files, needs an account, and your footage sits on someone else's server. An <b>offline subtitle generator</b> does the speech recognition on your own PC instead. Today almost all of them use the same open AI model – <i>Whisper</i> – so the real differences are price, effort and what the result looks like.</p>
+
+<div style="overflow-x:auto"><table class="cmp">
+<tr><th></th><th>Price</th><th>Output</th><th>Animated word look</th><th>Effort</th></tr>
+<tr><td>Subtitle Edit</td><td>free</td><td>SRT/ASS/VTT + editing</td><td>no</td><td>medium</td></tr>
+<tr><td>Buzz</td><td>free (open source)</td><td>TXT/SRT/VTT</td><td>no</td><td>low</td></tr>
+<tr><td>Kdenlive</td><td>free editor</td><td>subtitle track in the editor</td><td>no (manual styling)</td><td>medium–high</td></tr>
+<tr><td>Whisper + FFmpeg</td><td>free</td><td>anything you script</td><td>yes, if you build it</td><td>high</td></tr>
+<tr><td>Premiere Pro</td><td>subscription</td><td>captions track</td><td>no highlighted word</td><td>low</td></tr>
+<tr><td>DaVinci Resolve Studio</td><td>paid licence</td><td>subtitle track</td><td>no highlighted word</td><td>low</td></tr>
+<tr><td><b>WordCaps Studio</b></td><td><b>€4.99 once</b></td><td><b>burned-in MP4 + SRT + ASS</b></td><td><b>yes, 8 looks</b></td><td><b>very low</b></td></tr>
+</table></div>
+<p class="note">All tools in the table run the speech recognition locally (some download a model once). Prices and features change – check the makers' own pages. As of November 2026.</p>
+
+<h2>1. Subtitle Edit – best free tool for correct subtitle files</h2>
+<p><i>Subtitle Edit</i> (Windows, free) has an “audio to text” function that runs Whisper on your PC. You get timed subtitles you can fix line by line, check against the waveform and save as SRT, ASS, VTT and many more formats. <b>Best for:</b> accurate subtitles for YouTube, films or translations. <b>Not for:</b> the animated one-word-at-a-time look of Shorts and TikToks.</p>
+
+<h2>2. Buzz – the simplest free Whisper app</h2>
+<p><i>Buzz</i> is an open-source (MIT) desktop app for Windows, macOS and Linux. Open an audio or video file, pick a Whisper model, and export TXT, SRT or VTT. It can also transcribe live from the microphone. The Windows build is not code-signed, so expect a SmartScreen warning when installing from the official GitHub release. <b>Best for:</b> quick transcripts and plain subtitle files.</p>
+
+<h2>3. Kdenlive – free editor with built-in speech recognition</h2>
+<p>The free video editor <i>Kdenlive</i> can create a subtitle track with Whisper or VOSK directly on the timeline. It needs a Python environment and model download the first time, and recent versions moved the settings around, so set-up takes some patience. <b>Best for:</b> people who already edit in Kdenlive.</p>
+
+<h2>4. Whisper + FFmpeg – free, full control</h2>
+<p>Run <code>whisper</code> or <code>faster-whisper</code> with word timestamps, write an ASS file with karaoke tags and burn it in with <code>ffmpeg -vf ass=captions.ass</code>. That gives you exactly the TikTok-style look for free – after some scripting. Step by step in <a href="how-to-make-word-by-word-captions.html">How to make word-by-word captions</a> and <a href="karaoke-style-captions.html">Karaoke style captions</a>.</p>
+
+<h2>5. Premiere Pro and DaVinci Resolve Studio – if you already pay for them</h2>
+<p>Premiere Pro's Speech to Text works offline once the language pack is installed (Adobe added this in version 22.2). DaVinci Resolve's automatic subtitles are part of the paid Studio version and also run on your machine. Both create a normal captions track; neither highlights the active word out of the box. Details: <a href="premiere-pro-word-by-word-captions.html">Premiere Pro word-by-word captions</a>, <a href="davinci-resolve-word-by-word-subtitles.html">DaVinci Resolve (free version) word-by-word subtitles</a>.</p>
+
+<h2>6. WordCaps Studio – offline captions with the short-form look</h2>
+<p>WordCaps Studio is a small Windows app built for one job: <b>animated, word-by-word captions for Shorts, TikToks and Reels, made entirely offline.</b></p>
+<ol><li>Drop one or several videos into the window – batch mode handles a whole folder.</li>
+<li>Pick a look (classic, pop, box, minimal, bounce, karaoke, single word, neon), colour, font and size.</li>
+<li>Check the recognised words in the live preview and fix names.</li>
+<li>Press <b>Burn</b>: you get the finished MP4 plus SRT and ASS files for CapCut, Premiere Pro or DaVinci Resolve.</li></ol>
+<img class="wide" src="screenshot_3_styles.jpg" alt="Word-by-word caption looks made with the offline subtitle generator WordCaps Studio">
+<p>Your video never leaves the PC: no account, no upload, no watermark, no subscription. Works on Windows 10/11 with any CPU; an NVIDIA GPU is optional and makes it faster. Recognises English, German, Spanish, French, Italian, Portuguese and more automatically.</p>
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €4.99 once</a></p>
+
+<h2>Why offline at all?</h2>
+<ul>
+<li><b>Privacy:</b> client footage, unreleased content or family videos stay on your disk.</li>
+<li><b>Speed with big files:</b> no waiting for a 2 GB 4K upload before anything happens.</li>
+<li><b>No limits:</b> no minutes quota, no monthly plan, no watermark on the free tier.</li>
+<li><b>Works anywhere:</b> on the train, on slow hotel Wi-Fi, or with no internet at all.</li>
+</ul>
+
+<h2>When an online tool is the better choice</h2>
+<p>If you edit on a phone or a Mac, want automatic emojis, B-roll or AI hook titles, or work in a team, cloud tools such as CapCut, Submagic or Captions do more. If you want clean subtitles or animated captions on your own Windows PC without uploading anything, one of the offline tools above is enough.</p>
+
+<h2>FAQ</h2>
+<details open><summary>What is the best free offline subtitle generator?</summary><p>For accurate SRT files: Subtitle Edit or Buzz, both free and both using Whisper on your PC. For animated word-by-word captions for free: Whisper + an ASS karaoke file + FFmpeg. WordCaps Studio (€4.99 once) does the animated version in one click.</p></details>
+<details><summary>Is there an offline AI subtitle generator?</summary><p>Yes – Whisper is an open AI speech model that runs locally. Subtitle Edit, Buzz, Kdenlive and WordCaps Studio all use it; after the one-time model download no internet is needed.</p></details>
+<details><summary>Can I generate subtitles without uploading my video?</summary><p>Yes. Every tool on this page processes the audio on your own computer. Browser tools (CapCut online, Submagic, Veed and similar) upload the video.</p></details>
+<details><summary>Which one burns animated captions into the video?</summary><p>WordCaps Studio, in one step. The free route is Whisper word timestamps + ASS karaoke tags + FFmpeg.</p></details>
+<details><summary>Do I need a good graphics card?</summary><p>No. Whisper runs on a normal CPU. An NVIDIA GPU makes the larger, more accurate models much faster.</p></details>
+<p class="note">Subtitle Edit, Buzz, Kdenlive, Premiere Pro, DaVinci Resolve, CapCut and Submagic are names/trademarks of their owners. This page is independent and not affiliated with them.</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="submagic-alternative.html">Submagic alternatives</a> · <a href="burn-subtitles-into-video-free.html">Burn subtitles into video free</a> · <a href="how-to-make-word-by-word-captions.html">How to make word-by-word captions</a> · <a href="llms.txt">llms.txt</a></footer>
+</body></html>
