@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DaVinci Resolve Word-by-Word Subtitles in the Free Version</title>
+<meta name="description" content="Auto subtitles in DaVinci Resolve need the paid Studio version. 3 ways to get word-by-word captions in the free version: manual, Whisper SRT import, or an offline Windows app.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/davinci-resolve-word-by-word-subtitles.html">
+<meta property="og:title" content="Word-by-word subtitles in DaVinci Resolve (free version) – 3 ways">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_2_portrait.jpg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"Add word-by-word subtitles to a video in the free version of DaVinci Resolve","totalTime":"PT5M",
+ "step":[{"@type":"HowToStep","name":"Export the audio or the edit","text":"Export the finished edit (or just its audio) from DaVinci Resolve."},
+ {"@type":"HowToStep","name":"Create word timestamps","text":"Let a speech model such as Whisper (built into WordCaps Studio) create a subtitle file with one word or a few words per entry."},
+ {"@type":"HowToStep","name":"Import the SRT","text":"In DaVinci Resolve, use File > Import > Subtitle and drag the SRT onto a subtitle track, or burn the captions straight into the MP4 with WordCaps Studio."},
+ {"@type":"HowToStep","name":"Style and render","text":"Style the subtitle track in the Inspector and render with subtitles burned into the video."}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Can the free version of DaVinci Resolve create subtitles automatically?","acceptedAnswer":{"@type":"Answer","text":"No. Automatic transcription (Create Subtitles from Audio) is a feature of the paid DaVinci Resolve Studio. The free version can import SRT subtitle files and lets you type subtitles by hand."}},
+ {"@type":"Question","name":"How do I get word-by-word subtitles in DaVinci Resolve without Studio?","acceptedAnswer":{"@type":"Answer","text":"Create an SRT file with one word or a few words per entry outside Resolve (for example with Whisper or WordCaps Studio) and import it with File > Import > Subtitle. For animated, highlighted words, burn the captions into the MP4 with WordCaps Studio and then edit that file in Resolve."}},
+ {"@type":"Question","name":"Is there a cheap offline tool for word-by-word captions on Windows?","acceptedAnswer":{"@type":"Answer","text":"WordCaps Studio is an offline Windows app for €4.99 one-time. It transcribes on your PC, burns animated word-by-word captions into the video and also exports SRT and ASS files for DaVinci Resolve, Premiere Pro and CapCut."}}]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span></a>
+<nav><a href="./">Home</a><a href="wordcaps-vs-capcut.html">vs CapCut</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>Word-by-word subtitles in DaVinci Resolve (free version) – 3 ways</h1>
+<p>DaVinci Resolve is the best free video editor on Windows, but its automatic subtitles (<i>Create Subtitles from Audio</i>) only come with the paid <b>DaVinci Resolve Studio</b>. If you want TikTok- or Shorts-style word-by-word captions in the free version, these three ways work.</p>
+
+<h2>1. By hand on a subtitle track (free, slow)</h2>
+<p>Add a subtitle track (right-click the track header → <i>Add Subtitle Track</i>), then add one caption per word or per 2–3 words and move each one to the right spot. It works and costs nothing, but a one-minute clip has around 150 words. Fine for a short hook, not for every video.</p>
+<p><b>Cost:</b> 0 €. <b>Time:</b> 20–40 minutes per minute of talking.</p>
+
+<h2>2. Free, technical: Whisper SRT + import</h2>
+<p>The open-source speech model <i>Whisper</i> can write a timestamp for every word (for example <code>faster-whisper</code> with <code>word_timestamps=True</code>). Write one SRT entry per word or per short group, then import it in Resolve with <b>File → Import → Subtitle</b> and drag it onto the timeline. Style it in the Inspector (font, size, outline, position).</p>
+<p><b>Limits:</b> Resolve shows every entry in the same style – no highlighted active word, no pop-in animation, unless you build it yourself with Text+ and Fusion.</p>
+<p><b>Cost:</b> 0 €. <b>Time:</b> an evening of setup the first time, Python knowledge helps.</p>
+
+<h2>3. Offline in one window: WordCaps Studio (Windows, €4.99 once)</h2>
+<p>WordCaps Studio does the transcription on your PC and gives you two options:</p>
+<ol><li><b>Burned-in animated captions:</b> drop in your edit, pick one of 8 looks (classic, pop, box, minimal, bounce, karaoke, single word, neon), any colour and font, check the text, press <b>Burn</b>. The active word is highlighted, keywords can pop in a second colour.</li>
+<li><b>SRT/ASS for Resolve:</b> the same run also saves an SRT with 1–5 words per entry. Import it in DaVinci Resolve (File → Import → Subtitle) if you want to keep the captions editable in your timeline.</li></ol>
+<img class="wide" src="screenshot_2_portrait.jpg" alt="A vertical video with word-by-word captions made with WordCaps Studio">
+<p>No account, no upload, no watermark, no subscription. It is a captions tool, not a video editor – keep editing in Resolve.</p>
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €4.99 once</a></p>
+
+<h2>Which way fits you?</h2>
+<table><tr><th></th><th>By hand</th><th>Whisper + SRT</th><th>WordCaps Studio</th><th>Resolve Studio</th></tr>
+<tr><td>Price</td><td>0 €</td><td>0 €</td><td>€4.99 once</td><td>paid licence</td></tr>
+<tr><td>Automatic</td><td>no</td><td>yes (setup)</td><td>yes</td><td>yes</td></tr>
+<tr><td>Highlighted active word</td><td>no</td><td>no</td><td>yes (8 looks)</td><td>check current version</td></tr>
+<tr><td>Offline</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td></tr>
+<tr><td>Mac</td><td>yes</td><td>yes</td><td>no (Windows only)</td><td>yes</td></tr></table>
+<p><small>If you already own DaVinci Resolve Studio or plan to buy it for other features, use its built-in subtitles. Features as published by Blackmagic Design, November 2026; check the current version.</small></p>
+
+<h2>FAQ</h2>
+<details open><summary>Can the free DaVinci Resolve make subtitles automatically?</summary><p>No, automatic transcription is a Studio feature. The free version imports SRT files and lets you type subtitles by hand.</p></details>
+<details><summary>How many words per subtitle for vertical videos?</summary><p>1–3 words read fastest on a phone. Keep them around the middle of the 9:16 frame, clear of the app buttons at the bottom and right edge.</p></details>
+<details><summary>Does WordCaps Studio work on Mac?</summary><p>Not yet – Windows 10 and 11 only. On Mac, option 2 (Whisper + SRT) works.</p></details>
+<p class="note">DaVinci Resolve is a trademark of Blackmagic Design. This guide is independent and not affiliated with Blackmagic Design.</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="capcut-auto-captions-without-pro.html">CapCut without Pro</a> · <a href="submagic-alternative.html">Submagic alternatives</a> · <a href="free-auto-captions-youtube-shorts.html">Captions for YouTube Shorts</a> · <a href="llms.txt">llms.txt</a></footer>
+</body></html>
