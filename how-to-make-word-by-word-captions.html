@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Make Word-by-Word Captions (CapCut, Premiere, DaVinci, Free) – 2026 Guide</title>
+<meta name="description" content="How to make word-by-word captions with a highlighted active word: the options in CapCut, Premiere Pro and DaVinci Resolve, a free Whisper + ASS method, and a one-click offline tool for Windows.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/how-to-make-word-by-word-captions.html">
+<meta property="og:title" content="How to make word-by-word captions – every way in one guide">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_3_styles.jpg">
+<meta name="twitter:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_3_styles.jpg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to make word-by-word captions with a highlighted active word (free method)","totalTime":"PT30M",
+ "tool":[{"@type":"HowToTool","name":"Whisper or faster-whisper (open source)"},{"@type":"HowToTool","name":"FFmpeg (open source)"}],
+ "supply":[{"@type":"HowToSupply","name":"Video with speech (MP4, MOV, MKV)"}],
+ "step":[{"@type":"HowToStep","name":"Get word timestamps","text":"Transcribe the audio with Whisper or faster-whisper and turn on word timestamps (word_timestamps=True), so every word has a start and end time."},
+ {"@type":"HowToStep","name":"Group the words","text":"Group the words into chunks of 1 to 3 words. Start a new chunk at every pause and at every sentence end."},
+ {"@type":"HowToStep","name":"Write an ASS file with karaoke tags","text":"Write one ASS dialogue line per chunk and put a \\k tag before each word with its duration in centiseconds. The active word switches from the secondary to the primary colour while it is spoken."},
+ {"@type":"HowToStep","name":"Burn it in","text":"Burn the ASS file into the video with FFmpeg: ffmpeg -i video.mp4 -vf ass=captions.ass -c:a copy out.mp4"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"What are word-by-word captions?","acceptedAnswer":{"@type":"Answer","text":"Captions that show only 1 to 3 words at a time, timed to the speech, often with the spoken word highlighted in a second colour. It is the standard caption look on TikTok, YouTube Shorts and Instagram Reels."}},
+ {"@type":"Question","name":"How do I make word-by-word captions for free?","acceptedAnswer":{"@type":"Answer","text":"Transcribe with the open-source Whisper model with word timestamps, write an ASS subtitle file with one karaoke tag per word, and burn it in with FFmpeg. It costs nothing but takes some setup. In DaVinci Resolve free and older Premiere versions you can also split captions by hand."}},
+ {"@type":"Question","name":"Can CapCut, Premiere Pro or DaVinci Resolve highlight the active word?","acceptedAnswer":{"@type":"Answer","text":"CapCut has highlight caption styles, but auto captions moved into the Pro plan for most users in 2025. Premiere Pro 26.3 can make single-word captions, but in one style without an active-word highlight. DaVinci Resolve creates subtitles automatically only in the paid Studio version and has no built-in highlight."}},
+ {"@type":"Question","name":"What is the easiest offline way on Windows?","acceptedAnswer":{"@type":"Answer","text":"WordCaps Studio (€4.99 once, Windows 10/11) transcribes on your PC and burns animated word-by-word captions with a highlighted active word into the MP4, with 8 looks, any colour and font, and an SRT/ASS export. No account, no upload, no watermark."}}]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span> <small style="font-weight:600;color:#c9d1e0">Studio</small></a>
+<nav><a href="./">Home</a><a href="wordcaps-vs-capcut.html">vs CapCut</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>How to make word-by-word captions – every way in one guide</h1>
+<p><b>Word-by-word captions</b> show only one to three words at a time, exactly when they are spoken – usually with the <b>active word highlighted</b> in a second colour. It is the caption look of TikTok, YouTube Shorts and Reels, because it can be read in a split second with the sound off. This page shows every way to make them, depending on the editor you already use.</p>
+
+<h2>Quick answer</h2>
+<table><tr><th>You use …</th><th>Best way</th><th>Active word highlighted?</th><th>Cost</th></tr>
+<tr><td>CapCut</td><td>Auto captions + a highlight caption style</td><td>yes</td><td>Pro plan for most users since 2025</td></tr>
+<tr><td>Premiere Pro 26.3+</td><td>Create captions → <i>Single Word</i></td><td>no (one style)</td><td>subscription</td></tr>
+<tr><td>DaVinci Resolve (free)</td><td>Import a word-level SRT</td><td>no</td><td>0 €</td></tr>
+<tr><td>Any editor, free</td><td>Whisper + ASS karaoke file + FFmpeg</td><td>yes</td><td>0 €, some setup</td></tr>
+<tr><td>Any editor, Windows, one click</td><td>WordCaps Studio (offline)</td><td>yes (8 looks)</td><td>€4.99 once</td></tr></table>
+
+<h2>1. In CapCut</h2>
+<p>CapCut makes the look with <b>auto captions</b> plus a caption template that highlights the spoken word. Since the 2025 pricing change, auto captions show a Pro prompt for most users. Importing an SRT and styling it as text still works without Pro. Details and free workarounds: <a href="capcut-auto-captions-without-pro.html">CapCut auto captions without Pro – 3 ways</a> · <a href="wordcaps-vs-capcut.html">WordCaps Studio vs CapCut</a>.</p>
+
+<h2>2. In Premiere Pro</h2>
+<p>From Premiere 26.3 (June 2026): <b>Window → Text → Transcript</b>, transcribe, <b>Create captions → Single Word</b>. Every word is synced, but all words share one style – no colour on the word being spoken. Older versions use the “7 characters” workaround. Step by step: <a href="premiere-pro-word-by-word-captions.html">Word-by-word captions in Premiere Pro</a>.</p>
+
+<h2>3. In DaVinci Resolve</h2>
+<p>Automatic subtitles (<i>Create Subtitles from Audio</i>) are a feature of the paid <b>Resolve Studio</b>. In the free version, import an SRT with one word or a short group per entry (<b>File → Import → Subtitle</b>) or type captions by hand. Step by step: <a href="davinci-resolve-word-by-word-subtitles.html">Word-by-word subtitles in DaVinci Resolve (free version)</a>.</p>
+
+<h2>4. Free in any editor: Whisper + ASS karaoke + FFmpeg</h2>
+<p>This is how the paid tools do it under the hood. It costs nothing and gives you the highlighted active word.</p>
+<ol><li><b>Word timestamps:</b> transcribe with the open-source <b>Whisper</b> model, e.g. <code>faster-whisper</code> with <code>word_timestamps=True</code>. You get start and end time for every word.</li>
+<li><b>Group the words:</b> 1–3 words per caption. Start a new caption at every pause longer than ~0.4 s and after every full stop, so no caption runs across two sentences.</li>
+<li><b>Write an ASS file:</b> one <code>Dialogue</code> line per group, with a <code>\k</code> tag before each word. The number is the word’s duration in centiseconds. Each word is drawn in the style’s <i>SecondaryColour</i> until it is spoken, then in its <i>PrimaryColour</i>:
+<pre><code>[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Arial,22,&amp;H0000E1FF,&amp;H00FFFFFF,&amp;H00000000,&amp;H00000000,-1,0,0,0,100,100,0,0,1,3,0,2,40,40,80,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:01.20,0:00:02.05,Cap,,0,0,0,,{\k35}THIS {\k20}IS {\k30}EASY</code></pre>
+Colours in ASS are written as <code>&amp;HAABBGGRR</code> (blue-green-red), so <code>&amp;H0000E1FF</code> is yellow and <code>&amp;H00FFFFFF</code> is white.</li>
+<li><b>Burn it in:</b> <code>ffmpeg -i video.mp4 -vf ass=captions.ass -c:a copy out.mp4</code>. More options (HandBrake, VLC): <a href="burn-subtitles-into-video-free.html">Burn subtitles into a video for free</a>.</li></ol>
+<p><b>Cost:</b> 0 €. <b>Time:</b> an evening of setup the first time; a small Python script does steps 2–3 for every next video.</p>
+
+<h2>5. One click, offline: WordCaps Studio (Windows, €4.99 once)</h2>
+<p>WordCaps Studio does way 4 for you in one window: drop in a video (or several), pick one of <b>8 looks</b> (classic, pop, box, minimal, bounce, karaoke, single word, neon), any colour, any installed font, size and position, and 1–5 words on screen. Keywords like numbers and names can pop in a second colour. It transcribes <b>on your PC</b>, lets you fix the text, then burns the captions into the MP4 and saves an <b>SRT and ASS</b> for CapCut, Premiere or Resolve. No account, no upload, no watermark, no subscription.</p>
+<img class="wide" src="screenshot_3_styles.jpg" alt="WordCaps Studio caption looks: word-by-word captions with highlighted active word">
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €4.99 once</a></p>
+<p><small>Windows 10/11 only. On Mac, use way 4 or the built-in options of your editor.</small></p>
+
+<h2>Tips that make word-by-word captions readable</h2>
+<ul><li><b>1–3 words:</b> one word suits fast, punchy talk; three words feel calmer. More than four is no longer “word by word”.</li>
+<li><b>Never split a sentence oddly:</b> break at pauses and full stops, keep “the” and “a” with the next word.</li>
+<li><b>Safe area for 9:16:</b> keep captions slightly below the middle – the bottom is covered by the title and channel name, the right edge by the like and comment buttons.</li>
+<li><b>Bold font + dark outline</b> (2–4 px at 1080p) reads on every background; avoid thin fonts.</li>
+<li><b>Check names and numbers:</b> speech models get them wrong most often, and they are exactly the words people read.</li>
+<li><b>Upload the SRT too</b> on YouTube: burned-in captions for viewers, the SRT for accessibility and search.</li></ul>
+
+<h2>FAQ</h2>
+<details open><summary>What is the difference between word-by-word and normal subtitles?</summary><p>Normal subtitles show a full line for a few seconds. Word-by-word captions show 1–3 words, change with every word or two and often highlight the word being spoken. They are made for short vertical videos watched without sound.</p></details>
+<details><summary>Can I make word-by-word captions without an editor subscription?</summary><p>Yes: way 4 (Whisper + ASS + FFmpeg) is completely free, and WordCaps Studio is a one-time €4.99 purchase. DaVinci Resolve free can show word-level captions from an imported SRT, without a highlight.</p></details>
+<details><summary>Are word-by-word captions possible on a phone?</summary><p>Mobile editors such as CapCut offer them in the app; check which styles your plan includes. The free and offline methods on this page are for desktop.</p></details>
+<details><summary>Which languages work?</summary><p>Whisper, which ways 4 and 5 use, recognises around 100 languages; English, German, Spanish and other large languages work best.</p></details>
+<p class="note">CapCut, Premiere Pro, DaVinci Resolve, FFmpeg and Whisper are trademarks or projects of their owners and are named only to explain how to use them. This guide is independent and not affiliated with them. Features as of November 2026; check your current version.</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="capcut-auto-captions-without-pro.html">CapCut without Pro</a> · <a href="premiere-pro-word-by-word-captions.html">Premiere Pro word-by-word</a> · <a href="davinci-resolve-word-by-word-subtitles.html">DaVinci Resolve word-by-word</a> · <a href="burn-subtitles-into-video-free.html">Burn subtitles free</a> · <a href="free-auto-captions-youtube-shorts.html">Captions for YouTube Shorts</a> · <a href="submagic-alternative.html">Submagic alternatives</a> · <a href="llms.txt">llms.txt</a></footer>
+</body></html>

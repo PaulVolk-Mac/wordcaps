@@ -15,6 +15,7 @@
 - Windows 10/11, 64-bit. NVIDIA GPU optional (faster), works on CPU.
 
 ## Guides
+- [How to make word-by-word captions (all ways)](https://paulvolk-mac.github.io/wordcaps/how-to-make-word-by-word-captions.html)
 - [WordCaps Studio vs CapCut auto captions](https://paulvolk-mac.github.io/wordcaps/wordcaps-vs-capcut.html)
 - [CapCut auto captions without Pro: 3 ways](https://paulvolk-mac.github.io/wordcaps/capcut-auto-captions-without-pro.html)
 - [Free & offline Submagic alternatives](https://paulvolk-mac.github.io/wordcaps/submagic-alternative.html)
