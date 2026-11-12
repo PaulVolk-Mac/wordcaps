@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Premiere Pro Word-by-Word Captions (One Word at a Time) – 3 Ways</title>
+<meta name="description" content="How to make captions appear word by word in Premiere Pro: the new Single Word option, the old 7-character workaround, and highlighted active-word captions with an offline Windows app.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/premiere-pro-word-by-word-captions.html">
+<meta property="og:title" content="Word-by-word captions in Premiere Pro – one word at a time, 3 ways">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_2_portrait.jpg">
+<meta name="twitter:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_2_portrait.jpg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"Make captions appear word by word in Premiere Pro","totalTime":"PT5M",
+ "step":[{"@type":"HowToStep","name":"Transcribe the sequence","text":"Open the Text panel, go to Transcript and transcribe the sequence."},
+ {"@type":"HowToStep","name":"Create single-word captions","text":"Click Create captions. In Premiere 26.3 (June 2026) or newer choose Single Word. In older versions set Lines to Single, Maximum length in characters to the lowest value and Minimum duration to 0."},
+ {"@type":"HowToStep","name":"Style the caption track","text":"Select the captions and style them in the Essential Graphics or Properties panel: font, size, stroke, position in the middle of a 9:16 frame."},
+ {"@type":"HowToStep","name":"Optional: highlighted active word","text":"Premiere does not highlight the spoken word inside a line. For karaoke-style or pop-in captions, burn them into the clip with a captions tool such as WordCaps Studio and edit that file in Premiere, or import its SRT."}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Can Premiere Pro make captions one word at a time?","acceptedAnswer":{"@type":"Answer","text":"Yes. Since Premiere 26.3 (June 2026) the Create captions dialog has a Single Word option that syncs each word to the audio. In older versions the workaround is Lines: Single, the lowest Maximum length in characters and Minimum duration 0, which splits most but not all words."}},
+ {"@type":"Question","name":"Does Premiere Pro highlight the active word like TikTok captions?","acceptedAnswer":{"@type":"Answer","text":"Not natively. Premiere shows each caption in one style. Highlighted active words, karaoke colour fills or pop-in animation need manual keyframes, a paid plugin, or captions burned in by a separate tool such as WordCaps Studio."}},
+ {"@type":"Question","name":"Is there a cheap offline alternative for animated word-by-word captions on Windows?","acceptedAnswer":{"@type":"Answer","text":"WordCaps Studio is an offline Windows app for €4.99 one-time. It transcribes on your PC, burns animated word-by-word captions with a highlighted active word into the MP4 (8 looks, any colour and font) and also saves an SRT you can import into Premiere Pro."}}]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span> <small style="font-weight:600;color:#c9d1e0">Studio</small></a>
+<nav><a href="./">Home</a><a href="wordcaps-vs-capcut.html">vs CapCut</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>Word-by-word captions in Premiere Pro – one word at a time, 3 ways</h1>
+<p>Short-form videos read best with one to three words on screen. Premiere Pro can do this now, but how depends on your version – and the TikTok look with a <b>highlighted active word</b> is still not built in. Here are the three ways that work.</p>
+
+<h2>1. Premiere 26.3 or newer: the Single Word option</h2>
+<p>Adobe added single-word captions in the June 2026 update (Premiere 26.3). Open <b>Window → Text</b>, transcribe the sequence on the <i>Transcript</i> tab, click <b>Create captions</b> and pick <b>Single Word</b>. Premiere syncs every word to the audio. Then style the caption track (font, size, stroke) and place it in the middle of the 9:16 frame, clear of the app buttons.</p>
+<p><b>Cost:</b> included in the Premiere Pro subscription. <b>Limit:</b> one style for all words – no colour on the spoken word, no pop-in.</p>
+
+<h2>2. Older versions: the “7 characters” workaround</h2>
+<p>Before 26.3 there was no single-word switch. The common workaround from the Adobe forums: in <i>Create captions</i> set <b>Lines: Single</b>, <b>Maximum length in characters</b> to the lowest value the dialog allows (often 7), and <b>Minimum duration</b> to 0. Most captions then hold one word; long words and short pairs like “I am” still end up together, so expect a few minutes of manual splitting per clip. Users report that the minimum duration can override the character limit – set it to 0 first.</p>
+<p><b>Cost:</b> subscription. <b>Time:</b> a few minutes of clean-up per minute of talking.</p>
+
+<h2>3. Highlighted active word, offline: WordCaps Studio (Windows, €4.99 once)</h2>
+<p>If you want the look that Submagic, Captions.ai or CapCut Pro sell – the spoken word lights up, keywords pop in a second colour – without a plugin or subscription:</p>
+<ol><li><b>Export your edit</b> from Premiere (or use the raw clip).</li>
+<li><b>Drop it into WordCaps Studio</b>, pick one of 8 looks (classic, pop, box, minimal, bounce, karaoke, single word, neon), any colour and font. It transcribes on your PC.</li>
+<li><b>Check the text, press Burn.</b> You get an MP4 with animated word-by-word captions, plus an <b>SRT</b> with 1–5 words per entry.</li>
+<li><b>Back in Premiere:</b> put the burned MP4 on the timeline, or import the SRT (<i>File → Import</i>) if you want editable captions.</li></ol>
+<img class="wide" src="screenshot_2_portrait.jpg" alt="WordCaps Studio in three steps: drop a video, pick a look, get word-by-word captions">
+<p>No account, no upload, no watermark, no subscription. It is a captions tool, not an editor – keep cutting in Premiere.</p>
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €4.99 once</a></p>
+
+<h2>Which way fits you?</h2>
+<table><tr><th></th><th>Premiere Single Word</th><th>7-character workaround</th><th>WordCaps Studio</th><th>Paid plugins / web tools</th></tr>
+<tr><td>Price</td><td>in subscription</td><td>in subscription</td><td>€4.99 once</td><td>monthly or per plugin</td></tr>
+<tr><td>One word at a time</td><td>yes</td><td>mostly</td><td>yes (1–5 words)</td><td>yes</td></tr>
+<tr><td>Highlighted active word</td><td>no</td><td>no</td><td>yes (8 looks)</td><td>yes</td></tr>
+<tr><td>Offline</td><td>yes</td><td>yes</td><td>yes</td><td>plugins often, web tools no</td></tr>
+<tr><td>Mac</td><td>yes</td><td>yes</td><td>no (Windows only)</td><td>depends</td></tr></table>
+<p><small>Premiere features as described in Adobe’s release notes for Premiere 26.3 (June 2026) and the Adobe community forums, November 2026; check your current version.</small></p>
+
+<h2>FAQ</h2>
+<details open><summary>Where is the Single Word option in Premiere Pro?</summary><p>In the <i>Create captions</i> dialog (Text panel → Transcript → Create captions), from Premiere 26.3 on. If you don’t see it, update Premiere or use the workaround in way 2.</p></details>
+<details><summary>Can Premiere Pro make karaoke captions?</summary><p>Not automatically. You can fake it with two stacked caption tracks and keyframes, which is slow. WordCaps Studio has a karaoke look that fills each word as it is spoken.</p></details>
+<details><summary>How many words per caption for Reels, Shorts and TikTok?</summary><p>1–3 words read fastest on a phone. Use a bold font with a dark outline, centre it slightly below the middle of the frame.</p></details>
+<details><summary>Does WordCaps Studio work on Mac?</summary><p>Not yet – Windows 10 and 11 only. On Mac, use the Premiere options above.</p></details>
+<p class="note">Premiere Pro is a trademark of Adobe. This guide is independent and not affiliated with Adobe.</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="capcut-auto-captions-without-pro.html">CapCut without Pro</a> · <a href="submagic-alternative.html">Submagic alternatives</a> · <a href="davinci-resolve-word-by-word-subtitles.html">DaVinci Resolve word-by-word</a> · <a href="free-auto-captions-youtube-shorts.html">Captions for YouTube Shorts</a> · <a href="llms.txt">llms.txt</a></footer>
+</body></html>
