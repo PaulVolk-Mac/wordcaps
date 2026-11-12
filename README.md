@@ -24,6 +24,7 @@
 - [Word-by-word captions in Premiere Pro](https://paulvolk-mac.github.io/wordcaps/premiere-pro-word-by-word-captions.html)
 - [Burn subtitles into a video for free (no watermark)](https://paulvolk-mac.github.io/wordcaps/burn-subtitles-into-video-free.html)
 - [Karaoke style captions (highlight each word as it is spoken)](https://paulvolk-mac.github.io/wordcaps/karaoke-style-captions.html)
+- [Best offline subtitle generators for Windows (no upload)](https://paulvolk-mac.github.io/wordcaps/offline-subtitle-generator.html)
 
 ## About this repository
 This repository only hosts the website (GitHub Pages). The app itself is closed-source and sold on itch.io. It is not related to other open-source projects named "wordcaps".
