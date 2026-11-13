@@ -22,7 +22,7 @@
  {"@type":"Question","name":"How can I burn subtitles into a video for free without a watermark?","acceptedAnswer":{"@type":"Answer","text":"Use HandBrake (Subtitles tab → Import Subtitle → tick Burn In) or FFmpeg (ffmpeg -i video.mp4 -vf subtitles=subs.srt -c:a copy out.mp4). Both are free, open source, run offline on Windows, Mac and Linux and add no watermark."}},
  {"@type":"Question","name":"What is the difference between hardcoded and soft subtitles?","acceptedAnswer":{"@type":"Answer","text":"Hardcoded (burned-in) subtitles are part of the picture and show on every player and platform, including TikTok, Instagram and WhatsApp. Soft subtitles are a separate track or file that the viewer can switch off, but many social apps ignore them."}},
  {"@type":"Question","name":"Can VLC burn subtitles into a video?","acceptedAnswer":{"@type":"Answer","text":"Yes, via Media → Convert / Save with the option Overlay subtitles on the video in the profile settings. It works for simple jobs but is slow and fails more often than HandBrake or FFmpeg."}},
- {"@type":"Question","name":"I have no subtitle file yet. How do I get word-by-word captions burned in?","acceptedAnswer":{"@type":"Answer","text":"You need speech-to-text first. Free route: create an SRT with Whisper or Subtitle Edit, then burn it with HandBrake. One-step route on Windows: WordCaps Studio (€4.99 once, offline) transcribes on your PC and burns animated word-by-word captions with a highlighted active word into the MP4, plus an SRT."}}]}
+ {"@type":"Question","name":"I have no subtitle file yet. How do I get word-by-word captions burned in?","acceptedAnswer":{"@type":"Answer","text":"You need speech-to-text first. Free route: create an SRT with Whisper or Subtitle Edit, then burn it with HandBrake. One-step route on Windows: WordCaps Studio (€12.99 once, offline) transcribes on your PC and burns animated word-by-word captions with a highlighted active word into the MP4, plus an SRT."}}]}
 </script>
 </head><body>
 <header class="top"><a class="logo" href="./">Word<span>Caps</span> <small style="font-weight:600;color:#c9d1e0">Studio</small></a>
@@ -55,14 +55,14 @@
 <h2 id="no-srt">I have no subtitles yet</h2>
 <p>All three tools above only burn a file you already have. For talking videos you first need speech-to-text:</p>
 <ul><li><b>Free:</b> make an SRT with <b>Whisper</b> (open source) or <b>Subtitle Edit</b> (Windows, has a Whisper option), fix the text, then burn it with HandBrake. You get classic subtitles – the whole line in one style.</li>
-<li><b>One step, social-media look: WordCaps Studio</b> (Windows, €4.99 once). Drop the video in, pick one of 8 looks (classic, pop, box, minimal, bounce, karaoke, single word, neon), any colour and font, check the text and press Burn. It transcribes <b>on your PC</b> and burns <b>animated word-by-word captions with a highlighted active word</b> into the MP4 – the TikTok/Submagic style that HandBrake and FFmpeg can’t do from a normal SRT. You also get an SRT and ASS file. No account, no upload, no watermark.</li></ul>
+<li><b>One step, social-media look: WordCaps Studio</b> (Windows, €12.99 once). Drop the video in, pick one of 8 looks (classic, pop, box, minimal, bounce, karaoke, single word, neon), any colour and font, check the text and press Burn. It transcribes <b>on your PC</b> and burns <b>animated word-by-word captions with a highlighted active word</b> into the MP4 – the TikTok/Submagic style that HandBrake and FFmpeg can’t do from a normal SRT. You also get an SRT and ASS file. No account, no upload, no watermark.</li></ul>
 <img class="wide" src="screenshot_2_portrait.jpg" alt="WordCaps Studio: drop a video, pick a look, get burned-in word-by-word captions">
-<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €4.99 once</a><small class="soon">Prefer Gumroad? <a href="https://volkster45.gumroad.com/l/ekgiuk">Get WordCaps Studio on Gumroad</a> – same price, one-time payment.</small></p>
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €12.99 once</a><a class="cta secondary shop2" href="https://volkster45.gumroad.com/l/ekgiuk">Buy on Gumroad – €12.99</a></p>
 <p><small>WordCaps Studio does not import an existing SRT – if you already have one, HandBrake or FFmpeg above is the right (free) tool.</small></p>
 
 <h2>Which way fits you?</h2>
 <table><tr><th></th><th>HandBrake</th><th>FFmpeg</th><th>VLC</th><th>Online burners</th><th>WordCaps Studio</th></tr>
-<tr><td>Price</td><td>free</td><td>free</td><td>free</td><td>free tier, then monthly</td><td>€4.99 once</td></tr>
+<tr><td>Price</td><td>free</td><td>free</td><td>free</td><td>free tier, then monthly</td><td>€12.99 once</td></tr>
 <tr><td>Watermark</td><td>no</td><td>no</td><td>no</td><td>often on free tier</td><td>no</td></tr>
 <tr><td>Offline / no upload</td><td>yes</td><td>yes</td><td>yes</td><td>no</td><td>yes</td></tr>
 <tr><td>Needs an SRT first</td><td>yes</td><td>yes</td><td>yes</td><td>usually makes one</td><td>no – transcribes itself</td></tr>
