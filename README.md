@@ -20,6 +20,7 @@
 - [CapCut auto captions without Pro: 3 ways](https://paulvolk-mac.github.io/wordcaps/capcut-auto-captions-without-pro.html)
 - [Free & offline Submagic alternatives](https://paulvolk-mac.github.io/wordcaps/submagic-alternative.html)
 - [Free auto captions for YouTube Shorts](https://paulvolk-mac.github.io/wordcaps/free-auto-captions-youtube-shorts.html)
+- [Auto captions for Instagram Reels](https://paulvolk-mac.github.io/wordcaps/auto-captions-instagram-reels.html)
 - [Word-by-word subtitles in DaVinci Resolve (free version)](https://paulvolk-mac.github.io/wordcaps/davinci-resolve-word-by-word-subtitles.html)
 - [Word-by-word captions in Premiere Pro](https://paulvolk-mac.github.io/wordcaps/premiere-pro-word-by-word-captions.html)
 - [Burn subtitles into a video for free (no watermark)](https://paulvolk-mac.github.io/wordcaps/burn-subtitles-into-video-free.html)
