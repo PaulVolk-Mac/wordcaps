@@ -30,6 +30,7 @@ Key facts:
 - [Best offline subtitle generators for Windows](https://paulvolk-mac.github.io/wordcaps/offline-subtitle-generator.html): Subtitle Edit, Buzz, Kdenlive, Whisper + FFmpeg, Premiere Pro, DaVinci Resolve Studio and WordCaps Studio compared – all transcribe locally without uploading the video; only WordCaps Studio burns in animated word-by-word captions in one step (€4.99 once)
 
 - [AutoSubs "Disconnected" in DaVinci Resolve 21.1.2 / 21.2](https://paulvolk-mac.github.io/wordcaps/autosubs-disconnected-davinci-resolve.html): why the AutoSubs script does nothing or stays disconnected after the Resolve 21.1 sandbox changes, the fixes users report (open the app first, go back to 21.1.1, wait for PR #1045), and caption workarounds without a Resolve script
+- [CapCut auto captions not working – 8 fixes](https://paulvolk-mac.github.io/wordcaps/capcut-auto-captions-not-working.html): greyed-out Pro button, "no speech recognised", wrong spoken language, stuck at 0 % (recognition is online), wrong clips selected, duplicated captions, cache/update, and offline workarounds (Whisper SRT, Subtitle Edit, WordCaps Studio)
 
 ## Optional
 - [Download on itch.io](https://jaulana.itch.io/wordcaps)
