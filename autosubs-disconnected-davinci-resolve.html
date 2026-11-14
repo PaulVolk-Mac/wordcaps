@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AutoSubs "Disconnected" in DaVinci Resolve 21.1.2 / 21.2 – Fix and Workarounds</title>
+<meta name="description" content="AutoSubs does nothing or stays 'Disconnected' after updating DaVinci Resolve to 21.1.2 or 21.2. Why it happens, the fixes users report as working, and how to keep making captions until the update lands.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/autosubs-disconnected-davinci-resolve.html">
+<meta property="og:title" content="AutoSubs stays 'Disconnected' in DaVinci Resolve 21.1.2 / 21.2 – what works">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_2_portrait.jpg">
+<meta name="twitter:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_2_portrait.jpg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Why does AutoSubs do nothing when I click Workspace > Scripts > AutoSubs?","acceptedAnswer":{"@type":"Answer","text":"Since DaVinci Resolve 21.1 the Lua scripts in the Scripts menu run in a sandbox and can no longer start other programs. Since AutoSubs 3.10 the menu entry only starts a hidden bridge. Open the AutoSubs app yourself first, then run the menu entry; no window appears in Resolve, that is expected."}},
+ {"@type":"Question","name":"Why does AutoSubs 3.11.0 stay 'Disconnected' on Resolve 21.1.2 or 21.2?","acceptedAnswer":{"@type":"Answer","text":"Resolve 21.1.2 also removed loadfile, dofile and fu:SavePrefs from the script environment, which AutoSubs 3.11.0 needs to talk to the app. A fix (pull request #1045 in the AutoSubs repository) was open but not released as of 14 November 2026. Users report that going back to Resolve 21.1.1 works in the meantime."}},
+ {"@type":"Question","name":"How can I add subtitles in DaVinci Resolve free without a script?","acceptedAnswer":{"@type":"Answer","text":"Create an SRT file outside Resolve, for example with the free Subtitle Edit (Whisper runs on your PC), and import it with File > Import > Subtitle. If you want animated word-by-word captions burned in, an offline app such as WordCaps Studio (Windows) creates the finished MP4 plus an SRT without any Resolve plugin."}}]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span> <small style="font-weight:600;color:#c9d1e0">Studio</small></a>
+<nav><a href="./">Home</a><a href="davinci-resolve-word-by-word-subtitles.html">DaVinci free</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>AutoSubs stays "Disconnected" in DaVinci Resolve 21.1.2 / 21.2 – what works right now</h1>
+<p><b>Short answer:</b> it is not your PC. Recent DaVinci Resolve updates locked down the script environment that AutoSubs relies on. Below: what changed, the fixes users report as working, and how to keep captioning while you wait. <small>(Status: 14 November 2026. AutoSubs is a free open-source project by Tom Moroney. We are not affiliated with it, and this page links to the original reports.)</small></p>
+
+<h2>Which problem do you have?</h2>
+<table><tr><th>Symptom</th><th>Resolve version</th><th>Fix</th></tr>
+<tr><td>Workspace → Scripts → AutoSubs: nothing happens, no window</td><td>21.1 / 21.1.1</td><td><a href="#fix1">Fix 1</a> – open the app first</td></tr>
+<tr><td>AutoSubs app is open, but it keeps showing <b>"Disconnected"</b></td><td>21.1.2 or 21.2</td><td><a href="#fix2">Fix 2</a> – go back to 21.1.1 or wait for the update</td></tr>
+<tr><td>You need captions today and don't want to change versions</td><td>any</td><td><a href="#fix3">Fix 3</a> – make the captions outside Resolve</td></tr></table>
+
+<h2 id="fix1">Fix 1: Resolve 21.1 – start the AutoSubs app yourself</h2>
+<p>Since Resolve 21.1, scripts in the <i>Scripts</i> menu run in a sandbox and can't start other programs any more (<code>os.execute</code>, <code>io</code>, <code>ffi</code> and <code>require</code> were removed). Since AutoSubs 3.10, the menu entry therefore only starts a hidden bridge inside Resolve. It can't open the app window.</p>
+<ol><li>Open the <b>AutoSubs app</b> from the Start menu (Windows) or Applications (Mac). Do this once after every AutoSubs update, because opening the app rewrites the Resolve launcher script.</li>
+<li>In Resolve, run <b>Workspace → Scripts → AutoSubs</b>. Nothing visible happens in Resolve. That is expected.</li>
+<li>The app should now show Resolve as connected.</li></ol>
+<p>To check, open <b>Workspace → Console</b> before you click the script. "Ignoring stale request id …" is harmless. "Could not find the AutoSubs app resources" means you should reinstall and open the app once. (Source: <a href="https://github.com/tmoroney/auto-subs/issues/956" rel="nofollow">AutoSubs issue #956</a>, confirmed by the maintainer.)</p>
+
+<h2 id="fix2">Fix 2: Resolve 21.1.2 / 21.2 – the bridge itself is broken</h2>
+<p>Resolve 21.1.2 also removed <code>loadfile</code>, <code>dofile</code> and <code>fu:SavePrefs</code> from the script environment. AutoSubs 3.11.0 (the latest release, 29 September 2026) needs them, so it stays "Disconnected" even with Fix 1. Reports: <a href="https://github.com/tmoroney/auto-subs/issues/1040" rel="nofollow">#1040 (Resolve 21.1.2 Free, Windows)</a>, <a href="https://github.com/tmoroney/auto-subs/issues/1057" rel="nofollow">#1057 (21.2, works on 21.1)</a>, <a href="https://github.com/tmoroney/auto-subs/issues/1055" rel="nofollow">#1055</a>.</p>
+<ul><li><b>Wait for the update:</b> a community fix is open as <a href="https://github.com/tmoroney/auto-subs/pull/1045" rel="nofollow">pull request #1045</a>. It was not merged or released as of 14 November 2026. Watch the <a href="https://github.com/tmoroney/auto-subs/releases" rel="nofollow">AutoSubs releases page</a>.</li>
+<li><b>Go back to Resolve 21.1.1:</b> several users report that AutoSubs works again on 21.1.1. Older versions are on Blackmagic Design's support page. <b>Back up your projects first</b> (Project Manager → Export, or back up the database), because going back a version can make newer projects unreadable.</li>
+<li><b>Build the fix yourself:</b> only if you're comfortable building from source. The branch is linked in #1040. Please report "works" or "doesn't work" there, which helps the fix get released.</li></ul>
+
+<h2 id="fix3">Fix 3: make the captions outside Resolve (no script, no plugin)</h2>
+<p>Anything that doesn't run inside Resolve isn't affected by the sandbox. There are two ways.</p>
+<p><b>Free – SRT import:</b> <a href="https://www.nikse.dk/subtitleedit" rel="nofollow">Subtitle Edit</a> (open source) runs Whisper on your own PC and saves an SRT. In Resolve, use <b>File → Import → Subtitle</b>, drag the file onto the timeline and style it in the Inspector. You get normal subtitles without a highlighted active word. Full walkthrough: <a href="davinci-resolve-word-by-word-subtitles.html">word-by-word subtitles in DaVinci Resolve free</a>.</p>
+<p><b>Animated word-by-word captions – WordCaps Studio (Windows, our app):</b> drop in your exported edit, pick a look, check the text and press <b>Burn</b>. You get the MP4 with highlighted words, plus an SRT/ASS for your Resolve timeline. It's a standalone app, so Resolve updates can't break it. It works offline, needs no account, adds no watermark and costs €4.99 once. Disclosure: we make it, so weigh that accordingly. If AutoSubs works for you again, it's a great free tool.</p>
+<img class="wide" src="screenshot_2_portrait.jpg" alt="WordCaps Studio in three steps: drop a video, pick a look, get word-by-word captions">
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €4.99 once</a><small class="soon">Prefer Gumroad? <a href="https://volkster45.gumroad.com/l/ekgiuk">Get WordCaps Studio on Gumroad</a> – same price, one-time payment.</small></p>
+
+<h2>FAQ</h2>
+<details open><summary>Is this a problem with the free version only?</summary><p>No. The reports cover both Resolve Free and Studio on Windows, Mac and Linux, because the sandbox applies to every Resolve 21.1+ build.</p></details>
+<details><summary>Will reinstalling AutoSubs help?</summary><p>On 21.1 / 21.1.1: yes, if the launcher is out of date. Reinstall, then open the app once. On 21.1.2 / 21.2: no, because the missing functions are in Resolve itself.</p></details>
+<details><summary>Does Resolve Studio have its own auto subtitles?</summary><p>Yes. <i>Create Subtitles from Audio</i> is built into DaVinci Resolve Studio and doesn't need any script.</p></details>
+<p class="note">DaVinci Resolve is a trademark of Blackmagic Design. AutoSubs is an independent open-source project. This guide is independent and not affiliated with either. Information as reported in the public AutoSubs issue tracker on 14 November 2026.</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="davinci-resolve-word-by-word-subtitles.html">DaVinci Resolve free subtitles</a> · <a href="offline-subtitle-generator.html">Offline subtitle generators</a> · <a href="how-to-make-word-by-word-captions.html">How to make word-by-word captions</a> · <a href="llms.txt">llms.txt</a></footer>
+</body></html>
