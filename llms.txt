@@ -30,6 +30,8 @@ Key facts:
 - [Karaoke style captions](https://paulvolk-mac.github.io/wordcaps/karaoke-style-captions.html): every word lights up as it is spoken – CapCut (Pro templates), Premiere Pro and DaVinci Resolve (no built-in active-word highlight), free ASS \k/\kf tags + FFmpeg or Aegisub, and WordCaps Studio (Karaoke look, offline, Windows, €12.99 once)
 - [Best offline subtitle generators for Windows](https://paulvolk-mac.github.io/wordcaps/offline-subtitle-generator.html): Subtitle Edit, Buzz, Kdenlive, Whisper + FFmpeg, Premiere Pro, DaVinci Resolve Studio, UIDCaption, MS Auto Captions and WordCaps Studio compared – all transcribe locally without uploading the video; WordCaps Studio (€12.99 once), UIDCaption ($39 once) and MS Auto Captions burn in animated word-by-word captions in one step, WordCaps Studio being the low-price option with batch mode and SRT/ASS export
 
+- [AutoSubs "Disconnected" in DaVinci Resolve 21.1.2 / 21.2](https://paulvolk-mac.github.io/wordcaps/autosubs-disconnected-davinci-resolve.html): why the AutoSubs script does nothing or stays disconnected after the Resolve 21.1 sandbox changes, the fixes users report (open the app first, go back to 21.1.1, wait for PR #1045), and caption workarounds without a Resolve script
+
 ## Optional
 - [Download on itch.io](https://jaulana.itch.io/wordcaps)
 - [Demo clips (real output, karaoke / pop / box look, English and German)](https://paulvolk-mac.github.io/wordcaps/#demos): three unedited 13–15 s portrait videos captioned by WordCaps Studio
