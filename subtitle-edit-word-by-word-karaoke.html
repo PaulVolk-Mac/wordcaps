@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Subtitle Edit Word by Word &amp; Karaoke Highlight Captions (Free, Offline) – 2026 Guide</title>
+<meta name="description" content="Make word-by-word and karaoke-highlight captions with the free Subtitle Edit: Whisper single-word timing, ASSA advanced effects (Word by word, Karaoke, Smooth fill, Bold captions) and burning them into the video.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/subtitle-edit-word-by-word-karaoke.html">
+<meta property="og:title" content="Subtitle Edit: word-by-word and karaoke highlight captions">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_3_styles.jpg">
+<meta name="twitter:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_3_styles.jpg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Can Subtitle Edit make word-by-word captions?","acceptedAnswer":{"@type":"Answer","text":"Yes. Its Audio to text feature runs Whisper on your PC. With the Purfview Faster-Whisper-XXL engine the advanced settings offer presets such as Single words and Highlight word. Effects are then applied under ASSA tools."}},
+ {"@type":"Question","name":"Where is the karaoke effect in Subtitle Edit?","acceptedAnswer":{"@type":"Answer","text":"In Subtitle Edit 5.x set the subtitle format to Advanced Sub Station Alpha (.ass), then open ASSA tools and choose Apply advanced effects. The list includes Word by word, Karaoke, Karaoke - active word pop, Smooth fill, Bold captions, Blur-in words and Typewriter."}},
+ {"@type":"Question","name":"Why do the effects not show in CapCut or on YouTube?","acceptedAnswer":{"@type":"Answer","text":"The effects are ASS styling tags. Many editors and platforms only read the plain text of a subtitle file. Burn the subtitles into the video with Video, Generate video with burned-in subtitles, then use the finished MP4."}},
+ {"@type":"Question","name":"Is Subtitle Edit free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Subtitle Edit is free, open-source software by Nikolaj Olsson and contributors."}}]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span> <small style="font-weight:600;color:#c9d1e0">Studio</small></a>
+<nav><a href="./">Home</a><a href="wordcaps-vs-capcut.html">vs CapCut</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>Subtitle Edit: word-by-word and karaoke highlight captions</h1>
+<p>Subtitle Edit is a free, open-source subtitle editor. Recent versions (5.x, current 5.4) transcribe on your own PC and can turn the result into the fast word-by-word or karaoke-highlight captions you see on TikTok and Shorts. This guide covers the full path: word timing, the effect, and getting it into a video.</p>
+
+<h2>Step 1: Get word-level timing</h2>
+<p>A karaoke highlight only looks right if every word has its own start and end time. With sentence-level subtitles the highlight drifts.</p>
+<ul><li>Open your video in Subtitle Edit and use <b>Audio to text</b> (speech-to-text with Whisper, runs offline after the model download).</li>
+<li>Pick the <b>Purfview Faster-Whisper-XXL</b> engine and open <i>Advanced speech-to-text parameters</i>. Its presets include <b>Single words</b> (one word per line) and <b>Highlight word</b> (the whole line with the spoken word marked).</li>
+<li>Already have a subtitle? <i>Split subtitle</i> and <i>Break/split long lines</i> make lines shorter, but the word times are then estimated, not measured.</li>
+<li>Check the text before styling. Fixing names and wrong words is much more work after the effect is applied.</li></ul>
+
+<h2>Step 2: Switch to ASS and pick an effect</h2>
+<p>The effects use ASS styling tags, so first set the format to <b>Advanced Sub Station Alpha</b> (.ass). Then open <b>ASSA tools → Apply advanced effects…</b>. Effects in version 5.4 (names as in the menu):</p>
+<ul><li><b>Word by word</b> – reveals the text one word at a time.</li>
+<li><b>Karaoke</b> – highlights the characters in sequence, left to right, like lyrics.</li>
+<li><b>Karaoke - active word pop</b> – needs lines with the active word marked (for example from the <i>Highlight word</i> preset); dims the other words and gives the active word a pop-glow.</li>
+<li><b>Smooth fill</b> – a highlight colour sweeps through each word as it is spoken.</li>
+<li><b>Bold captions</b> – thick outline, the spoken word lights up in colour and grows. This is the closest to the TikTok look.</li>
+<li><b>Blur-in words</b>, <b>Typewriter</b>, <b>Rolling captions</b> – more styles for other formats.</li></ul>
+<p>Set font, size and position under <i>ASSA tools → Styles…</i>. For vertical video, use <i>ASSA tools → Change resolution…</i> with 1080×1920 so sizes and positions match the video.</p>
+
+<h2>Step 3: Burn the captions into the video</h2>
+<p>Most editors (CapCut included) and platforms only read the plain text of a subtitle file and drop the ASS effects. To keep the look, burn it in: <b>Video → Generate video with burned-in subtitles…</b>. The result is a normal MP4 you can upload or put into any editor.</p>
+<p>If you would rather keep editing the captions in CapCut, export SubRip (.srt) and import it there: <a href="import-srt-into-capcut.html">how to import an SRT file into CapCut</a>. The highlight effect is lost then, and CapCut's own caption styles take over.</p>
+
+<h2>Common problems</h2>
+<h3>The highlight is ahead of or behind the voice</h3>
+<ul><li>The word times were estimated (split lines) instead of measured. Run Audio to text again with a word-level preset.</li>
+<li>The subtitle was made from a different cut. Transcribe the final edit.</li></ul>
+<h3>The effect does nothing or the menu is missing</h3>
+<p>The format is still SubRip. Switch to Advanced Sub Station Alpha first.</p>
+<h3>Text is tiny or off-screen in a vertical video</h3>
+<p>The ASS script resolution does not match the video. Use <i>ASSA tools → Change resolution…</i>.</p>
+<h3>Burning in takes long</h3>
+<p>The burn-in re-encodes the whole video. Check the look on a short test clip first.</p>
+
+<h2 id="alternative">Shortcut: one click instead of three steps</h2>
+<p>Subtitle Edit is powerful and free, and worth learning if you edit subtitles often. If you only want animated word-by-word captions on a short clip:</p>
+<ul><li><b>Free:</b> Whisper plus FFmpeg on the command line, see <a href="how-to-make-word-by-word-captions.html">how to make word-by-word captions</a> and <a href="burn-subtitles-into-video-free.html">burn subtitles into a video for free</a>.</li>
+<li><b>One click, offline:</b> <a href="./">WordCaps Studio</a> (Windows, our app) transcribes on your PC and burns animated word-by-word captions (8 looks) into the MP4, plus an SRT. No account, no upload, no watermark, no subscription. Disclosure: we make it, so weigh that accordingly.</li></ul>
+<img class="wide" src="screenshot_3_styles.jpg" alt="Eight word-by-word caption looks made offline with WordCaps Studio">
+<p>Related: <a href="karaoke-style-captions.html">karaoke style captions</a> · <a href="davinci-resolve-word-by-word-subtitles.html">DaVinci Resolve word-by-word subtitles</a> · <a href="offline-subtitle-generator.html">offline subtitle generator</a>.</p>
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">See WordCaps Studio on itch.io</a><small class="soon">Prefer Gumroad? <a href="https://volkster45.gumroad.com/l/ekgiuk">WordCaps Studio on Gumroad</a> – one-time payment, no subscription.</small></p>
+
+<h2>FAQ</h2>
+<details open><summary>Can Subtitle Edit make word-by-word captions?</summary><p>Yes. Audio to text with the Faster-Whisper-XXL presets <i>Single words</i> or <i>Highlight word</i>, then an effect under ASSA tools.</p></details>
+<details><summary>Where is the karaoke effect?</summary><p>Set the format to Advanced Sub Station Alpha, then <i>ASSA tools → Apply advanced effects…</i> → Karaoke, Smooth fill or Bold captions.</p></details>
+<details><summary>Why do the effects disappear in CapCut or on YouTube?</summary><p>They are ASS tags that most players and editors ignore. Burn the subtitles into the video first.</p></details>
+<details><summary>Is Subtitle Edit free?</summary><p>Yes, free and open source.</p></details>
+<p class="note">Subtitle Edit is made by Nikolaj Olsson and contributors. This guide is independent and not affiliated with it. Menu names are from Subtitle Edit 5.4.0 (November 2026) and can change between versions; older 4.x versions have different menus. Sources: Subtitle Edit source code and English language file (github.com/SubtitleEdit/subtitleedit), release v5.4.0.</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="karaoke-style-captions.html">Karaoke style captions</a> · <a href="import-srt-into-capcut.html">Import SRT into CapCut</a> · <a href="how-to-make-word-by-word-captions.html">How to make word-by-word captions</a> · <a href="llms.txt">llms.txt</a></footer>
+</body></html>
