@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Import an SRT File into CapCut (Desktop, Web, Mobile) – 2026</title>
+<meta name="description" content="Import SRT subtitles into CapCut step by step, make a free SRT with Whisper on your own PC (even one word per caption), and fix the usual import problems: wrong encoding, .srt.txt, shifted timing.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/import-srt-into-capcut.html">
+<meta property="og:title" content="How to import an SRT file into CapCut">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_3_styles.jpg">
+<meta name="twitter:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_3_styles.jpg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Can I import an SRT file into CapCut on my phone?","acceptedAnswer":{"@type":"Answer","text":"Not directly. According to CapCut's help pages, subtitle import works on CapCut Desktop and CapCut Web, not in the mobile app. Import on desktop or web, save the project to CapCut's cloud space and open it on the phone."}},
+ {"@type":"Question","name":"Do I need CapCut Pro to import an SRT?","acceptedAnswer":{"@type":"Answer","text":"Importing your own subtitle file is a different feature from auto captions. Auto captions are locked behind Pro for many users; check your own app version and region for the import option."}},
+ {"@type":"Question","name":"How do I make an SRT file for free?","acceptedAnswer":{"@type":"Answer","text":"Run OpenAI's open-source Whisper on your PC, for example: whisper video.mp4 --model small --output_format srt. Subtitle Edit on Windows can do the same with a window."}},
+ {"@type":"Question","name":"Why are my imported captions out of sync?","acceptedAnswer":{"@type":"Answer","text":"SRT times are relative to the start of the audio they were made from. If you cut the video afterwards, or the caption track does not start at the right point on the timeline, every line is shifted. Make the SRT from the final edit, or move the whole caption track."}}]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span> <small style="font-weight:600;color:#c9d1e0">Studio</small></a>
+<nav><a href="./">Home</a><a href="wordcaps-vs-capcut.html">vs CapCut</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>How to import an SRT file into CapCut</h1>
+<p>Auto captions locked behind Pro, wrong words, or you simply want captions made on your own PC? You can bring your own subtitle file. This guide shows where the import is, how to make a good SRT for free (even one word per caption), and how to fix the problems that come up most often.</p>
+
+<h2>Step 1: Make an SRT file (free)</h2>
+<p>An SRT is a plain text file with numbered blocks, a time range and the text, for example:</p>
+<pre>1
+00:00:00,480 --&gt; 00:00:01,920
+This is how you import
+
+2
+00:00:01,920 --&gt; 00:00:03,100
+your own captions</pre>
+<p>Free ways to create one:</p>
+<ul><li><b>Whisper (command line):</b> OpenAI's open-source speech recognition runs fully on your PC. After installing it (Python, <code>pip install openai-whisper</code>, plus FFmpeg), run<br><code>whisper video.mp4 --model small --language en --output_format srt</code><br>Bigger models (<code>medium</code>, <code>large</code>) are more accurate but slower.</li>
+<li><b>One word per caption:</b> for the fast TikTok look, add word timestamps:<br><code>whisper video.mp4 --model small --output_format srt --word_timestamps True --max_words_per_line 1</code><br>Use <code>--max_words_per_line 3</code> for short chunks instead.</li>
+<li><b>Subtitle Edit (Windows, with a window):</b> open the video, use <i>Video → Audio to text (Whisper)</i>, check the text, then save as SubRip (.srt).</li></ul>
+
+<h2>Step 2: Import the SRT into CapCut</h2>
+<p><b>CapCut Desktop (Windows / Mac):</b> open your project, go to <b>Captions</b> and pick the option to import or add a local caption file, then select your <code>.srt</code>. The lines appear as a caption track on the timeline.</p>
+<p><b>CapCut Web:</b> open the project, choose <b>Captions</b> in the left toolbar and upload the <code>.srt</code> file.</p>
+<p><b>CapCut Mobile:</b> CapCut's own help says the mobile app cannot import subtitle files. Do the import on desktop or web, save the project to your CapCut cloud space, then open it on your phone.</p>
+<p>Menu names change between versions. If you don't see the option, look under <i>Text</i> as well as <i>Captions</i>, and update the app.</p>
+
+<h2>Step 3: Style all captions at once</h2>
+<p>Select one caption on the track and change font, size, colour, stroke and position. In most versions the change can be applied to all captions of the track. Animating single words needs much more manual work.</p>
+
+<h2>Import problems and fixes</h2>
+<h3>The file can't be selected or nothing happens</h3>
+<ul><li>Windows hides file extensions. A file shown as <code>captions.srt</code> may really be <code>captions.srt.txt</code>. Turn on <i>View → File name extensions</i> in Explorer and rename it.</li>
+<li>The file must be plain text. Don't save it from Word; use Notepad or Subtitle Edit.</li></ul>
+<h3>Strange characters instead of ä, é, ñ</h3>
+<p>Save the file as <b>UTF-8</b>. In Notepad: <i>Save as → Encoding: UTF-8</i>.</p>
+<h3>Captions are out of sync</h3>
+<ul><li>SRT times count from the start of the audio they were made from. Make the SRT from the <b>final edit</b> (export the cut video first), not from the raw clip.</li>
+<li>If everything is shifted by the same amount, select the whole caption track and move it so it starts at the right point.</li>
+<li>Check the time format: <code>00:00:01,920</code> with a <b>comma</b> before the milliseconds. A dot (<code>01.920</code>) is WebVTT style and can fail.</li></ul>
+<h3>Only part of the file shows up</h3>
+<p>One broken block can stop an importer. Every block needs a number, a valid time line with <code>--&gt;</code>, at least one text line and an empty line after it. Subtitle Edit's <i>Tools → Fix common errors</i> repairs most of this.</p>
+
+<h2 id="alternative">Skip the import: burn the captions in</h2>
+<p>If you don't need to edit the captions in CapCut, you can burn them into the video first and import the finished MP4:</p>
+<ul><li><b>Free:</b> FFmpeg can burn an SRT in with one command, see <a href="burn-subtitles-into-video-free.html">burn subtitles into a video for free</a>.</li>
+<li><b>One click, offline:</b> <a href="./">WordCaps Studio</a> (Windows, our app) transcribes on your PC, burns animated word-by-word captions (8 looks) into the MP4 and also writes an SRT you can import into CapCut. No account, no upload, no watermark, no subscription. Disclosure: we make it, so weigh that accordingly.</li></ul>
+<img class="wide" src="screenshot_3_styles.jpg" alt="Eight word-by-word caption looks made offline with WordCaps Studio">
+<p>Related: <a href="capcut-auto-captions-not-working.html">CapCut auto captions not working – 8 fixes</a> · <a href="capcut-auto-captions-without-pro.html">CapCut auto captions without Pro</a> · <a href="how-to-make-word-by-word-captions.html">how to make word-by-word captions</a>.</p>
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">See WordCaps Studio on itch.io</a><small class="soon">Prefer Gumroad? <a href="https://volkster45.gumroad.com/l/ekgiuk">WordCaps Studio on Gumroad</a> – one-time payment, no subscription.</small></p>
+
+<h2>FAQ</h2>
+<details open><summary>Can I import an SRT file into CapCut on my phone?</summary><p>Not directly. Import on CapCut Desktop or Web, save the project to the cloud space and open it on the phone.</p></details>
+<details><summary>Do I need CapCut Pro to import an SRT?</summary><p>Importing your own file is separate from auto captions. Check your own app version and region – what is free changes often.</p></details>
+<details><summary>How do I get one word per caption?</summary><p>Whisper with <code>--word_timestamps True --max_words_per_line 1</code> writes one word per SRT block.</p></details>
+<details><summary>Why are my imported captions out of sync?</summary><p>The SRT was made from a different cut, or the caption track does not start at the right point. Make the SRT from the final edit or move the whole track.</p></details>
+<p class="note">CapCut is a trademark of its owner. This guide is independent and not affiliated with CapCut or ByteDance. Menu names can change between CapCut versions. Sources: CapCut help "How do I import subtitles?" (capcut.com/help/how-to-import-subtitles), Whisper command-line options (github.com/openai/whisper).</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="capcut-auto-captions-not-working.html">CapCut captions not working</a> · <a href="capcut-auto-captions-without-pro.html">CapCut captions without Pro</a> · <a href="how-to-make-word-by-word-captions.html">How to make word-by-word captions</a> · <a href="llms.txt">llms.txt</a></footer>
+</body></html>
