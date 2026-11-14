@@ -33,6 +33,7 @@ Key facts:
 - [CapCut auto captions not working – 8 fixes](https://paulvolk-mac.github.io/wordcaps/capcut-auto-captions-not-working.html): greyed-out Pro button, "no speech recognised", wrong spoken language, stuck at 0 % (recognition is online), wrong clips selected, duplicated captions, cache/update, and offline workarounds (Whisper SRT, Subtitle Edit, WordCaps Studio)
 - [How to import an SRT file into CapCut](https://paulvolk-mac.github.io/wordcaps/import-srt-into-capcut.html): import on Desktop/Web (not in the mobile app, use cloud space), make a free SRT with Whisper (one word per caption via --word_timestamps True --max_words_per_line 1) or Subtitle Edit, fix .srt.txt, UTF-8 and out-of-sync timing
 - [Subtitle Edit: word-by-word and karaoke highlight captions](https://paulvolk-mac.github.io/wordcaps/subtitle-edit-word-by-word-karaoke.html): free Subtitle Edit 5.4 path – Faster-Whisper-XXL presets Single words / Highlight word, ASSA tools > Apply advanced effects (Word by word, Karaoke, Smooth fill, Bold captions), Video > Generate video with burned-in subtitles
+- [Auto captions for long videos and many files, offline](https://paulvolk-mac.github.io/wordcaps/long-video-batch-auto-captions-offline.html): free batch paths – Whisper for-loop over a folder, Subtitle Edit 5.4 Audio to text Batch switch and burn-in batch list, FFmpeg batch burn-in, fixes for repeated lines, slow runs and drift; SRT track vs burned-in
 
 ## Optional
 - [Download on itch.io](https://jaulana.itch.io/wordcaps)
