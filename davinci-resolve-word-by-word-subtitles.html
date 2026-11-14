@@ -19,6 +19,7 @@
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
  {"@type":"Question","name":"Can the free version of DaVinci Resolve create subtitles automatically?","acceptedAnswer":{"@type":"Answer","text":"No. Automatic transcription (Create Subtitles from Audio) is a feature of the paid DaVinci Resolve Studio. The free version can import SRT subtitle files and lets you type subtitles by hand."}},
  {"@type":"Question","name":"How do I get word-by-word subtitles in DaVinci Resolve without Studio?","acceptedAnswer":{"@type":"Answer","text":"Create an SRT file with one word or a few words per entry outside Resolve (for example with Whisper or WordCaps Studio) and import it with File > Import > Subtitle. For animated, highlighted words, burn the captions into the MP4 with WordCaps Studio and then edit that file in Resolve."}},
+ {"@type":"Question","name":"How do I get a highlighted active word in the free DaVinci Resolve?","acceptedAnswer":{"@type":"Answer","text":"Render the animated captions on a transparent background (for example WordCaps Studio: Also export transparent overlay .mov) and put that file on track V2 above your clip. The animation is in the file, so the free version of Resolve is enough."}},
  {"@type":"Question","name":"Is there a cheap offline tool for word-by-word captions on Windows?","acceptedAnswer":{"@type":"Answer","text":"WordCaps Studio is an offline Windows app for €4.99 one-time. It transcribes on your PC, burns animated word-by-word captions into the video and also exports SRT and ASS files for DaVinci Resolve, Premiere Pro and CapCut."}}]}
 </script>
 </head><body>
@@ -43,6 +44,14 @@
 <li><b>SRT/ASS for Resolve:</b> the same run also saves an SRT with 1–5 words per entry. Import it in DaVinci Resolve (File → Import → Subtitle) if you want to keep the captions editable in your timeline.</li></ol>
 <img class="wide" src="screenshot_2_portrait.jpg" alt="WordCaps Studio in three steps: drop a video, pick a look, get word-by-word captions">
 <p>No account, no upload, no watermark, no subscription. It is a captions tool, not a video editor – keep editing in Resolve.</p>
+
+<h2 id="free-version-overlay">Works in the FREE version: animated captions as a transparent overlay</h2>
+<p>An imported SRT in the free Resolve has no highlighted active word. The way around it: let WordCaps Studio render the animated captions <b>on a transparent background</b> and put that file on a second video track.</p>
+<ol><li>In WordCaps Studio, pick a look and switch on <b>Also export transparent overlay (.mov)</b>. You get <code>&lt;clip&gt;_captions_overlay.mov</code> with the same length, size and frame rate as your clip.</li>
+<li>In DaVinci Resolve (free): your clip on <b>V1</b>, the overlay on <b>V2</b>, both starting on the same frame.</li>
+<li>Done. The highlighted word, pop-in and colours stay exactly as in the preview – no Fusion, no keyframes, no Studio licence.</li></ol>
+<img class="wide" src="resolve_free_overlay.jpg" alt="Left: transparent caption overlay from WordCaps Studio on track V2. Right: the clip on V1 with the word-by-word captions on top" loading="lazy">
+<p><small>Format: QuickTime Animation (QTRLE) with alpha, about 15–40 MB per minute. The same file works in Premiere Pro, Final Cut Pro, Shotcut, Kdenlive and CapCut desktop. Want to change a word? Fix it in WordCaps and export again. Example footage: public-domain NASA video; NASA does not endorse this product.</small></p>
 <p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €4.99 once</a><small class="soon">Prefer Gumroad? <a href="https://volkster45.gumroad.com/l/ekgiuk">Get WordCaps Studio on Gumroad</a> – same price, one-time payment.</small></p>
 
 <h2>Which way fits you?</h2>
@@ -50,12 +59,14 @@
 <tr><td>Price</td><td>0 €</td><td>0 €</td><td>€4.99 once</td><td>paid licence</td></tr>
 <tr><td>Automatic</td><td>no</td><td>yes (setup)</td><td>yes</td><td>yes</td></tr>
 <tr><td>Highlighted active word</td><td>no</td><td>no</td><td>yes (8 looks)</td><td>check current version</td></tr>
+<tr><td>Works in free Resolve</td><td>yes</td><td>yes (SRT)</td><td>yes (SRT or overlay)</td><td>no, paid version</td></tr>
 <tr><td>Offline</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td></tr>
 <tr><td>Mac</td><td>yes</td><td>yes</td><td>no (Windows only)</td><td>yes</td></tr></table>
 <p><small>If you already own DaVinci Resolve Studio or plan to buy it for other features, use its built-in subtitles. Features as published by Blackmagic Design, November 2026; check the current version.</small></p>
 
 <h2>FAQ</h2>
 <details open><summary>Can the free DaVinci Resolve make subtitles automatically?</summary><p>No, automatic transcription is a Studio feature. The free version imports SRT files and lets you type subtitles by hand.</p></details>
+<details><summary>How do I get a highlighted active word in the free DaVinci Resolve?</summary><p>Export the captions from WordCaps Studio as a transparent overlay (.mov) and put it on track V2 above your clip. The animation is already in the file, so the free version is enough.</p></details>
 <details><summary>How many words per subtitle for vertical videos?</summary><p>1–3 words read fastest on a phone. Keep them around the middle of the 9:16 frame, clear of the app buttons at the bottom and right edge.</p></details>
 <details><summary>Does WordCaps Studio work on Mac?</summary><p>Not yet – Windows 10 and 11 only. On Mac, option 2 (Whisper + SRT) works.</p></details>
 <p class="note">DaVinci Resolve is a trademark of Blackmagic Design. This guide is independent and not affiliated with Blackmagic Design.</p>
