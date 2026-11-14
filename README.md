@@ -3,7 +3,7 @@
 **WordCaps Studio** is a small Windows app that adds animated, word-by-word highlighted captions to your videos (TikTok, YouTube Shorts, Instagram Reels). Think CapCut- or Submagic-style captions, but **100 % offline**, with **no subscription, no account, no upload and no watermark**.
 
 - Website & FAQ: https://paulvolk-mac.github.io/wordcaps/
-- Get it (itch.io, €4.99 one-time): https://jaulana.itch.io/wordcaps
+- Get it (itch.io, €12.99 one-time): https://jaulana.itch.io/wordcaps
 
 ## What it does
 - Speech-to-text runs on your PC (open Whisper model), captions are burned in with FFmpeg.
@@ -20,6 +20,7 @@
 - [CapCut auto captions without Pro: 3 ways](https://paulvolk-mac.github.io/wordcaps/capcut-auto-captions-without-pro.html)
 - [Free & offline Submagic alternatives](https://paulvolk-mac.github.io/wordcaps/submagic-alternative.html)
 - [Free auto captions for YouTube Shorts](https://paulvolk-mac.github.io/wordcaps/free-auto-captions-youtube-shorts.html)
+- [Auto captions for Instagram Reels](https://paulvolk-mac.github.io/wordcaps/auto-captions-instagram-reels.html)
 - [Word-by-word subtitles in DaVinci Resolve (free version)](https://paulvolk-mac.github.io/wordcaps/davinci-resolve-word-by-word-subtitles.html)
 - [Word-by-word captions in Premiere Pro](https://paulvolk-mac.github.io/wordcaps/premiere-pro-word-by-word-captions.html)
 - [Burn subtitles into a video for free (no watermark)](https://paulvolk-mac.github.io/wordcaps/burn-subtitles-into-video-free.html)

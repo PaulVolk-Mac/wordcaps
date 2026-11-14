@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Auto Captions for Instagram Reels: Free Ways (Word by Word)</title>
+<meta name="description" content="Instagram's Captions sticker is free but limited. 4 ways to add auto captions to Reels, from the built-in sticker to burned-in word-by-word captions made offline.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/auto-captions-instagram-reels.html">
+<meta property="og:title" content="Auto captions for Instagram Reels – 4 ways, free and paid">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_2_portrait.jpg">
+<meta name="twitter:image" content="https://paulvolk-mac.github.io/wordcaps/screenshot_2_portrait.jpg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"Add burned-in word-by-word auto captions to an Instagram Reel","totalTime":"PT5M",
+ "step":[{"@type":"HowToStep","name":"Export the Reel","text":"Export the finished 9:16 video without captions."},
+ {"@type":"HowToStep","name":"Transcribe","text":"Let a speech model (for example Whisper, built into WordCaps Studio) create a timestamp for every word."},
+ {"@type":"HowToStep","name":"Check the text","text":"Correct names, brand words and numbers before rendering."},
+ {"@type":"HowToStep","name":"Burn in","text":"Burn the captions into the MP4 and keep them in the middle of the frame, clear of the Reels caption text at the bottom and the buttons on the right."},
+ {"@type":"HowToStep","name":"Upload","text":"Upload the captioned MP4 as a Reel. The same file also works on Facebook Reels, TikTok and YouTube Shorts."}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Does Instagram have auto captions for Reels?","acceptedAnswer":{"@type":"Answer","text":"Yes. In the Reels editor, the Captions sticker transcribes the speech and puts the text on the video. You can correct single words and change the style, colour and position. The choice of looks is small, and how well it works depends on your language and app version."}},
+ {"@type":"Question","name":"Can you edit auto captions on Instagram Reels?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tap the captions in the editor to open the transcript and tap a word to correct it. Check names, brand words and numbers, because these are the words speech recognition gets wrong most often."}},
+ {"@type":"Question","name":"How do I get word-by-word captions with a highlighted word on Reels?","acceptedAnswer":{"@type":"Answer","text":"Burn them into the video before you upload. Free: the open-source Whisper model plus an ASS subtitle file and FFmpeg. Paid editors such as CapCut Pro do it in the app. WordCaps Studio does it offline on Windows for €12.99 once."}},
+ {"@type":"Question","name":"Do the same captions work on Facebook Reels?","acceptedAnswer":{"@type":"Answer","text":"Yes. Captions that are burned into the MP4 are part of the picture, so the same file works on Instagram Reels, Facebook Reels, TikTok and YouTube Shorts."}}]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span> <small style="font-weight:600;color:#c9d1e0">Studio</small></a>
+<nav><a href="./">Home</a><a href="wordcaps-vs-capcut.html">vs CapCut</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>Auto captions for Instagram Reels – 4 ways, from the free sticker to word-by-word</h1>
+<p>Instagram can caption a Reel for you, and for many videos that is enough. If you want the bold captions where every spoken word lights up, you have to burn them into the video before you upload. Here are four ways, starting with the free ones.</p>
+
+<div style="overflow-x:auto"><table><thead><tr><th>Way</th><th>Cost</th><th>Highlighted word</th><th>Good for</th></tr></thead><tbody>
+<tr><td>1. Instagram's Captions sticker</td><td>Free</td><td>No</td><td>Quick Reels filmed on the phone</td></tr>
+<tr><td>2. Whisper + FFmpeg</td><td>Free</td><td>Yes</td><td>People who are fine with the command line</td></tr>
+<tr><td>3. Editor apps (CapCut and others)</td><td>Often paid or limited</td><td>Depends on the app</td><td>People who already edit there</td></tr>
+<tr><td>4. WordCaps Studio (Windows)</td><td>€12.99 once</td><td>Yes</td><td>Finished videos on a PC, several at once</td></tr>
+</tbody></table></div>
+
+<h2>1. Instagram's Captions sticker (free, built in)</h2>
+<ol><li>Record or upload your clip in the Reels editor.</li>
+<li>Open the sticker tray and choose <b>Captions</b>. Instagram transcribes the speech, which takes a few seconds.</li>
+<li>Tap the captions to open the text, then tap a word to correct it.</li>
+<li>Pick one of the styles, change the colour and drag the captions where you want them.</li></ol>
+<p>Meta's separate video editor <i>Edits</i> also has auto captions and exports straight to Instagram.</p>
+<p><b>Good:</b> free, no extra app, done in a minute. <b>Limits:</b> only a few looks, the text can only be made inside the app, and the sticker is not offered in every language or region. If the sticker is missing, update the app and check whether your language is supported.</p>
+<p>Viewers can also switch on automatic closed captions for videos themselves. Those are plain subtitles that you cannot style, and most people never turn them on.</p>
+
+<h2>2. Free, technical: Whisper + FFmpeg</h2>
+<p>The open-source speech model <i>Whisper</i> gives you a timestamp for every word (for example <code>faster-whisper</code> with <code>word_timestamps=True</code>). Write the words into an ASS subtitle file, one event per word or with karaoke tags, and burn it in: <code>ffmpeg -i reel.mp4 -vf ass=captions.ass out.mp4</code>. The details are in <a href="how-to-make-word-by-word-captions.html">How to make word-by-word captions</a> and <a href="karaoke-style-captions.html">Karaoke style captions</a>.</p>
+<p><b>Cost:</b> 0 €. <b>Time:</b> an evening of setup the first time; Python knowledge helps.</p>
+
+<h2>3. Editor apps with auto captions</h2>
+<p>Many phone and desktop editors caption a Reel in one tap. Check what the free plan really includes: CapCut moved auto captions into its Pro plan in 2025 for most users, and other free editors add a watermark or limit exports. Online tools also need you to upload the video. See <a href="capcut-auto-captions-without-pro.html">CapCut auto captions without Pro</a> and <a href="submagic-alternative.html">free and offline Submagic alternatives</a>.</p>
+
+<h2>4. One click, offline: WordCaps Studio (Windows, €12.99 once)</h2>
+<p>WordCaps Studio does way 2 for you in a simple window:</p>
+<ol><li>Drop your finished Reel (9:16) into WordCaps Studio. Several clips at once work too.</li>
+<li>Pick one of 8 looks (classic, pop, box, minimal, bounce, karaoke, single word, neon), any colour and any installed font, and watch the live preview on your own video.</li>
+<li>Choose position <b>middle</b> so the captions stay clear of the Reels text and buttons.</li>
+<li>Check the recognised text, fix names, press <b>Burn</b>. You get the captioned MP4 plus SRT and ASS files.</li></ol>
+<img class="wide" src="screenshot_2_portrait.jpg" alt="Making an Instagram Reel with word-by-word captions in WordCaps Studio: drop the video, pick a look, done">
+<p>Everything runs on your PC: no account, no upload, no watermark, no subscription. It is a Windows app, so it suits Reels you edit or finish on a computer. For a clip filmed and posted straight from the phone, the Captions sticker is the faster choice.</p>
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €12.99 once</a><a class="cta secondary shop2" href="https://volkster45.gumroad.com/l/ekgiuk">Buy on Gumroad – €12.99</a></p>
+
+<h2>Tips for Reels captions</h2>
+<ul><li><b>Keep them in the middle.</b> The bottom of a Reel is covered by your account name, the caption text and the audio line, the right edge by the like, comment and share buttons. Captions in the middle of the frame, or slightly below it, are safe.</li>
+<li><b>2–3 words on screen</b> read fastest on a phone. One word at a time suits fast, punchy talk.</li>
+<li><b>Check names and numbers.</b> Speech recognition gets these wrong most often, whichever tool you use.</li>
+<li><b>One file for every platform.</b> Burned-in captions are part of the picture, so the same MP4 works on Facebook Reels, TikTok and YouTube Shorts (see <a href="free-auto-captions-youtube-shorts.html">captions for YouTube Shorts</a>).</li></ul>
+
+<h2>FAQ</h2>
+<details open><summary>Does Instagram have auto captions for Reels?</summary><p>Yes. The Captions sticker in the Reels editor transcribes the speech and puts the text on the video. You can correct words and change style, colour and position. The choice of looks is small, and availability depends on your language and app version.</p></details>
+<details><summary>Can you edit auto captions on Instagram Reels?</summary><p>Yes. Tap the captions in the editor, then tap a word to correct it. Check names, brand words and numbers.</p></details>
+<details><summary>How do I get word-by-word captions with a highlighted word?</summary><p>Burn them in before you upload: free with Whisper + FFmpeg, in a paid editor such as CapCut Pro, or offline on Windows with WordCaps Studio for €12.99 once.</p></details>
+<details><summary>Do the same captions work on Facebook Reels?</summary><p>Yes. Burned-in captions are part of the video, so the same file works on Instagram, Facebook, TikTok and YouTube Shorts.</p></details>
+<p class="note">Instagram, Facebook, Edits, CapCut, TikTok and YouTube are trademarks of their owners. This guide is independent and not affiliated with them. App features change often; check the current version of your app.</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="how-to-make-word-by-word-captions.html">How to make word-by-word captions</a> · <a href="free-auto-captions-youtube-shorts.html">Captions for YouTube Shorts</a> · <a href="capcut-auto-captions-without-pro.html">CapCut without Pro</a> · <a href="llms.txt">llms.txt</a></footer>
+</body></html>

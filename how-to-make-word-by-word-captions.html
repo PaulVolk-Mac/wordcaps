@@ -22,7 +22,7 @@
  {"@type":"Question","name":"What are word-by-word captions?","acceptedAnswer":{"@type":"Answer","text":"Captions that show only 1 to 3 words at a time, timed to the speech, often with the spoken word highlighted in a second colour. It is the standard caption look on TikTok, YouTube Shorts and Instagram Reels."}},
  {"@type":"Question","name":"How do I make word-by-word captions for free?","acceptedAnswer":{"@type":"Answer","text":"Transcribe with the open-source Whisper model with word timestamps, write an ASS subtitle file with one karaoke tag per word, and burn it in with FFmpeg. It costs nothing but takes some setup. In DaVinci Resolve free and older Premiere versions you can also split captions by hand."}},
  {"@type":"Question","name":"Can CapCut, Premiere Pro or DaVinci Resolve highlight the active word?","acceptedAnswer":{"@type":"Answer","text":"CapCut has highlight caption styles, but auto captions moved into the Pro plan for most users in 2025. Premiere Pro 26.3 can make single-word captions, but in one style without an active-word highlight. DaVinci Resolve creates subtitles automatically only in the paid Studio version and has no built-in highlight."}},
- {"@type":"Question","name":"What is the easiest offline way on Windows?","acceptedAnswer":{"@type":"Answer","text":"WordCaps Studio (€4.99 once, Windows 10/11) transcribes on your PC and burns animated word-by-word captions with a highlighted active word into the MP4, with 8 looks, any colour and font, and an SRT/ASS export. No account, no upload, no watermark."}}]}
+ {"@type":"Question","name":"What is the easiest offline way on Windows?","acceptedAnswer":{"@type":"Answer","text":"WordCaps Studio (€12.99 once, Windows 10/11) transcribes on your PC and burns animated word-by-word captions with a highlighted active word into the MP4, with 8 looks, any colour and font, and an SRT/ASS export. No account, no upload, no watermark."}}]}
 </script>
 </head><body>
 <header class="top"><a class="logo" href="./">Word<span>Caps</span> <small style="font-weight:600;color:#c9d1e0">Studio</small></a>
@@ -37,7 +37,7 @@
 <tr><td>Premiere Pro 26.3+</td><td>Create captions → <i>Single Word</i></td><td>no (one style)</td><td>subscription</td></tr>
 <tr><td>DaVinci Resolve (free)</td><td>Import a word-level SRT</td><td>no</td><td>0 €</td></tr>
 <tr><td>Any editor, free</td><td>Whisper + ASS karaoke file + FFmpeg</td><td>yes</td><td>0 €, some setup</td></tr>
-<tr><td>Any editor, Windows, one click</td><td>WordCaps Studio (offline)</td><td>yes (8 looks)</td><td>€4.99 once</td></tr></table>
+<tr><td>Any editor, Windows, one click</td><td>WordCaps Studio (offline)</td><td>yes (8 looks)</td><td>€12.99 once</td></tr></table>
 
 <h2>1. In CapCut</h2>
 <p>CapCut makes the look with <b>auto captions</b> plus a caption template that highlights the spoken word. Since the 2025 pricing change, auto captions show a Pro prompt for most users. Importing an SRT and styling it as text still works without Pro. Details and free workarounds: <a href="capcut-auto-captions-without-pro.html">CapCut auto captions without Pro – 3 ways</a> · <a href="wordcaps-vs-capcut.html">WordCaps Studio vs CapCut</a>.</p>
@@ -64,10 +64,10 @@ Colours in ASS are written as <code>&amp;HAABBGGRR</code> (blue-green-red), so <
 <li><b>Burn it in:</b> <code>ffmpeg -i video.mp4 -vf ass=captions.ass -c:a copy out.mp4</code>. More options (HandBrake, VLC): <a href="burn-subtitles-into-video-free.html">Burn subtitles into a video for free</a>.</li></ol>
 <p><b>Cost:</b> 0 €. <b>Time:</b> an evening of setup the first time; a small Python script does steps 2–3 for every next video.</p>
 
-<h2>5. One click, offline: WordCaps Studio (Windows, €4.99 once)</h2>
+<h2>5. One click, offline: WordCaps Studio (Windows, €12.99 once)</h2>
 <p>WordCaps Studio does way 4 for you in one window: drop in a video (or several), pick one of <b>8 looks</b> (classic, pop, box, minimal, bounce, karaoke, single word, neon), any colour, any installed font, size and position, and 1–5 words on screen. Keywords like numbers and names can pop in a second colour. It transcribes <b>on your PC</b>, lets you fix the text, then burns the captions into the MP4 and saves an <b>SRT and ASS</b> for CapCut, Premiere or Resolve. No account, no upload, no watermark, no subscription.</p>
 <img class="wide" src="screenshot_3_styles.jpg" alt="WordCaps Studio caption looks: word-by-word captions with highlighted active word">
-<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €4.99 once</a><small class="soon">Prefer Gumroad? <a href="https://volkster45.gumroad.com/l/ekgiuk">Get WordCaps Studio on Gumroad</a> – same price, one-time payment.</small></p>
+<p><a class="cta" href="https://jaulana.itch.io/wordcaps">Get WordCaps Studio – €12.99 once</a><a class="cta secondary shop2" href="https://volkster45.gumroad.com/l/ekgiuk">Buy on Gumroad – €12.99</a></p>
 <p><small>Windows 10/11 only. On Mac, use way 4 or the built-in options of your editor.</small></p>
 
 <h2>Tips that make word-by-word captions readable</h2>
@@ -80,10 +80,10 @@ Colours in ASS are written as <code>&amp;HAABBGGRR</code> (blue-green-red), so <
 
 <h2>FAQ</h2>
 <details open><summary>What is the difference between word-by-word and normal subtitles?</summary><p>Normal subtitles show a full line for a few seconds. Word-by-word captions show 1–3 words, change with every word or two and often highlight the word being spoken. They are made for short vertical videos watched without sound.</p></details>
-<details><summary>Can I make word-by-word captions without an editor subscription?</summary><p>Yes: way 4 (Whisper + ASS + FFmpeg) is completely free, and WordCaps Studio is a one-time €4.99 purchase. DaVinci Resolve free can show word-level captions from an imported SRT, without a highlight.</p></details>
+<details><summary>Can I make word-by-word captions without an editor subscription?</summary><p>Yes: way 4 (Whisper + ASS + FFmpeg) is completely free, and WordCaps Studio is a one-time €12.99 purchase. DaVinci Resolve free can show word-level captions from an imported SRT, without a highlight.</p></details>
 <details><summary>Are word-by-word captions possible on a phone?</summary><p>Mobile editors such as CapCut offer them in the app; check which styles your plan includes. The free and offline methods on this page are for desktop.</p></details>
 <details><summary>Which languages work?</summary><p>Whisper, which ways 4 and 5 use, recognises around 100 languages; English, German, Spanish and other large languages work best.</p></details>
 <p class="note">CapCut, Premiere Pro, DaVinci Resolve, FFmpeg and Whisper are trademarks or projects of their owners and are named only to explain how to use them. This guide is independent and not affiliated with them. Features as of November 2026; check your current version.</p>
 </article></main>
-<footer>WordCaps Studio · <a href="./">Home</a> · <a href="capcut-auto-captions-without-pro.html">CapCut without Pro</a> · <a href="premiere-pro-word-by-word-captions.html">Premiere Pro word-by-word</a> · <a href="davinci-resolve-word-by-word-subtitles.html">DaVinci Resolve word-by-word</a> · <a href="burn-subtitles-into-video-free.html">Burn subtitles free</a> · <a href="free-auto-captions-youtube-shorts.html">Captions for YouTube Shorts</a> · <a href="submagic-alternative.html">Submagic alternatives</a> · <a href="llms.txt">llms.txt</a></footer>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="capcut-auto-captions-without-pro.html">CapCut without Pro</a> · <a href="premiere-pro-word-by-word-captions.html">Premiere Pro word-by-word</a> · <a href="davinci-resolve-word-by-word-subtitles.html">DaVinci Resolve word-by-word</a> · <a href="burn-subtitles-into-video-free.html">Burn subtitles free</a> · <a href="free-auto-captions-youtube-shorts.html">Captions for YouTube Shorts</a> · <a href="auto-captions-instagram-reels.html">Auto captions for Instagram Reels</a> · <a href="submagic-alternative.html">Submagic alternatives</a> · <a href="llms.txt">llms.txt</a></footer>
 </body></html>
