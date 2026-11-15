@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pomodoro Timer with Brown Noise &amp; Rain Sounds – Free, No Ads</title>
+<meta name="description" content="Free Pomodoro timer with built-in brown noise, white noise and rain sounds. 25/5, 50/10 or 90/20, long breaks, soft chime, noise pauses in breaks. No ads, no sign-up, works offline.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/tools/pomodoro-noise/">
+<meta name="theme-color" content="#0b0d12">
+<style>
+:root{--bg:#0b0d12;--fg:#e9ecf2;--mut:#8b93a3;--acc:#ff8a65;--brk:#7ad7a2;--card:#141823}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;max-width:760px;margin:0 auto}
+header h1{font-size:17px;margin:0;font-weight:700}
+header a{color:var(--mut);font-size:13px;white-space:nowrap}
+main{max-width:760px;margin:0 auto;padding:0 16px 24px}
+#clock{font-size:min(26vw,128px);font-weight:800;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:-2px;margin:6px 0 0;color:var(--acc)}
+#clock.brk{color:var(--brk)}
+#phase{text-align:center;color:var(--mut);font-size:15px;margin-bottom:12px}
+.bar{height:6px;background:#ffffff14;border-radius:3px;overflow:hidden;margin:0 0 16px}.bar i{display:block;height:100%;width:0;background:var(--acc)}
+.top{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 0 16px}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 18px;background:#ffffff17;color:var(--fg);cursor:pointer}
+button.big{background:var(--fg);color:#0b0d12;font-size:20px;min-width:140px}
+button:focus-visible,input:focus-visible{outline:3px solid var(--acc)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.row button{padding:8px 12px;font-size:14px}.row button.on{background:var(--acc);color:#0b0d12}
+.ch{display:grid;grid-template-columns:110px 1fr 46px;align-items:center;gap:10px;background:var(--card);border-radius:12px;padding:10px 14px;margin:8px 0}
+.ch b{font-size:15px}.ch span{color:var(--mut);font-variant-numeric:tabular-nums;text-align:right;font-size:14px}
+input[type=range]{width:100%;accent-color:var(--acc);height:28px}input[type=checkbox]{accent-color:var(--acc);width:18px;height:18px}
+label.opt{display:flex;gap:8px;align-items:center;color:var(--mut);font-size:14px;margin:8px 0}
+h2{font-size:15px;margin:18px 0 6px;color:var(--mut)}
+.note{color:var(--mut);font-size:14px;margin-top:20px}.note a{color:var(--acc)}
+details{margin-top:18px;background:var(--card);border-radius:12px;padding:10px 14px}summary{cursor:pointer;font-weight:700}
+</style>
+</head>
+<body>
+<header><h1>Pomodoro Timer with Noise</h1><a href="#" id="shareLink">copy link</a></header>
+<main>
+<div id="clock">25:00</div>
+<div id="phase">Focus 1 of 4 · press Start</div>
+<div class="bar"><i id="bar"></i></div>
+<div class="top">
+  <button class="big" id="play">▶ Start</button>
+  <button id="skip">Skip ⏭</button>
+  <button id="reset">Reset</button>
+</div>
+<h2>Timer</h2>
+<div class="row" id="modes"></div>
+<h2>Sound while you focus</h2>
+<div class="row" id="presets"></div>
+<div id="mixer"></div>
+<label class="opt"><input type="checkbox" id="brkQuiet" checked> Noise pauses during breaks</label>
+<label class="opt"><input type="checkbox" id="chime" checked> Soft chime when a phase ends</label>
+<details><summary>How the Pomodoro technique works</summary>
+<p>Work on one task for one focus block (classic: 25 minutes), then take a short break (5 minutes). After four blocks take a long break (15–30 minutes). Longer blocks like 50/10 or 90/20 suit deep work.</p>
+<p><b>Why noise?</b> Brown noise and rain mask voices, typing and traffic, so there is less to react to. Keep it quiet – it should cover sounds, not drown them. Everything is generated live in your browser: no recordings, no tracking, works offline once loaded.</p>
+<p>Tip: the remaining time shows in the browser tab, so you can switch tabs. On phones keep this tab open; some phones pause audio when the screen locks.</p></details>
+<p class="note">Need 10 hours of calm with a picture? Our channel <a href="https://www.youtube.com/playlist?list=PLDYaQoytyqDc" rel="noopener">Silent Bunk – sleep in impossible places</a>. More free tools: <a href="../noise-machine/">noise machine</a> · <a href="../hiit-timer/">HIIT timer</a> · <a href="../">all tools</a>. Free tool by Paul Volk – no ads, no account. Your settings are saved in the link.</p>
+</main>
+<script>
+// ===== Engine (pure, tested in selbsttest.js) =====
+const CH=[['brown','Brown noise'],['pink','Pink noise'],['white','White noise'],['rain','Rain']];
+const PRESETS={'Brown noise':{brown:66},'Rain':{rain:58,pink:13},'Deep focus':{brown:60,pink:38},'White noise':{white:60},'Silence':{}};
+const MODES={'25/5':[25,5,15],'50/10':[50,10,30],'90/20':[90,20,30],'15/3':[15,3,10]};
+function rng(seed){let s=(seed>>>0)||1;return()=>{s^=s<<13;s>>>=0;s^=s>>>17;s^=s<<5;s>>>=0;return s/4294967296*2-1}}
+function makeNoise(type,n,seed){
+  const r=rng(seed||7),o=new Float32Array(n);
+  if(type==='white'){for(let i=0;i<n;i++)o[i]=r()*0.5}
+  else if(type==='pink'){let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+    for(let i=0;i<n;i++){const w=r();b0=.99886*b0+w*.0555179;b1=.99332*b1+w*.0750759;b2=.969*b2+w*.153852;b3=.8665*b3+w*.3104856;b4=.55*b4+w*.5329522;b5=-.7616*b5-w*.016898;o[i]=(b0+b1+b2+b3+b4+b5+b6+w*.5362)*.11;b6=w*.115926}}
+  else{let l=0;for(let i=0;i<n;i++){l=(l+.02*r())/1.02;o[i]=l*3.5}}
+  // seamless loop (brown drifts, white/pink do not): spread the jump between last and first sample over the whole buffer (no click at the loop point)
+  if(type==='brown'){const d=o[n-1]-o[0]+(o[1]-o[0]);for(let i=0;i<n;i++)o[i]-=d*i/(n-1)}
+  let m=0;for(let i=0;i<n;i++)m+=o[i];m/=n;for(let i=0;i<n;i++)o[i]-=m;
+  return o}
+
+function volToGain(v){v=Math.max(0,Math.min(100,+v||0));return v===0?0:Math.pow(v/100,2)}
+// Plan: focus, short, focus, short, focus, short, focus, long (repeats).
+function plan(m){const[f,s,l]=MODES[m]||MODES['25/5'];const out=[];for(let i=0;i<4;i++){out.push({k:'focus',n:i+1,d:f*60});out.push({k:i===3?'long':'short',n:i+1,d:(i===3?l:s)*60})}return out}
+function cycle(m){return plan(m).reduce((a,x)=>a+x.d,0)}
+function phaseAt(el,m){const p=plan(m),cyc=cycle(m);el=Math.max(0,+el||0);const round=Math.floor(el/cyc);let r=el-round*cyc;
+  for(let i=0;i<p.length;i++){if(r<p[i].d)return{i,k:p[i].k,n:p[i].n,round,left:p[i].d-r,dur:p[i].d};r-=p[i].d}
+  return{i:0,k:'focus',n:1,round:round+1,left:p[0].d,dur:p[0].d}}
+function startOf(i,round,m){const p=plan(m);let s=round*cycle(m);for(let j=0;j<i;j++)s+=p[j].d;return s}
+function nextStart(el,m){const ph=phaseAt(el,m);return ph.i+1<8?startOf(ph.i+1,ph.round,m):startOf(0,ph.round+1,m)}
+function fmt(s){s=Math.max(0,Math.ceil(+s||0));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function noiseGain(k,quiet){return(k!=='focus'&&quiet)?0:1}
+function parseState(h){const st={};CH.forEach(([k])=>st[k]=0);let mode='25/5',quiet=true,chime=true,any=false;
+  String(h||'').replace(/^#/,'').split('&').forEach(p=>{const[k,v]=p.split('=');
+    if(k==='m'){let d='';try{d=decodeURIComponent(v||'')}catch(e){}if(Object.prototype.hasOwnProperty.call(MODES,d))mode=d}
+    else if(k==='q')quiet=v!=='0';else if(k==='c')chime=v!=='0';
+    else if(Object.prototype.hasOwnProperty.call(st,k)){any=true;const x=parseInt(v,10);st[k]=isNaN(x)?0:Math.max(0,Math.min(100,x))}});
+  if(!any)Object.assign(st,PRESETS['Brown noise']);return{st,mode,quiet,chime}}
+function stateToHash(st,mode,quiet,chime){const p=CH.map(([k])=>k+'='+(st[k]||0));p.push('m='+encodeURIComponent(mode));if(!quiet)p.push('q=0');if(!chime)p.push('c=0');return'#'+p.join('&')}
+if(typeof module!=='undefined'){module.exports={CH,PRESETS,MODES,makeNoise,volToGain,plan,cycle,phaseAt,startOf,nextStart,fmt,noiseGain,parseState,stateToHash}}
+
+// ===== UI =====
+if(typeof document!=='undefined'){
+const $=id=>document.getElementById(id);let {st,mode,quiet,chime}=parseState(location.hash);
+let ctx=null,nodes={},master=null,running=false,acc=0,t0=0,tick=null,wake=null,lastI=-1;
+const LEVEL={brown:1.0,pink:0.9,white:0.45,rain:1.1};const NAME={focus:'Focus',short:'Short break',long:'Long break'};
+const mixer=$('mixer');
+CH.forEach(([k,name])=>{const d=document.createElement('label');d.className='ch';d.innerHTML='<b>'+name+'</b><input type="range" min="0" max="100" step="1" value="'+st[k]+'" id="v_'+k+'" aria-label="'+name+' volume"><span id="n_'+k+'">'+st[k]+'</span>';mixer.appendChild(d);
+  d.querySelector('input').addEventListener('input',e=>{st[k]=+e.target.value;$('n_'+k).textContent=st[k];apply();save();markP(null)})});
+const pr=$('presets'),md=$('modes');
+function markP(b){[...pr.children].forEach(x=>x.classList.toggle('on',x===b))}
+Object.keys(PRESETS).forEach(n=>{const b=document.createElement('button');b.textContent=n;b.onclick=()=>{CH.forEach(([k])=>st[k]=PRESETS[n][k]||0);sync();apply();save();markP(b)};pr.appendChild(b)});
+Object.keys(MODES).forEach(n=>{const b=document.createElement('button');b.textContent=n;b.classList.toggle('on',n===mode);b.onclick=()=>{mode=n;[...md.children].forEach(x=>x.classList.toggle('on',x===b));acc=0;t0=performance.now();lastI=-1;save();draw()};md.appendChild(b)});
+$('brkQuiet').checked=quiet;$('chime').checked=chime;
+$('brkQuiet').onchange=e=>{quiet=e.target.checked;save();draw()};$('chime').onchange=e=>{chime=e.target.checked;save()};
+function sync(){CH.forEach(([k])=>{$('v_'+k).value=st[k];$('n_'+k).textContent=st[k]})}
+function save(){history.replaceState(null,'',stateToHash(st,mode,quiet,chime))}
+function elapsed(){return acc+(running?(performance.now()-t0)/1000:0)}
+function build(){ctx=new (window.AudioContext||window.webkitAudioContext)();master=ctx.createGain();master.gain.value=0;master.connect(ctx.destination);
+  const L=ctx.sampleRate*12;
+  const buf=t=>{const b=ctx.createBuffer(2,L,ctx.sampleRate);b.getChannelData(0).set(makeNoise(t,L,11));b.getChannelData(1).set(makeNoise(t,L,29));return b};
+  const src=t=>{const s=ctx.createBufferSource();s.buffer=buf(t);s.loop=true;s.start();return s};
+  const filt=(type,f,q,g)=>{const x=ctx.createBiquadFilter();x.type=type;x.frequency.value=f;if(q)x.Q.value=q;if(g)x.gain.value=g;return x};
+  const chain=(k,s,list)=>{const g=ctx.createGain();g.gain.value=0;let a=s;list.forEach(f=>{a.connect(f);a=f});a.connect(g);g.connect(master);nodes[k]=g};
+  chain('brown',src('brown'),[filt('lowpass',900)]);chain('pink',src('pink'),[]);chain('white',src('white'),[filt('lowpass',9000)]);
+  chain('rain',src('pink'),[filt('highpass',500),filt('peaking',3200,0.8,4)])}
+function apply(){if(!ctx)return;const t=ctx.currentTime;CH.forEach(([k])=>nodes[k].gain.setTargetAtTime(volToGain(st[k])*LEVEL[k],t,0.15))}
+function ding(){if(!ctx||!chime)return;const t=ctx.currentTime;[880,1320].forEach((f,j)=>{const o=ctx.createOscillator(),g=ctx.createGain(),a=t+j*0.35;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,a);g.gain.linearRampToValueAtTime(0.18,a+0.02);g.gain.exponentialRampToValueAtTime(0.0001,a+1.6);o.connect(g);g.connect(ctx.destination);o.start(a);o.stop(a+1.7)})}
+function draw(){const ph=phaseAt(elapsed(),mode);$('clock').textContent=fmt(ph.left);$('clock').classList.toggle('brk',ph.k!=='focus');
+  $('phase').textContent=NAME[ph.k]+' '+ph.n+' of 4'+(running?'':' · paused');$('bar').style.width=(100*(1-ph.left/ph.dur)).toFixed(1)+'%';$('bar').style.background=ph.k==='focus'?'var(--acc)':'var(--brk)';
+  document.title=fmt(ph.left)+' '+NAME[ph.k]+' – Pomodoro';
+  if(ctx&&running)master.gain.setTargetAtTime(noiseGain(ph.k,quiet),ctx.currentTime,0.8);
+  if(lastI!==-1&&ph.i!==lastI&&running)ding();lastI=ph.i}
+async function start(){if(!ctx)build();await ctx.resume();apply();running=true;t0=performance.now();$('play').textContent='❚❚ Pause';
+  try{if(navigator.wakeLock)wake=await navigator.wakeLock.request('screen')}catch(e){}clearInterval(tick);tick=setInterval(draw,250);draw()}
+function pause(){acc=elapsed();running=false;if(ctx)master.gain.setTargetAtTime(0,ctx.currentTime,0.3);$('play').textContent='▶ Start';clearInterval(tick);try{if(wake)wake.release()}catch(e){};draw()}
+$('play').onclick=()=>running?pause():start();
+$('skip').onclick=()=>{acc=nextStart(elapsed(),mode)+0.01;t0=performance.now();draw()};
+$('reset').onclick=()=>{acc=0;t0=performance.now();lastI=-1;draw()};
+$('shareLink').onclick=e=>{e.preventDefault();save();if(navigator.clipboard)navigator.clipboard.writeText(location.href);e.target.textContent='link copied'};
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&e.target.tagName!=='INPUT'){e.preventDefault();running?pause():start()}});
+save();draw();
+}
+</script>
+</body>
+</html>
