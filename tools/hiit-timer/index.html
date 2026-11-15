@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Free HIIT Timer Online – Tabata, EMOM &amp; Interval Timer with Sound</title>
+<meta name="description" content="Free online HIIT interval timer with beeps and voice: Tabata 20/10, 45/15, EMOM or your own work/rest rounds. No ads, no sign-up, works offline and keeps your screen awake.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/tools/hiit-timer/">
+<meta name="theme-color" content="#111">
+<style>
+:root{--bg:#111;--fg:#f4f4f4;--mut:#9a9a9a;--work:#e0312b;--rest:#1f9d55;--prep:#d9a400;--done:#3a6ff0;--card:#1c1c1c}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--fg);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;flex-direction:column;min-height:100%;transition:background .25s}
+body.work{--bg:#5a0f0c}body.rest{--bg:#0b3d22}body.prep{--bg:#4a3a00}body.done{--bg:#0f2350}
+header{padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+header h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.02em}
+header a{color:var(--mut);font-size:13px}
+main{flex:1;display:flex;flex-direction:column;align-items:center;padding:0 16px 16px;max-width:760px;width:100%;margin:0 auto}
+#phase{font-size:clamp(28px,7vw,54px);font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-top:8px}
+#clock{font-size:clamp(96px,30vw,230px);font-weight:800;font-variant-numeric:tabular-nums;line-height:1;margin:4px 0}
+#info{color:var(--mut);font-size:clamp(16px,4vw,22px);min-height:1.5em;text-align:center}
+#bar{width:100%;height:10px;background:#ffffff22;border-radius:5px;overflow:hidden;margin:14px 0}
+#bar i{display:block;height:100%;width:0;background:var(--fg)}
+#next{color:var(--mut);font-size:15px;min-height:1.4em}
+.btns{display:flex;gap:10px;margin:14px 0;flex-wrap:wrap;justify-content:center}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:14px 22px;background:#ffffff1f;color:var(--fg);cursor:pointer;min-width:96px}
+button.big{background:var(--fg);color:#111;font-size:20px;min-width:150px}
+button:focus-visible{outline:3px solid var(--prep)}
+.presets{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0}
+.presets button{padding:9px 13px;font-size:14px;min-width:0}
+.presets button.on{background:var(--fg);color:#111}
+form{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;background:var(--card);padding:14px;border-radius:14px;margin-top:8px}
+label{display:flex;flex-direction:column;font-size:13px;color:var(--mut);gap:4px}
+input[type=number]{font:inherit;font-size:20px;font-weight:700;padding:8px;border-radius:8px;border:1px solid #333;background:#0d0d0d;color:var(--fg);width:100%}
+.chk{flex-direction:row;align-items:center;gap:8px;font-size:14px;color:var(--fg)}
+#total{grid-column:1/-1;color:var(--mut);font-size:14px}
+section.txt{max-width:760px;margin:20px auto;padding:0 16px;color:#cfcfcf;font-size:15px}
+section.txt h2{font-size:18px;color:var(--fg)}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:16px}
+footer a{color:var(--fg)}
+body.running form,body.running .presets,body.running section.txt{display:none}
+@media (max-width:420px){form{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header><h1>HIIT Timer</h1><a href="#how">How it works</a></header>
+<main>
+  <div id="phase">Ready</div>
+  <div id="clock" aria-live="off">0:00</div>
+  <div id="info">Pick a preset or set your own rounds</div>
+  <div id="bar"><i></i></div>
+  <div id="next"></div>
+  <div class="btns">
+    <button class="big" id="go">Start</button>
+    <button id="skip" title="Skip to next interval (→)">Skip</button>
+    <button id="reset" title="Reset (R)">Reset</button>
+  </div>
+  <div class="presets" id="presets"></div>
+  <form id="cfg" onsubmit="return false">
+    <label>Work (s)<input type="number" id="work" min="1" max="3600" value="45"></label>
+    <label>Rest (s)<input type="number" id="rest" min="0" max="3600" value="15"></label>
+    <label>Rounds<input type="number" id="rounds" min="1" max="99" value="10"></label>
+    <label>Sets<input type="number" id="sets" min="1" max="20" value="1"></label>
+    <label>Rest between sets (s)<input type="number" id="setrest" min="0" max="3600" value="60"></label>
+    <label>Get ready (s)<input type="number" id="prep" min="0" max="60" value="10"></label>
+    <label class="chk"><input type="checkbox" id="beep" checked> Beeps</label>
+    <label class="chk"><input type="checkbox" id="voice"> Voice</label>
+    <label class="chk"><input type="checkbox" id="vib" checked> Vibrate</label>
+    <div id="total"></div>
+  </form>
+</main>
+<section class="txt" id="how">
+<h2>A free interval timer that just works</h2>
+<p>Set your work time, rest time and number of rounds, press Start and put your phone down. Three short beeps count you into every interval, a long beep starts it. The whole screen turns red for work, green for rest and yellow while you get ready, so you can read it from across the gym.</p>
+<h2>Presets</h2>
+<p><b>Tabata</b> 20 s work / 10 s rest × 8 · <b>HIIT 45/15</b> × 10 · <b>HIIT 40/20</b> × 8 · <b>30/30</b> × 10 · <b>EMOM 10</b> (every minute on the minute for 10 minutes) · <b>Boxing</b> 3 min rounds / 1 min rest × 5. Change any number and the link in your address bar updates, so you can bookmark your own workout.</p>
+<h2>Good to know</h2>
+<p>No ads, no account, nothing to install. Your settings stay in your browser. The screen stays awake while the timer runs (on browsers that support it), and the timer keeps exact time even if your phone is slow. Keyboard: Space = start/pause, → = skip, R = reset. Tip: add it to your home screen.</p>
+</section>
+<footer>Made by a coach who actually trains · <a href="https://paulvolk-mac.github.io/wordcaps/tools/?ref=p05">more free tools</a></footer>
+<script>
+// ===== Engine (pure, tested in selbsttest.js) =====
+function buildPlan(c){
+  const p=[];const W=+c.work,R=+c.rest,N=+c.rounds,S=+c.sets,SR=+c.setrest,P=+c.prep;
+  if(P>0)p.push({k:'prep',d:P,r:0,s:1});
+  for(let s=1;s<=S;s++){
+    for(let r=1;r<=N;r++){
+      p.push({k:'work',d:W,r,s});
+      const last=r===N;
+      if(!last&&R>0)p.push({k:'rest',d:R,r,s});
+      if(last&&s<S&&SR>0)p.push({k:'setrest',d:SR,r,s});
+    }
+  }
+  return p;
+}
+function totalSec(plan){return plan.reduce((a,x)=>a+x.d,0)}
+function stateAt(plan,t){ // t = seconds elapsed
+  let acc=0;
+  for(let i=0;i<plan.length;i++){const x=plan[i];if(t<acc+x.d)return{i,seg:x,left:acc+x.d-t,into:t-acc};acc+=x.d}
+  return{i:plan.length,seg:null,left:0,into:0};
+}
+function fmt(sec){sec=Math.max(0,Math.ceil(sec-1e-6));const m=Math.floor(sec/60),s=sec%60;return m+':'+String(s).padStart(2,'0')}
+function clampCfg(c){const n=(v,lo,hi,d)=>{v=Math.round(+v);return isFinite(v)?Math.min(hi,Math.max(lo,v)):d};
+  return{work:n(c.work,1,3600,45),rest:n(c.rest,0,3600,15),rounds:n(c.rounds,1,99,10),sets:n(c.sets,1,20,1),setrest:n(c.setrest,0,3600,60),prep:n(c.prep,0,60,10)}}
+const PRESETS={'Tabata':{work:20,rest:10,rounds:8,sets:1,setrest:60},'HIIT 45/15':{work:45,rest:15,rounds:10,sets:1,setrest:60},'HIIT 40/20':{work:40,rest:20,rounds:8,sets:1,setrest:60},'30/30':{work:30,rest:30,rounds:10,sets:1,setrest:60},'EMOM 10':{work:60,rest:0,rounds:10,sets:1,setrest:0},'Boxing 3×1':{work:180,rest:60,rounds:5,sets:1,setrest:0}};
+if(typeof module!=='undefined'){module.exports={buildPlan,totalSec,stateAt,fmt,clampCfg,PRESETS};}
+// ===== UI =====
+if(typeof document!=='undefined'){
+const $=id=>document.getElementById(id);const F=['work','rest','rounds','sets','setrest','prep'];
+const NAME={prep:'Get ready',work:'Work',rest:'Rest',setrest:'Set break'};
+let plan=[],t0=0,paused=0,running=false,lastI=-1,lastSec=-1,raf=0,lock=null,ac=null;
+function cfg(){const c={};F.forEach(f=>c[f]=$(f).value);return clampCfg(c)}
+function setCfg(c){F.forEach(f=>{if(c[f]!=null)$(f).value=c[f]})}
+function save(){const c=cfg();try{localStorage.setItem('hiit5',JSON.stringify({...c,beep:$('beep').checked,voice:$('voice').checked,vib:$('vib').checked}))}catch(e){}
+  const q=new URLSearchParams({w:c.work,r:c.rest,n:c.rounds,s:c.sets,sr:c.setrest,p:c.prep});history.replaceState(null,'','?'+q+location.hash);markPreset();showTotal()}
+function load(){let c={};try{c=JSON.parse(localStorage.getItem('hiit5')||'{}')}catch(e){}
+  const q=new URLSearchParams(location.search);if(q.has('w'))c={...c,work:q.get('w'),rest:q.get('r'),rounds:q.get('n'),sets:q.get('s')||1,setrest:q.get('sr')||60,prep:q.get('p')||10};
+  setCfg(clampCfg({work:45,rest:15,rounds:10,sets:1,setrest:60,prep:10,...c}));['beep','voice','vib'].forEach(k=>{if(c[k]!=null)$(k).checked=!!c[k]})}
+function showTotal(){const p=buildPlan(cfg());$('total').textContent='Total: '+fmt(totalSec(p))+' · '+p.filter(x=>x.k==='work').length+' work intervals'}
+function markPreset(){const c=cfg();[...$('presets').children].forEach(b=>{const p=PRESETS[b.textContent];b.classList.toggle('on',Object.keys(p).every(k=>+p[k]===c[k]))})}
+Object.keys(PRESETS).forEach(n=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.onclick=()=>{setCfg(PRESETS[n]);save()};$('presets').appendChild(b)});
+function tone(f,d){if(!$('beep').checked)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type='square';o.frequency.value=f;g.gain.setValueAtTime(.0001,ac.currentTime);g.gain.exponentialRampToValueAtTime(.25,ac.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+d+.02)}catch(e){}}
+function say(s){if(!$('voice').checked||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(s);u.lang='en-US';u.rate=1.05;speechSynthesis.speak(u)}
+function vib(p){if($('vib').checked&&navigator.vibrate)navigator.vibrate(p)}
+async function wake(on){try{if(on&&'wakeLock' in navigator)lock=await navigator.wakeLock.request('screen');else if(!on&&lock){lock.release();lock=null}}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(running&&document.visibilityState==='visible')wake(true)});
+function now(){return performance.now()/1000}
+function elapsed(){return running?now()-t0:paused}
+function render(){
+  const st=stateAt(plan,elapsed());const total=totalSec(plan);
+  if(!st.seg){document.body.className='done';$('phase').textContent='Done';$('clock').textContent=fmt(total);$('info').textContent='Great work – '+plan.filter(x=>x.k==='work').length+' intervals finished';$('next').textContent='';$('bar').firstChild.style.width='100%';
+    if(running){running=false;paused=total;tone(1046,.6);setTimeout(()=>tone(1318,.8),250);say('Workout complete');vib([300,100,300]);wake(false);$('go').textContent='Start'}return}
+  const x=st.seg;document.body.className=(x.k==='setrest'?'rest':x.k)+(running?' running':'');
+  $('phase').textContent=NAME[x.k];$('clock').textContent=fmt(st.left);
+  const c=cfg();$('info').textContent=x.k==='prep'?'Round 1 of '+c.rounds:('Round '+x.r+' of '+c.rounds+(c.sets>1?' · Set '+x.s+' of '+c.sets:''));
+  const nx=plan[st.i+1];$('next').textContent=nx?'Next: '+NAME[nx.k]+' '+fmt(nx.d):'Last interval';
+  $('bar').firstChild.style.width=(100*st.into/x.d).toFixed(2)+'%';
+  if(running){
+    if(st.i!==lastI){lastI=st.i;lastSec=-1;tone(x.k==='work'?880:523,.45);vib(x.k==='work'?[200,80,200]:200);
+      say(x.k==='work'?(st.i===plan.findIndex(p=>p.k==='work')?'Go':'Work'):x.k==='prep'?'Get ready':x.k==='setrest'?'Set break':'Rest')}
+    const s=Math.ceil(st.left-1e-6);if(s!==lastSec){lastSec=s;if(s<=3&&s>=1&&x.d>3){tone(660,.12);if(s===3&&x.k!=='work'&&nx&&nx.k==='work')say('3')}}
+  }
+}
+function loop(){render();if(running)raf=requestAnimationFrame(loop)}
+function start(){if(running){paused=elapsed();running=false;cancelAnimationFrame(raf);wake(false);$('go').textContent='Resume';document.body.classList.remove('running');window.speechSynthesis&&speechSynthesis.cancel();return}
+  if(!plan.length||paused>=totalSec(plan)){plan=buildPlan(cfg());paused=0;lastI=-1}
+  try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume()}catch(e){}
+  t0=now()-paused;running=true;$('go').textContent='Pause';wake(true);loop()}
+function reset(){running=false;cancelAnimationFrame(raf);wake(false);plan=buildPlan(cfg());paused=0;lastI=-1;$('go').textContent='Start';render();document.body.className='';$('phase').textContent='Ready';$('clock').textContent=fmt(totalSec(plan));$('info').textContent='Total workout time';$('next').textContent='First: '+NAME[plan[0].k]+' '+fmt(plan[0].d)}
+function skip(){if(!plan.length)plan=buildPlan(cfg());const st=stateAt(plan,elapsed());if(!st.seg)return;let acc=0;for(let i=0;i<=st.i;i++)acc+=plan[i].d;if(running)t0=now()-acc;else paused=acc;render()}
+$('go').onclick=start;$('reset').onclick=reset;$('skip').onclick=skip;
+F.forEach(f=>$(f).addEventListener('change',()=>{save();if(!running&&paused===0)reset()}));['beep','voice','vib'].forEach(k=>$(k).addEventListener('change',save));
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.code==='Space'){e.preventDefault();start()}else if(e.code==='ArrowRight')skip();else if(e.key==='r'||e.key==='R')reset()});
+load();save();reset();
+if(location.hash==='#demo'){plan=buildPlan(cfg());paused=(plan[0].k==='prep'?plan[0].d:0)+plan[1].d*0.4;render();document.body.className='work running';$('go').textContent='Pause'}
+}
+</script>
+</body>
+</html>

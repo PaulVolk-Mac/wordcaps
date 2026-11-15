@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TikTok, Reels & Shorts Safe Zone Checker (free, no upload) – 2026</title>
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/tools/safe-zone-checker/">
+<meta name="description" content="Check if your captions, faces and buttons are hidden by the TikTok, Instagram Reels or YouTube Shorts interface. Drop a frame or video – runs in your browser, nothing is uploaded. Free PNG overlays included.">
+<style>
+:root{--bg:#0f1115;--card:#181b22;--txt:#e8eaed;--mut:#9aa0a6;--ok:#00e676;--bad:#e53935;--acc:#ff3b5c}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt)}
+main{max-width:980px;margin:0 auto;padding:20px}@media(max-width:500px){main{padding:10px}.card{padding:12px}}h1{font-size:1.6rem;margin:.2em 0}p{color:var(--mut)}
+.wrap{display:flex;gap:20px;flex-wrap:wrap}.side{flex:1 1 280px;min-width:0}.stage{flex:1 1 300px;max-width:392px;margin:0 auto;min-width:0}.side{min-width:0}
+.card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:14px}
+button,select,label.btn{background:#262b35;color:var(--txt);border:1px solid #333a46;border-radius:8px;padding:9px 12px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--acc);border-color:var(--acc)}
+#drop{border:2px dashed #3a4150;border-radius:12px;padding:18px;line-height:2.2;text-align:center;color:var(--mut)}
+#drop.hover{border-color:var(--acc)}canvas{width:100%;max-width:360px;height:auto;margin:0 auto;border-radius:14px;background:#222;display:block}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{padding:4px 6px;border-bottom:1px solid #2a2f3a;text-align:left}
+a{color:#7cc4ff}.cta{display:block;background:linear-gradient(90deg,#ff3b5c,#ff8a00);color:#fff;text-decoration:none;padding:12px;border-radius:10px;font-weight:700;text-align:center}
+small{color:var(--mut)}
+</style>
+</head>
+<body>
+<main>
+<h1>Safe Zone Checker for TikTok, Reels &amp; Shorts</h1>
+<p>Drop a 9:16 frame or video and see what the app interface covers. Runs 100% in your browser – nothing is uploaded, no sign-up, no watermark.</p>
+<div class="wrap">
+ <div class="stage card">
+  <canvas id="cv" width="1080" height="1920"></canvas>
+  <div class="row"><input type="range" id="seek" min="0" max="1000" value="0" style="flex:1;display:none"></div>
+ </div>
+ <div class="side">
+  <div class="card">
+   <div id="drop">Drop image or video here<br><small>or</small><br><label class="btn">Choose file<input type="file" id="file" accept="image/*,video/*" hidden></label></div>
+  </div>
+  <div class="card">
+   <div class="row tabs" id="tabs"></div>
+   <div class="row"><label><input type="checkbox" id="ui" checked> show mock buttons</label><label><input type="checkbox" id="zones" checked> show blocked areas</label></div>
+   <table id="tbl"></table>
+   <small>Values are approximations measured from the current app layouts (Nov 2026). Platforms publish no official organic safe zones and the UI changes by device – always preview once in the app.</small>
+  </div>
+  <div class="card">
+   <b>Free PNG overlays</b> (1080×1920, transparent) for CapCut, Premiere, DaVinci:
+   <div class="row" id="dl"></div>
+  </div>
+  <div class="card">
+   <a class="cta" href="https://paulvolk-mac.github.io/wordcaps/?ref=p03">Want word-by-word captions that sit in the safe zone? → WordCaps Studio</a>
+   <small>Offline auto captions for Windows. Made by the same small team.</small>
+  </div>
+ </div>
+</div>
+</main>
+<script>
+// Naeherungswerte in px bei 1080x1920 (identisch zu tools/bauen.sh und MASSE.md)
+const Z={tiktok:{name:"TikTok",t:130,b:420,r:140,l:60},reels:{name:"Reels",t:220,b:420,r:130,l:60},shorts:{name:"Shorts",t:120,b:360,r:130,l:48},combined:{name:"All-in-one",t:220,b:420,r:140,l:60}};
+const W=1080,H=1920,cv=document.getElementById('cv'),cx=cv.getContext('2d');
+let cur='combined',src=null,vid=null;
+function safe(k){const z=Z[k];return{x:z.l,y:z.t,w:W-z.l-z.r,h:H-z.t-z.b}}
+function draw(){
+ cx.fillStyle='#2b3140';cx.fillRect(0,0,W,H);
+ if(src){const sw=src.videoWidth||src.naturalWidth,sh=src.videoHeight||src.naturalHeight;const s=Math.max(W/sw,H/sh);cx.drawImage(src,(W-sw*s)/2,(H-sh*s)/2,sw*s,sh*s)}
+ else{cx.fillStyle='#9aa0a6';cx.font='600 46px system-ui';cx.textAlign='center';cx.fillText('Drop your frame here',W/2,H/2)}
+ const z=Z[cur],s=safe(cur);
+ if(document.getElementById('zones').checked){cx.fillStyle='rgba(229,57,53,.38)';cx.fillRect(0,0,W,z.t);cx.fillRect(0,H-z.b,W,z.b);cx.fillRect(W-z.r,z.t,z.r,s.h);cx.fillStyle='rgba(229,57,53,.22)';cx.fillRect(0,z.t,z.l,s.h)}
+ if(document.getElementById('ui').checked){cx.fillStyle='rgba(255,255,255,.85)';const bx=W-z.r/2;[0,1,2,3,4].forEach(i=>{cx.beginPath();cx.arc(bx,H-z.b-80-i*150,34,0,7);cx.fill()});
+  cx.fillRect(36,H-z.b+40,420,30);cx.fillRect(36,H-z.b+90,640,24);cx.fillRect(36,H-z.b+130,520,24);cx.fillRect(0,H-120,W,2)}
+ cx.strokeStyle='#00e676';cx.lineWidth=6;cx.strokeRect(s.x,s.y,s.w,s.h);
+}
+function tabs(){const t=document.getElementById('tabs');t.innerHTML='';for(const k in Z){const b=document.createElement('button');b.textContent=Z[k].name;b.className=k===cur?'on':'';b.onclick=()=>{cur=k;tabs();table();draw()};t.appendChild(b)}}
+function table(){const z=Z[cur],s=safe(cur);document.getElementById('tbl').innerHTML=`<tr><th>${z.name}</th><th>px @1080×1920</th></tr><tr><td>Top blocked</td><td>${z.t}</td></tr><tr><td>Bottom blocked</td><td>${z.b}</td></tr><tr><td>Right (buttons)</td><td>${z.r}</td></tr><tr><td>Left margin</td><td>${z.l}</td></tr><tr><td><b>Safe box</b></td><td><b>${s.w}×${s.h}</b> at x ${s.x}, y ${s.y}</td></tr>`}
+function load(f){if(!f)return;const u=URL.createObjectURL(f);const sk=document.getElementById('seek');
+ if(f.type.startsWith('video')){vid=document.createElement('video');vid.src=u;vid.muted=true;vid.playsInline=true;vid.onloadeddata=()=>{src=vid;vid.currentTime=Math.min(1,vid.duration/2);sk.style.display='block'};vid.onseeked=draw;sk.oninput=()=>{vid.currentTime=vid.duration*sk.value/1000}}
+ else{const im=new Image();im.onload=()=>{src=im;sk.style.display='none';draw()};im.src=u}}
+const d=document.getElementById('drop');d.ondragover=e=>{e.preventDefault();d.classList.add('hover')};d.ondragleave=()=>d.classList.remove('hover');d.ondrop=e=>{e.preventDefault();d.classList.remove('hover');load(e.dataTransfer.files[0])};
+document.getElementById('file').onchange=e=>load(e.target.files[0]);['ui','zones'].forEach(i=>document.getElementById(i).onchange=draw);
+const dl=document.getElementById('dl');for(const k in Z){const a=document.createElement('a');a.href='png/'+k+'_safe_zone_1080x1920.png';a.download='';a.textContent=Z[k].name+' PNG';a.className='btn';a.style.marginRight='10px';dl.appendChild(a)}
+tabs();table();draw();
+</script>
+</body>
+</html>
