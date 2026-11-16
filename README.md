@@ -4,6 +4,7 @@
 
 - Website & FAQ: https://paulvolk-mac.github.io/wordcaps/
 - Get it (itch.io, €4.99 one-time): https://jaulana.itch.io/wordcaps
+- Also on Gumroad: https://volkster45.gumroad.com/l/ekgiuk
 
 ## What it does
 - Speech-to-text runs on your PC (open Whisper model), captions are burned in with FFmpeg.
@@ -25,6 +26,13 @@
 - [Burn subtitles into a video for free (no watermark)](https://paulvolk-mac.github.io/wordcaps/burn-subtitles-into-video-free.html)
 - [Karaoke style captions (highlight each word as it is spoken)](https://paulvolk-mac.github.io/wordcaps/karaoke-style-captions.html)
 - [Best offline subtitle generators for Windows (no upload)](https://paulvolk-mac.github.io/wordcaps/offline-subtitle-generator.html)
+- [CapCut auto captions not working? 8 fixes](https://paulvolk-mac.github.io/wordcaps/capcut-auto-captions-not-working.html)
+- [How to import an SRT file into CapCut](https://paulvolk-mac.github.io/wordcaps/import-srt-into-capcut.html)
+- [AutoSubs stays "Disconnected" in DaVinci Resolve – what works right now](https://paulvolk-mac.github.io/wordcaps/autosubs-disconnected-davinci-resolve.html)
+- [Subtitle Edit: word-by-word and karaoke highlight captions](https://paulvolk-mac.github.io/wordcaps/subtitle-edit-word-by-word-karaoke.html)
+- [Auto captions for long videos and many files – offline](https://paulvolk-mac.github.io/wordcaps/long-video-batch-auto-captions-offline.html)
+- [Auto captions for Instagram Reels: free ways, word by word](https://paulvolk-mac.github.io/wordcaps/auto-captions-instagram-reels.html)
+- [Free browser tools: subtitle converter (SRT/VTT/ASS), safe zone checker, timers](https://paulvolk-mac.github.io/wordcaps/tools/)
 
 ## About this repository
 This repository only hosts the website (GitHub Pages). The app itself is closed-source and sold on itch.io. It is not related to other open-source projects named "wordcaps".
