@@ -6,78 +6,169 @@
 <title>Free HIIT Timer Online – Tabata, EMOM &amp; Interval Timer with Sound</title>
 <meta name="description" content="Free online HIIT interval timer with beeps and voice: Tabata 20/10, 45/15, EMOM or your own work/rest rounds. No ads, no sign-up, works offline and keeps your screen awake.">
 <link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/tools/hiit-timer/">
-<meta name="theme-color" content="#111">
+<meta name="theme-color" content="#0a0c11">
 <style>
-:root{--bg:#111;--fg:#f4f4f4;--mut:#9a9a9a;--work:#e0312b;--rest:#1f9d55;--prep:#d9a400;--done:#3a6ff0;--card:#1c1c1c}
-*{box-sizing:border-box}html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--fg);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;flex-direction:column;min-height:100%;transition:background .25s}
-body.work{--bg:#5a0f0c}body.rest{--bg:#0b3d22}body.prep{--bg:#4a3a00}body.done{--bg:#0f2350}
-header{padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-header h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.02em}
-header a{color:var(--mut);font-size:13px}
-main{flex:1;display:flex;flex-direction:column;align-items:center;padding:0 16px 16px;max-width:760px;width:100%;margin:0 auto}
-#phase{font-size:clamp(28px,7vw,54px);font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-top:8px}
-#clock{font-size:clamp(96px,30vw,230px);font-weight:800;font-variant-numeric:tabular-nums;line-height:1;margin:4px 0}
-#info{color:var(--mut);font-size:clamp(16px,4vw,22px);min-height:1.5em;text-align:center}
-#bar{width:100%;height:10px;background:#ffffff22;border-radius:5px;overflow:hidden;margin:14px 0}
-#bar i{display:block;height:100%;width:0;background:var(--fg)}
-#next{color:var(--mut);font-size:15px;min-height:1.4em}
-.btns{display:flex;gap:10px;margin:14px 0;flex-wrap:wrap;justify-content:center}
-button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:14px 22px;background:#ffffff1f;color:var(--fg);cursor:pointer;min-width:96px}
-button.big{background:var(--fg);color:#111;font-size:20px;min-width:150px}
-button:focus-visible{outline:3px solid var(--prep)}
-.presets{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0}
-.presets button{padding:9px 13px;font-size:14px;min-width:0}
-.presets button.on{background:var(--fg);color:#111}
-form{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;background:var(--card);padding:14px;border-radius:14px;margin-top:8px}
-label{display:flex;flex-direction:column;font-size:13px;color:var(--mut);gap:4px}
-input[type=number]{font:inherit;font-size:20px;font-weight:700;padding:8px;border-radius:8px;border:1px solid #333;background:#0d0d0d;color:var(--fg);width:100%}
-.chk{flex-direction:row;align-items:center;gap:8px;font-size:14px;color:var(--fg)}
-#total{grid-column:1/-1;color:var(--mut);font-size:14px}
-section.txt{max-width:760px;margin:20px auto;padding:0 16px;color:#cfcfcf;font-size:15px}
-section.txt h2{font-size:18px;color:var(--fg)}
-footer{text-align:center;color:var(--mut);font-size:13px;padding:16px}
-footer a{color:var(--fg)}
-body.running form,body.running .presets,body.running section.txt{display:none}
-@media (max-width:420px){form{grid-template-columns:repeat(2,1fr)}}
+:root{--bg:#0a0c11;--panel:#11141b;--panel2:#161a23;--line:#ffffff12;--line2:#ffffff1f;--fg:#eef1f6;--mut:#8a93a5;--dim:#5d6577;
+--acc:#ff8a65;--acc2:#ff6f4d;--brk:#6fd3a0;--cur:var(--acc);--r:18px}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{background:radial-gradient(1200px 600px at 50% -200px,#1b2030 0%,var(--bg) 60%) fixed,var(--bg);color:var(--fg);
+font:15px/1.5 "Inter","Segoe UI Variable","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+body.brk{--cur:var(--brk)}
+a{color:inherit}
+header{max-width:1040px;margin:0 auto;padding:18px 20px 6px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-.01em;font-size:15px}
+.mark{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;box-shadow:0 4px 14px #ff6f4d40}
+.mark svg{width:16px;height:16px}
+.ghost{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:13px;font-weight:550;color:var(--mut);background:transparent;border:1px solid var(--line2);border-radius:999px;padding:7px 12px;cursor:pointer;transition:color .15s,border-color .15s}
+.ghost:hover{color:var(--fg);border-color:#ffffff40}.ghost svg{width:14px;height:14px}
+main{max-width:1040px;margin:0 auto;padding:10px 20px 28px;display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:880px){main{grid-template-columns:1.05fr .95fr;align-items:start}}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 20px 50px #00000059}
+/* timer */
+.timer{display:flex;flex-direction:column;align-items:center}
+.seg{display:inline-flex;background:#0000004d;border:1px solid var(--line);border-radius:12px;padding:4px;gap:2px;margin-bottom:18px}
+.seg button{font:inherit;font-size:13px;font-weight:600;color:var(--mut);background:transparent;border:0;border-radius:9px;padding:7px 13px;cursor:pointer;font-variant-numeric:tabular-nums;transition:background .15s,color .15s}
+.seg button:hover{color:var(--fg)}.seg button.on{background:#ffffff14;color:var(--fg);box-shadow:inset 0 0 0 1px var(--line2)}
+.ring{position:relative;width:min(78vw,330px);aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:7}
+.ring .track{stroke:#ffffff0f}
+.ring .prog{stroke:var(--cur);stroke-linecap:round;transition:stroke-dashoffset .25s linear,stroke .4s;filter:drop-shadow(0 0 10px color-mix(in srgb,var(--cur) 45%,transparent))}
+.inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.pill{font-size:12px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--cur);background:color-mix(in srgb,var(--cur) 14%,transparent);border-radius:999px;padding:4px 11px;transition:color .4s,background .4s}
+#clock{font-size:min(17vw,76px);font-weight:300;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.05}
+#phase{font-size:13px;color:var(--mut)}
+.dots{display:flex;gap:7px;margin-top:6px}.dots i{width:7px;height:7px;border-radius:50%;background:#ffffff1f;transition:background .3s}.dots i.done{background:var(--cur)}.dots i.now{background:transparent;box-shadow:inset 0 0 0 1.5px var(--cur)}
+.ctrl{display:flex;align-items:center;gap:18px;margin-top:20px}
+.ib{width:48px;height:48px;border-radius:50%;border:1px solid var(--line2);background:#ffffff08;color:var(--mut);display:grid;place-items:center;cursor:pointer;transition:color .15s,background .15s}
+.ib:hover{color:var(--fg);background:#ffffff12}.ib svg{width:20px;height:20px}
+.play{width:76px;height:76px;border-radius:50%;border:0;background:var(--cur);color:#0a0c11;display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 30px color-mix(in srgb,var(--cur) 40%,transparent);transition:transform .12s,background .4s}
+.play:hover{transform:scale(1.04)}.play:active{transform:scale(.97)}.play svg{width:30px;height:30px}
+.hint{margin-top:14px;font-size:12px;color:var(--dim)}.hint kbd{font:inherit;border:1px solid var(--line2);border-radius:5px;padding:0 5px;color:var(--mut)}
+/* sound */
+h2{font-size:13px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.tile{font:inherit;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:13px;border-radius:14px;border:1px solid var(--line);background:#ffffff06;color:var(--fg);cursor:pointer;text-align:left;font-size:13px;font-weight:600;transition:border-color .15s,background .15s}
+.tile:hover{border-color:var(--line2);background:#ffffff0b}
+.tile svg{width:22px;height:22px;color:var(--mut);transition:color .15s}
+.tile.on{border-color:color-mix(in srgb,var(--acc) 70%,transparent);background:color-mix(in srgb,var(--acc) 10%,transparent)}.tile.on svg{color:var(--acc)}
+details.mix{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+details.mix summary{cursor:pointer;list-style:none;font-size:13px;font-weight:600;color:var(--mut);display:flex;justify-content:space-between;align-items:center}
+details.mix summary::-webkit-details-marker{display:none}details.mix summary::after{content:"+";font-size:18px;font-weight:400}details.mix[open] summary::after{content:"–"}
+.ch{display:grid;grid-template-columns:96px 1fr 34px;align-items:center;gap:12px;padding:9px 0}
+.ch b{font-size:13px;font-weight:550}.ch span{color:var(--dim);font-size:12px;font-variant-numeric:tabular-nums;text-align:right}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:4px;background:linear-gradient(var(--acc),var(--acc)) 0/var(--p,0%) 100% no-repeat,#ffffff17;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 6px #0008;cursor:pointer}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radius:50%;background:#fff;cursor:pointer}
+.opts{margin-top:16px;border-top:1px solid var(--line);padding-top:6px}
+.sw{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;font-size:14px;cursor:pointer}
+.sw small{display:block;color:var(--dim);font-size:12px}
+.sw input{position:absolute;opacity:0;width:1px;height:1px}
+.sw .t{flex:none;width:38px;height:22px;border-radius:999px;background:#ffffff1f;position:relative;transition:background .2s}
+.sw .t::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw input:checked+.t{background:var(--acc)}.sw input:checked+.t::after{transform:translateX(16px)}
+button:focus-visible,.sw input:focus-visible+.t,input[type=range]:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.info{grid-column:1/-1;color:var(--mut);font-size:14px}
+.info details{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+.info summary{cursor:pointer;font-weight:600;color:var(--fg)}
+.info p{margin:10px 0 0}
+footer{max-width:1040px;margin:0 auto;padding:0 20px 34px;color:var(--dim);font-size:13px}
+footer a{color:var(--mut)}footer a:hover{color:var(--fg)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+:root{--work:#ff5a4e;--rest:#6fd3a0;--prep:#f5c451;--done:#7aa2ff}
+body.work{--cur:var(--work)}body.rest{--cur:var(--rest)}body.prep{--cur:var(--prep)}body.done{--cur:var(--done)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:0;transition:opacity .4s;
+background:radial-gradient(900px 700px at 50% 30%,color-mix(in srgb,var(--cur) 26%,transparent),transparent 70%)}
+body.work::before,body.rest::before,body.prep::before,body.done::before{opacity:1}
+h1{font:inherit;margin:0}
+.ring{width:min(82vw,360px)}
+.ring circle{stroke-width:5}
+.pill#phase{font-size:13px;color:var(--cur);padding:5px 13px}
+#clock{font-size:min(21vw,96px);font-weight:400}
+#info{font-size:14px;color:var(--mut);font-variant-numeric:tabular-nums}
+.dots{flex-wrap:wrap;justify-content:center;max-width:62%;min-height:7px}
+#next{margin-top:14px;font-size:14px;color:var(--mut);min-height:21px;font-variant-numeric:tabular-nums}
+#next b{color:var(--fg);font-weight:600}
+.play{width:84px;height:84px}
+.ctrl{gap:22px;margin-top:14px}
+.tiles{grid-template-columns:repeat(3,1fr)}
+.tile span{display:flex;flex-direction:column;line-height:1.25}
+.tile small{color:var(--dim);font-weight:500;font-size:12px}
+.h2b{margin-top:22px}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.num{display:flex;flex-direction:column;gap:6px;background:#ffffff06;border:1px solid var(--line);border-radius:14px;padding:10px 10px 8px}
+.num>span{font-size:12px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.num small{font-size:11px;color:var(--dim)}
+.st{display:grid;grid-template-columns:28px 1fr 28px;align-items:center;gap:4px}
+.st button{font:inherit;font-size:17px;line-height:1;width:28px;height:28px;border-radius:50%;border:1px solid var(--line2);background:transparent;color:var(--mut);cursor:pointer;padding:0}
+.st button:hover{color:var(--fg);border-color:#ffffff40}
+.st input{font:inherit;font-size:20px;font-weight:600;text-align:center;width:100%;min-width:0;border:0;background:transparent;color:var(--fg);padding:2px 0;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.st input::-webkit-outer-spin-button,.st input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.st input:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+#total{margin-top:12px;font-size:13px;color:var(--mut);font-variant-numeric:tabular-nums}#total b{color:var(--fg);font-weight:600}
+.info{display:grid;gap:10px}
+@media(max-width:879px){body.running .setup,body.running .info{display:none}}
+@media(max-width:560px){h1{font-size:14px}#shareLink span{display:none}#shareLink{padding:8px}.card{padding:18px}
+.nums{grid-template-columns:repeat(2,1fr)}.tiles{grid-template-columns:repeat(2,1fr)}}
+@media(hover:none){.hint{display:none}}
+.ring .prog{filter:none}
+.ring::before{content:"";position:absolute;inset:4%;border-radius:50%;box-shadow:0 0 46px color-mix(in srgb,var(--cur) 22%,transparent),inset 0 0 46px color-mix(in srgb,var(--cur) 10%,transparent);pointer-events:none;transition:box-shadow .4s}
 </style>
 </head>
 <body>
-<header><h1>HIIT Timer</h1><a href="#how">How it works</a></header>
+<header>
+  <div class="brand"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0c11" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span><h1>HIIT Timer – Tabata, EMOM &amp; intervals</h1></div>
+  <button class="ghost" id="shareLink" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Copy link</span></button>
+</header>
 <main>
-  <div id="phase">Ready</div>
-  <div id="clock" aria-live="off">0:00</div>
-  <div id="info">Pick a preset or set your own rounds</div>
-  <div id="bar"><i></i></div>
-  <div id="next"></div>
-  <div class="btns">
-    <button class="big" id="go">Start</button>
-    <button id="skip" title="Skip to next interval (→)">Skip</button>
-    <button id="reset" title="Reset (R)">Reset</button>
+<section class="card timer" aria-label="Timer">
+  <div class="ring">
+    <svg viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="46"/><circle class="prog" id="prog" cx="50" cy="50" r="46"/></svg>
+    <div class="inner">
+      <span class="pill" id="phase">Ready</span>
+      <div id="clock" aria-live="off">0:00</div>
+      <div id="info">Pick a preset or set your own rounds</div>
+      <div class="dots" id="dots"></div>
+    </div>
   </div>
-  <div class="presets" id="presets"></div>
-  <form id="cfg" onsubmit="return false">
-    <label>Work (s)<input type="number" id="work" min="1" max="3600" value="45"></label>
-    <label>Rest (s)<input type="number" id="rest" min="0" max="3600" value="15"></label>
-    <label>Rounds<input type="number" id="rounds" min="1" max="99" value="10"></label>
-    <label>Sets<input type="number" id="sets" min="1" max="20" value="1"></label>
-    <label>Rest between sets (s)<input type="number" id="setrest" min="0" max="3600" value="60"></label>
-    <label>Get ready (s)<input type="number" id="prep" min="0" max="60" value="10"></label>
-    <label class="chk"><input type="checkbox" id="beep" checked> Beeps</label>
-    <label class="chk"><input type="checkbox" id="voice"> Voice</label>
-    <label class="chk"><input type="checkbox" id="vib" checked> Vibrate</label>
-    <div id="total"></div>
-  </form>
-</main>
-<section class="txt" id="how">
-<h2>A free interval timer that just works</h2>
-<p>Set your work time, rest time and number of rounds, press Start and put your phone down. Three short beeps count you into every interval, a long beep starts it. The whole screen turns red for work, green for rest and yellow while you get ready, so you can read it from across the gym.</p>
-<h2>Presets</h2>
-<p><b>Tabata</b> 20 s work / 10 s rest × 8 · <b>HIIT 45/15</b> × 10 · <b>HIIT 40/20</b> × 8 · <b>30/30</b> × 10 · <b>EMOM 10</b> (every minute on the minute for 10 minutes) · <b>Boxing</b> 3 min rounds / 1 min rest × 5. Change any number and the link in your address bar updates, so you can bookmark your own workout.</p>
-<h2>Good to know</h2>
-<p>No ads, no account, nothing to install. Your settings stay in your browser. The screen stays awake while the timer runs (on browsers that support it), and the timer keeps exact time even if your phone is slow. Keyboard: Space = start/pause, → = skip, R = reset. Tip: add it to your home screen.</p>
+  <div id="next"></div>
+  <div class="ctrl">
+    <button class="ib" id="reset" type="button" title="Reset (R)" aria-label="Reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
+    <button class="play" id="go" type="button" aria-label="Start"></button>
+    <button class="ib" id="skip" type="button" title="Skip to next interval (→)" aria-label="Skip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l9 7-9 7z"/><path d="M19 5v14"/></svg></button>
+  </div>
+  <div class="hint"><kbd>Space</kbd> start / pause · <kbd>→</kbd> skip · <kbd>R</kbd> reset</div>
 </section>
-<footer>Made by a coach who actually trains · <a href="https://paulvolk-mac.github.io/wordcaps/tools/?ref=p05">more free tools</a></footer>
+<section class="card setup" aria-label="Workout">
+  <h2>Presets</h2>
+  <div class="tiles" id="presets"></div>
+  <h2 class="h2b">Your intervals</h2>
+  <form id="cfg" class="nums" onsubmit="return false">
+    <div class="num"><span>Work</span><div class="st"><button type="button" data-f="work" data-d="-5" aria-label="Work minus 5 seconds">−</button><input type="number" id="work" min="1" max="3600" value="45" inputmode="numeric" aria-label="Work seconds"><button type="button" data-f="work" data-d="5" aria-label="Work plus 5 seconds">+</button></div><small>seconds</small></div>
+    <div class="num"><span>Rest</span><div class="st"><button type="button" data-f="rest" data-d="-5" aria-label="Rest minus 5 seconds">−</button><input type="number" id="rest" min="0" max="3600" value="15" inputmode="numeric" aria-label="Rest seconds"><button type="button" data-f="rest" data-d="5" aria-label="Rest plus 5 seconds">+</button></div><small>seconds</small></div>
+    <div class="num"><span>Rounds</span><div class="st"><button type="button" data-f="rounds" data-d="-1" aria-label="One round less">−</button><input type="number" id="rounds" min="1" max="99" value="10" inputmode="numeric" aria-label="Rounds"><button type="button" data-f="rounds" data-d="1" aria-label="One round more">+</button></div><small>per set</small></div>
+    <div class="num"><span>Sets</span><div class="st"><button type="button" data-f="sets" data-d="-1" aria-label="One set less">−</button><input type="number" id="sets" min="1" max="20" value="1" inputmode="numeric" aria-label="Sets"><button type="button" data-f="sets" data-d="1" aria-label="One set more">+</button></div><small>repeat all</small></div>
+    <div class="num"><span>Set break</span><div class="st"><button type="button" data-f="setrest" data-d="-15" aria-label="Set break minus 15 seconds">−</button><input type="number" id="setrest" min="0" max="3600" value="60" inputmode="numeric" aria-label="Rest between sets in seconds"><button type="button" data-f="setrest" data-d="15" aria-label="Set break plus 15 seconds">+</button></div><small>seconds</small></div>
+    <div class="num"><span>Get ready</span><div class="st"><button type="button" data-f="prep" data-d="-5" aria-label="Get ready minus 5 seconds">−</button><input type="number" id="prep" min="0" max="60" value="10" inputmode="numeric" aria-label="Get ready seconds"><button type="button" data-f="prep" data-d="5" aria-label="Get ready plus 5 seconds">+</button></div><small>seconds</small></div>
+  </form>
+  <div id="total"></div>
+  <div class="opts">
+    <label class="sw"><span>Beeps<small>3-2-1 countdown, long beep on change</small></span><input type="checkbox" id="beep" checked><span class="t"></span></label>
+    <label class="sw"><span>Voice<small>“Work”, “Rest”, “Set break”</small></span><input type="checkbox" id="voice"><span class="t"></span></label>
+    <label class="sw"><span>Vibrate<small>on phones that support it</small></span><input type="checkbox" id="vib" checked><span class="t"></span></label>
+  </div>
+</section>
+<div class="info" id="how">
+<details><summary>A free interval timer that just works</summary>
+<p>Set your work time, rest time and number of rounds, press Start and put your phone down. Three short beeps count you into every interval, a long beep starts it. The screen glows red for work, green for rest and yellow while you get ready, so you can read it from across the gym.</p></details>
+<details><summary>Presets: Tabata, HIIT 45/15, EMOM, Boxing</summary>
+<p><b>Tabata</b> 20 s work / 10 s rest × 8 · <b>HIIT 45/15</b> × 10 · <b>HIIT 40/20</b> × 8 · <b>30/30</b> × 10 · <b>EMOM 10</b> (every minute on the minute for 10 minutes) · <b>Boxing</b> 3 min rounds / 1 min rest × 5. Change any number and the link in your address bar updates, so you can bookmark your own workout.</p></details>
+<details><summary>Good to know</summary>
+<p>No ads, no account, nothing to install. Your settings stay in your browser. The screen stays awake while the timer runs (on browsers that support it), and the timer keeps exact time even if your phone is slow. Keyboard: Space = start/pause, → = skip, R = reset. Tip: add it to your home screen.</p></details>
+</div>
+</main>
+<footer>Made by a coach who actually trains. More free tools: <a href="../pomodoro-noise/">Pomodoro timer with noise</a> · <a href="../noise-machine/">Noise machine</a> · <a href="https://paulvolk-mac.github.io/wordcaps/tools/?ref=p05">all tools</a>. No ads, no account. Your workout is saved in the link.</footer>
 <script>
 // ===== Engine (pure, tested in selbsttest.js) =====
 function buildPlan(c){
@@ -104,11 +195,20 @@ function clampCfg(c){const n=(v,lo,hi,d)=>{v=Math.round(+v);return isFinite(v)?M
   return{work:n(c.work,1,3600,45),rest:n(c.rest,0,3600,15),rounds:n(c.rounds,1,99,10),sets:n(c.sets,1,20,1),setrest:n(c.setrest,0,3600,60),prep:n(c.prep,0,60,10)}}
 const PRESETS={'Tabata':{work:20,rest:10,rounds:8,sets:1,setrest:60},'HIIT 45/15':{work:45,rest:15,rounds:10,sets:1,setrest:60},'HIIT 40/20':{work:40,rest:20,rounds:8,sets:1,setrest:60},'30/30':{work:30,rest:30,rounds:10,sets:1,setrest:60},'EMOM 10':{work:60,rest:0,rounds:10,sets:1,setrest:0},'Boxing 3×1':{work:180,rest:60,rounds:5,sets:1,setrest:0}};
 if(typeof module!=='undefined'){module.exports={buildPlan,totalSec,stateAt,fmt,clampCfg,PRESETS};}
+
 // ===== UI =====
 if(typeof document!=='undefined'){
 const $=id=>document.getElementById(id);const F=['work','rest','rounds','sets','setrest','prep'];
 const NAME={prep:'Get ready',work:'Work',rest:'Rest',setrest:'Set break'};
+const C=2*Math.PI*46;const TITLE=document.title;
+const PLAY='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>',PAUSE='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
+const I={'Tabata':'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>','HIIT 45/15':'<path d="M3 12h3l3-8 4 16 3-8h5"/>','HIIT 40/20':'<path d="M3 12h3l3-6 4 12 3-6h5"/>',
+ '30/30':'<circle cx="12" cy="12" r="9"/><path d="M12 3v18"/>','EMOM 10':'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/>',
+ 'Boxing 3×1':'<path d="M7 11V7a3 3 0 0 1 3-3h4a4 4 0 0 1 4 4v5a6 6 0 0 1-6 6h-1a4 4 0 0 1-4-4z"/><path d="M7 11h6"/>'};
+const sv=p=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';
+const PSUB={'Tabata':'20/10 × 8','HIIT 45/15':'× 10','HIIT 40/20':'× 8','30/30':'× 10','EMOM 10':'10 min','Boxing 3×1':'3 min × 5'};
 let plan=[],t0=0,paused=0,running=false,lastI=-1,lastSec=-1,raf=0,lock=null,ac=null;
+$('prog').style.strokeDasharray=C.toFixed(2);
 function cfg(){const c={};F.forEach(f=>c[f]=$(f).value);return clampCfg(c)}
 function setCfg(c){F.forEach(f=>{if(c[f]!=null)$(f).value=c[f]})}
 function save(){const c=cfg();try{localStorage.setItem('hiit5',JSON.stringify({...c,beep:$('beep').checked,voice:$('voice').checked,vib:$('vib').checked}))}catch(e){}
@@ -116,9 +216,10 @@ function save(){const c=cfg();try{localStorage.setItem('hiit5',JSON.stringify({.
 function load(){let c={};try{c=JSON.parse(localStorage.getItem('hiit5')||'{}')}catch(e){}
   const q=new URLSearchParams(location.search);if(q.has('w'))c={...c,work:q.get('w'),rest:q.get('r'),rounds:q.get('n'),sets:q.get('s')||1,setrest:q.get('sr')||60,prep:q.get('p')||10};
   setCfg(clampCfg({work:45,rest:15,rounds:10,sets:1,setrest:60,prep:10,...c}));['beep','voice','vib'].forEach(k=>{if(c[k]!=null)$(k).checked=!!c[k]})}
-function showTotal(){const p=buildPlan(cfg());$('total').textContent='Total: '+fmt(totalSec(p))+' · '+p.filter(x=>x.k==='work').length+' work intervals'}
-function markPreset(){const c=cfg();[...$('presets').children].forEach(b=>{const p=PRESETS[b.textContent];b.classList.toggle('on',Object.keys(p).every(k=>+p[k]===c[k]))})}
-Object.keys(PRESETS).forEach(n=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.onclick=()=>{setCfg(PRESETS[n]);save()};$('presets').appendChild(b)});
+function showTotal(){const p=buildPlan(cfg());$('total').innerHTML='Total <b>'+fmt(totalSec(p))+'</b> · '+p.filter(x=>x.k==='work').length+' work intervals'}
+function markPreset(){const c=cfg();[...$('presets').children].forEach(b=>{const p=PRESETS[b.dataset.n];b.classList.toggle('on',Object.keys(p).every(k=>+p[k]===c[k]))})}
+Object.keys(PRESETS).forEach(n=>{const b=document.createElement('button');b.type='button';b.className='tile';b.dataset.n=n;b.innerHTML=sv(I[n])+'<span>'+n+'<small>'+PSUB[n]+'</small></span>';b.onclick=()=>{setCfg(PRESETS[n]);save();if(!running)reset()};$('presets').appendChild(b)});
+document.querySelectorAll('.st button').forEach(b=>b.onclick=()=>{const el=$(b.dataset.f);el.value=Math.min(+el.max,Math.max(+el.min,(+el.value||0)+ +b.dataset.d));el.dispatchEvent(new Event('change'))});
 function tone(f,d){if(!$('beep').checked)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type='square';o.frequency.value=f;g.gain.setValueAtTime(.0001,ac.currentTime);g.gain.exponentialRampToValueAtTime(.25,ac.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+d+.02)}catch(e){}}
 function say(s){if(!$('voice').checked||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(s);u.lang='en-US';u.rate=1.05;speechSynthesis.speak(u)}
 function vib(p){if($('vib').checked&&navigator.vibrate)navigator.vibrate(p)}
@@ -126,15 +227,21 @@ async function wake(on){try{if(on&&'wakeLock' in navigator)lock=await navigator.
 document.addEventListener('visibilitychange',()=>{if(running&&document.visibilityState==='visible')wake(true)});
 function now(){return performance.now()/1000}
 function elapsed(){return running?now()-t0:paused}
+function setGo(){$('go').innerHTML=running?PAUSE:PLAY;$('go').setAttribute('aria-label',running?'Pause':(paused>0&&paused<totalSec(plan)?'Resume':'Start'))}
+function ring(f){$('prog').style.strokeDashoffset=(C*Math.min(1,Math.max(0,f))).toFixed(2)}
+function dots(cur,setNo){const c=cfg(),d=$('dots');if(c.rounds>20){d.innerHTML='';return}
+  if(d.children.length!==c.rounds){d.innerHTML='';for(let i=0;i<c.rounds;i++)d.appendChild(document.createElement('i'))}
+  [...d.children].forEach((x,i)=>x.className=cur===0?'':(i+1<cur?'done':(i+1===cur?'now':'')))}
 function render(){
   const st=stateAt(plan,elapsed());const total=totalSec(plan);
-  if(!st.seg){document.body.className='done';$('phase').textContent='Done';$('clock').textContent=fmt(total);$('info').textContent='Great work – '+plan.filter(x=>x.k==='work').length+' intervals finished';$('next').textContent='';$('bar').firstChild.style.width='100%';
-    if(running){running=false;paused=total;tone(1046,.6);setTimeout(()=>tone(1318,.8),250);say('Workout complete');vib([300,100,300]);wake(false);$('go').textContent='Start'}return}
+  if(!st.seg){document.body.className='done';$('phase').textContent='Done';$('clock').textContent=fmt(total);$('info').textContent=plan.filter(x=>x.k==='work').length+' intervals finished';$('next').textContent='Great work.';ring(0);dots(cfg().rounds+1);document.title=TITLE;
+    if(running){running=false;paused=total;tone(1046,.6);setTimeout(()=>tone(1318,.8),250);say('Workout complete');vib([300,100,300]);wake(false)}setGo();return}
   const x=st.seg;document.body.className=(x.k==='setrest'?'rest':x.k)+(running?' running':'');
   $('phase').textContent=NAME[x.k];$('clock').textContent=fmt(st.left);
-  const c=cfg();$('info').textContent=x.k==='prep'?'Round 1 of '+c.rounds:('Round '+x.r+' of '+c.rounds+(c.sets>1?' · Set '+x.s+' of '+c.sets:''));
-  const nx=plan[st.i+1];$('next').textContent=nx?'Next: '+NAME[nx.k]+' '+fmt(nx.d):'Last interval';
-  $('bar').firstChild.style.width=(100*st.into/x.d).toFixed(2)+'%';
+  const c=cfg();$('info').textContent=x.k==='prep'?'Round 1 of '+c.rounds:('Round '+x.r+' of '+c.rounds+(c.sets>1?' · Set '+x.s+'/'+c.sets:''));
+  dots(x.k==='prep'?0:(x.k==='work'?x.r:x.r+0.5),x.s);
+  const nx=plan[st.i+1];$('next').innerHTML=nx?'Next: <b>'+NAME[nx.k]+'</b> '+fmt(nx.d):'Last interval';
+  ring(st.into/x.d);if(running)document.title=fmt(st.left)+' '+NAME[x.k]+' · HIIT Timer';
   if(running){
     if(st.i!==lastI){lastI=st.i;lastSec=-1;tone(x.k==='work'?880:523,.45);vib(x.k==='work'?[200,80,200]:200);
       say(x.k==='work'?(st.i===plan.findIndex(p=>p.k==='work')?'Go':'Work'):x.k==='prep'?'Get ready':x.k==='setrest'?'Set break':'Rest')}
@@ -142,17 +249,20 @@ function render(){
   }
 }
 function loop(){render();if(running)raf=requestAnimationFrame(loop)}
-function start(){if(running){paused=elapsed();running=false;cancelAnimationFrame(raf);wake(false);$('go').textContent='Resume';document.body.classList.remove('running');window.speechSynthesis&&speechSynthesis.cancel();return}
+function start(){if(running){paused=elapsed();running=false;cancelAnimationFrame(raf);wake(false);setGo();document.body.classList.remove('running');document.title=TITLE;window.speechSynthesis&&speechSynthesis.cancel();return}
   if(!plan.length||paused>=totalSec(plan)){plan=buildPlan(cfg());paused=0;lastI=-1}
   try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume()}catch(e){}
-  t0=now()-paused;running=true;$('go').textContent='Pause';wake(true);loop()}
-function reset(){running=false;cancelAnimationFrame(raf);wake(false);plan=buildPlan(cfg());paused=0;lastI=-1;$('go').textContent='Start';render();document.body.className='';$('phase').textContent='Ready';$('clock').textContent=fmt(totalSec(plan));$('info').textContent='Total workout time';$('next').textContent='First: '+NAME[plan[0].k]+' '+fmt(plan[0].d)}
-function skip(){if(!plan.length)plan=buildPlan(cfg());const st=stateAt(plan,elapsed());if(!st.seg)return;let acc=0;for(let i=0;i<=st.i;i++)acc+=plan[i].d;if(running)t0=now()-acc;else paused=acc;render()}
+  t0=now()-paused;running=true;setGo();wake(true);loop()}
+function reset(){running=false;cancelAnimationFrame(raf);wake(false);plan=buildPlan(cfg());paused=0;lastI=-1;setGo();render();document.body.className='';document.title=TITLE;
+  $('phase').textContent='Ready';$('clock').textContent=fmt(totalSec(plan));$('info').textContent='Total workout time';$('next').innerHTML='First: <b>'+NAME[plan[0].k]+'</b> '+fmt(plan[0].d);ring(0);dots(0)}
+function skip(){if(!plan.length)plan=buildPlan(cfg());const st=stateAt(plan,elapsed());if(!st.seg)return;let acc=0;for(let i=0;i<=st.i;i++)acc+=plan[i].d;if(running)t0=now()-acc;else paused=acc;render();setGo()}
 $('go').onclick=start;$('reset').onclick=reset;$('skip').onclick=skip;
-F.forEach(f=>$(f).addEventListener('change',()=>{save();if(!running&&paused===0)reset()}));['beep','voice','vib'].forEach(k=>$(k).addEventListener('change',save));
-document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.code==='Space'){e.preventDefault();start()}else if(e.code==='ArrowRight')skip();else if(e.key==='r'||e.key==='R')reset()});
+F.forEach(f=>$(f).addEventListener('change',()=>{setCfg(cfg());save();if(!running&&paused===0)reset()}));['beep','voice','vib'].forEach(k=>$(k).addEventListener('change',save));
+$('shareLink').onclick=()=>{save();if(navigator.clipboard)navigator.clipboard.writeText(location.href.split('#')[0]);$('shareLink').querySelector('span').textContent='Link copied'};
+document.addEventListener('keydown',e=>{const tg=e.target.tagName;if(tg==='INPUT')return;
+  if(e.code==='Space'){if(tg==='BUTTON'||tg==='SUMMARY')return;e.preventDefault();start()}else if(e.code==='ArrowRight')skip();else if(e.key==='r'||e.key==='R')reset()});
 load();save();reset();
-if(location.hash==='#demo'){plan=buildPlan(cfg());paused=(plan[0].k==='prep'?plan[0].d:0)+plan[1].d*0.4;render();document.body.className='work running';$('go').textContent='Pause'}
+if(location.hash==='#demo'){plan=buildPlan(cfg());paused=(plan[0].k==='prep'?plan[0].d:0)+plan[1].d*0.4+plan[2].d+plan[3].d;render();document.body.className='work running';$('go').innerHTML=PAUSE}
 }
 </script>
 </body>
