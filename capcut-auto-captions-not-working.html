@@ -12,6 +12,8 @@
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
  {"@type":"Question","name":"Why are my CapCut auto captions greyed out?","acceptedAnswer":{"@type":"Answer","text":"In most regions auto captions are part of CapCut Pro since 2025. A Pro badge or a greyed-out button usually means the feature is locked for your account, not that your video is broken."}},
  {"@type":"Question","name":"Why does CapCut say no speech was recognised?","acceptedAnswer":{"@type":"Answer","text":"The voice is too quiet compared to music, the clip is muted or its audio was separated, or the wrong spoken language is selected. Raise the voice, mute the music for the recognition step and pick the correct language."}},
+ {"@type":"Question","name":"Why are CapCut auto captions stuck at 99 %?","acceptedAnswer":{"@type":"Answer","text":"Recognition is usually finished and CapCut is still syncing the captions. Wait 3-10 minutes without closing or refreshing, close heavy programs on desktop, update CapCut, and split videos longer than about 10 minutes."}},
+ {"@type":"Question","name":"What happens when CapCut says 2 uses left?","acceptedAnswer":{"@type":"Answer","text":"Some accounts get a few free AI uses. When they are used up, the feature is locked on the free plan; CapCut names Pro, a later promotion or other free tools as options and gives no reset date."}},
  {"@type":"Question","name":"Do CapCut auto captions work offline?","acceptedAnswer":{"@type":"Answer","text":"No. Speech recognition in CapCut runs on CapCut's servers, so it needs a stable internet connection. Offline tools such as Whisper-based apps run on your own PC."}},
  {"@type":"Question","name":"Can I make captions elsewhere and import them into CapCut?","acceptedAnswer":{"@type":"Answer","text":"Yes. Create an SRT file with a free tool (Subtitle Edit, Whisper) and import it into CapCut, or burn the captions into the video before you import it."}}]}
 </script>
@@ -25,6 +27,8 @@
 <h2>1. A Pro badge or a greyed-out button: the feature is locked</h2>
 <p>Since CapCut's 2025 pricing change, auto captions sit behind CapCut Pro for most users. If you see a Pro badge, a crown or an upgrade prompt, your video is fine – the feature is simply not available on your plan. What is free differs by region, platform (desktop, mobile, web) and app version, so check inside your own app. If you don't want a subscription, jump to <a href="#workarounds">the workarounds below</a>.</p>
 
+<p><b>"2 uses left" or a counter that runs out:</b> on some accounts and devices CapCut gives a small number of free AI uses. CapCut's help page says that once this quota is used up, the feature is no longer available on the free plan – the options are Pro, waiting for a later promotion, or making the captions another way (see below). CapCut does not publish a reset date.</p>
+
 <h2>2. "No speech recognised" or empty captions: the voice is too quiet</h2>
 <p>Recognition listens to the mixed audio of the selected clip. Loud background music, wind or a quiet voice make it give up. Fixes:</p>
 <ul><li>Mute or lower the music track while you generate captions, then turn it back up.</li>
@@ -37,16 +41,25 @@
 <h2>4. Stuck at 0 % or "network error": check your connection</h2>
 <p>CapCut's speech recognition runs on CapCut's servers, not on your device. A weak Wi-Fi, a VPN, a firewall or a company network can make it hang or fail. Switch networks, turn the VPN off for a moment and try again. Very long projects also take longer to upload – try a shorter test clip first.</p>
 
-<h2>5. Only some clips get captions: the wrong clips are selected</h2>
+<h2>5. Stuck at 45 %, 99 % or freezing: let it finish, then shorten</h2>
+<p>When the bar stops near the end, recognition is usually done and CapCut is still finishing or syncing the captions. CapCut's own help page names these causes: long videos (roughly over 10–15 minutes), a maxed-out CPU or RAM on desktop, 4K footage or multi-track audio, an old app version, a language pack that was not fully downloaded, and on phone or web a dropped connection or leaving the page.</p>
+<ul>
+<li><b>Wait 3–10 minutes</b> without closing the app or refreshing the web page – refreshing cancels the job.</li>
+<li><b>Desktop:</b> close other heavy programs. If there is no disk or CPU activity for 5 minutes, quit CapCut, reopen the project (the captions are sometimes already there), and update the app.</li>
+<li><b>Long or 4K projects:</b> split the video into parts of 10 minutes or less and caption each part.</li>
+<li><b>Same file fails everywhere:</b> the audio is the problem. Export the voice as WAV/MP3, clean it up (for example in Audacity) and import it again.</li>
+</ul>
+
+<h2>6. Only some clips get captions: the wrong clips are selected</h2>
 <p>Depending on the version, CapCut captions either the whole timeline or only the selected clips. Select all clips with speech (or none, if your version captions everything) and run it again. Voice-overs on their own audio track are sometimes skipped – make sure the voice track is included.</p>
 
-<h2>6. Old captions get mixed with new ones</h2>
+<h2>7. Old captions get mixed with new ones</h2>
 <p>If you run auto captions twice, you can end up with duplicated or overlapping text. Turn on the option to clear current captions before generating new ones, or delete the old caption track by hand.</p>
 
-<h2>7. Update the app and clear the cache</h2>
+<h2>8. Update the app and clear the cache</h2>
 <p>Old CapCut versions and a full cache cause odd failures. Update CapCut, restart it, and on desktop clear the cache in the settings. On a phone, also check that there is enough free storage.</p>
 
-<h2>8. Try another CapCut platform</h2>
+<h2>9. Try another CapCut platform</h2>
 <p>Desktop, mobile and the web editor do not always have the same features unlocked. If captions fail on one, open the same project on another platform where you are logged in with the same account – sometimes it works there.</p>
 
 <h2 id="workarounds">Nothing helps? Make the captions outside CapCut</h2>
@@ -61,6 +74,8 @@
 <h2>FAQ</h2>
 <details open><summary>Why are my CapCut auto captions greyed out?</summary><p>In most regions auto captions are part of CapCut Pro since 2025. A Pro badge or a greyed-out button usually means the feature is locked for your account, not that your video is broken.</p></details>
 <details><summary>Why does CapCut say no speech was recognised?</summary><p>The voice is too quiet compared to music, the clip is muted or its audio was separated, or the wrong spoken language is selected.</p></details>
+<details><summary>Why are CapCut auto captions stuck at 99 %?</summary><p>Recognition is usually done and CapCut is still syncing. Wait 3–10 minutes without closing or refreshing, update the app and split videos longer than about 10 minutes.</p></details>
+<details><summary>What happens when CapCut says "2 uses left"?</summary><p>When the free AI uses are gone, the feature is locked on the free plan. CapCut gives no reset date.</p></details>
 <details><summary>Do CapCut auto captions work offline?</summary><p>No, recognition runs on CapCut's servers and needs an internet connection. Whisper-based tools run fully on your own PC.</p></details>
 <details><summary>Can I import my own subtitles into CapCut?</summary><p>Yes. Importing an SRT file and styling it as text works without auto captions.</p></details>
 <p class="note">CapCut is a trademark of its owner. This guide is independent and not affiliated with CapCut or ByteDance. Menu names can change between CapCut versions.</p>
