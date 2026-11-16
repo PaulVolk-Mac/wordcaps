@@ -169,7 +169,7 @@ footer a{color:var(--fg)!important}
 .theme button{font:inherit;font-size:12.5px;font-weight:550;color:var(--mut);background:transparent;border:0;border-radius:6px;padding:5px 10px;cursor:pointer}
 .theme button[aria-pressed=true]{background:var(--panel);color:var(--fg);box-shadow:0 0 0 1px var(--line2)}
 .theme button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-@media(max-width:480px){.theme button{padding:5px 7px;font-size:12px}.ghost span{display:none}}
+@media(max-width:480px){.theme button{padding:5px 7px;font-size:12px}.ghost svg+span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
 
 /* v4 Einbau: Reste aus v2 (dunkle Flaechen) */
 textarea,.wave{background:var(--soft)!important}
