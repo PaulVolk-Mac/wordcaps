@@ -51,6 +51,7 @@ small{color:var(--mut)}
   </div>
  </div>
 </div>
+<p style="font-size:.85em;opacity:.75">Privacy: visits are counted with <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> (no cookies, no fingerprinting). Your files never leave your device.</p>
 </main>
 <script>
 // Naeherungswerte in px bei 1080x1920 (identisch zu tools/bauen.sh und MASSE.md)
@@ -78,5 +79,6 @@ document.getElementById('file').onchange=e=>load(e.target.files[0]);['ui','zones
 const dl=document.getElementById('dl');for(const k in Z){const a=document.createElement('a');a.href='png/'+k+'_safe_zone_1080x1920.png';a.download='';a.textContent=Z[k].name+' PNG';a.className='btn';a.style.marginRight='10px';dl.appendChild(a)}
 tabs();table();draw();
 </script>
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c310764ce891411fbe074a6826875ccf"}'></script>
 </body>
 </html>
