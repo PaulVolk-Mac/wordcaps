@@ -212,6 +212,16 @@ summary{padding-block:12px!important}
 input[type=range]{box-sizing:content-box!important;height:8px!important;padding-block:18px!important;
   background-clip:content-box!important;background-origin:content-box!important}
 small,.tag,.tile span{font-size:12px!important}
+/* Schmale Knoepfe (Backlog spiel 16.11., nach #42): gezielt je Bauteil statt pauschaler Mindestbreite */
+.theme button,.ghost{min-width:44px!important;justify-content:center}
+/* Stepper -/+: Tippflaeche 44x44, sichtbarer Ring bleibt klein (transparenter Rand + innerer Schatten) */
+.st button{width:44px!important;height:44px!important;border:8px solid transparent!important;background-clip:padding-box!important;
+  box-shadow:inset 0 0 0 1px var(--line2)!important}
+.num .st{grid-template-columns:44px minmax(0,1fr) 44px!important;gap:0!important}
+.num{padding-inline:4px!important}
+.st:not(.num .st){grid-template-columns:44px 76px 44px!important;gap:0!important}
+/* Noise-Machine Timer: 7 Segmente brauchen 7x44 px -> Leiste nutzt die Kartenpolsterung mit */
+.player .seg{gap:0!important;padding:2px!important;width:calc(100% + 12px)!important;margin-inline:-6px!important}
 }
 </style>
 <!-- /handy-ergo -->
