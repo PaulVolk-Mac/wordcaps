@@ -31,6 +31,8 @@
 - [AutoSubs stays "Disconnected" in DaVinci Resolve – what works right now](https://paulvolk-mac.github.io/wordcaps/autosubs-disconnected-davinci-resolve.html)
 - [Subtitle Edit: word-by-word and karaoke highlight captions](https://paulvolk-mac.github.io/wordcaps/subtitle-edit-word-by-word-karaoke.html)
 - [Auto captions for long videos and many files – offline](https://paulvolk-mac.github.io/wordcaps/long-video-batch-auto-captions-offline.html)
+- [Auto captions for Instagram Reels: free ways, word by word](https://paulvolk-mac.github.io/wordcaps/auto-captions-instagram-reels.html)
+- [Free browser tools: subtitle converter (SRT/VTT/ASS), safe zone checker, timers](https://paulvolk-mac.github.io/wordcaps/tools/)
 
 ## About this repository
 This repository only hosts the website (GitHub Pages). The app itself is closed-source and sold on itch.io. It is not related to other open-source projects named "wordcaps".
