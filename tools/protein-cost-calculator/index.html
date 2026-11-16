@@ -6,51 +6,122 @@
 <title>Protein per Dollar / Euro Calculator – Cost per Gram of Protein, Compare Foods</title>
 <meta name="description" content="Free protein cost calculator: compare protein powder, bars, eggs, chicken, skyr and more by cost per 100 g protein and grams of protein per dollar or euro. Ranks your list, daily protein cost, no ads, no sign-up.">
 <link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/tools/protein-cost-calculator/">
-<meta name="theme-color" content="#0b0d12">
+<meta name="theme-color" content="#0a0c11">
 <style>
-:root{--bg:#0b0d12;--fg:#e9ecf2;--mut:#8b93a3;--acc:#ffd23f;--ok:#7ad7a2;--card:#141823;--bad:#ff8a65}
-*{box-sizing:border-box}html,body{margin:0}
-body{background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-header{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;max-width:820px;margin:0 auto}
-header h1{font-size:17px;margin:0;font-weight:700}header a{color:var(--mut);font-size:13px;white-space:nowrap}
-main{max-width:820px;margin:0 auto;padding:0 16px 28px}
-h2{font-size:15px;margin:18px 0 8px;color:var(--mut)}
-button,select{font:inherit;font-weight:700;border:0;border-radius:10px;padding:8px 12px;background:#ffffff17;color:var(--fg);cursor:pointer}
-button.on{background:var(--acc);color:#0b0d12}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--acc)}
-.row{display:flex;flex-wrap:wrap;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
-.it{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 34px;gap:6px;align-items:end;background:var(--card);border-radius:12px;padding:8px 10px;margin:6px 0}
-.it>div{min-width:0}.it label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px;color:var(--mut);display:block}
-.it input{width:100%;min-width:0;font:inherit;font-size:15px;padding:7px 8px;border-radius:8px;border:1px solid #ffffff22;background:#0b0d12;color:var(--fg)}
-.it button{padding:7px 0;background:transparent;color:var(--mut)}
-.res{background:var(--card);border-radius:12px;padding:10px 14px;margin:6px 0;position:relative;overflow:hidden}
-.res .b{position:absolute;left:0;top:0;bottom:0;background:#ffd23f1c;z-index:0}.res>*{position:relative;z-index:1}
-.res.best{outline:2px solid var(--acc)}.res h3{margin:0;font-size:16px}.res p{margin:2px 0 0;color:var(--mut);font-size:14px;font-variant-numeric:tabular-nums}
-.res .big{color:var(--fg);font-weight:800}
-.bad{color:var(--bad);font-size:14px}
-#day{background:var(--card);border-radius:12px;padding:12px 14px;font-size:15px}
-#day input{width:80px;font:inherit;padding:6px 8px;border-radius:8px;border:1px solid #ffffff22;background:#0b0d12;color:var(--fg)}
-.note{color:var(--mut);font-size:14px;margin-top:20px}.note a{color:var(--acc)}
-details{margin-top:18px;background:var(--card);border-radius:12px;padding:10px 14px}summary{cursor:pointer;font-weight:700}
-@media(max-width:560px){.it{grid-template-columns:repeat(4,1fr);gap:5px}.it .nm{grid-column:1/4}.it .x{grid-column:4;grid-row:1}.it input{font-size:14px;padding:6px}}
+:root{--bg:#0a0c11;--panel:#11141b;--panel2:#161a23;--line:#ffffff12;--line2:#ffffff1f;--fg:#eef1f6;--mut:#8a93a5;--dim:#5d6577;
+--acc:#ffd23f;--acc2:#ffb020;--ok:#6fd3a0;--bad:#ff8a65}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{background:radial-gradient(1200px 600px at 50% -200px,#1f2130 0%,var(--bg) 60%) fixed,var(--bg);color:var(--fg);
+font:15px/1.5 "Inter","Segoe UI Variable","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+header{max-width:1040px;margin:0 auto;padding:18px 20px 6px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-.01em;font-size:15px}
+.mark{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;box-shadow:0 4px 14px #ffb02040}
+.mark svg{width:16px;height:16px}
+.ghost{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:13px;font-weight:550;color:var(--mut);background:transparent;border:1px solid var(--line2);border-radius:999px;padding:7px 12px;cursor:pointer;transition:color .15s,border-color .15s}
+.ghost:hover{color:var(--fg);border-color:#ffffff40}.ghost svg{width:14px;height:14px}
+.lead{max-width:1040px;margin:0 auto;padding:4px 20px 6px;color:var(--mut)}
+.lead h1{font-size:clamp(22px,3.4vw,30px);line-height:1.2;letter-spacing:-.02em;color:var(--fg);margin:6px 0 6px;font-weight:700}
+main{max-width:1040px;margin:0 auto;padding:10px 20px 28px;display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:880px){main{grid-template-columns:1.25fr .75fr;align-items:start}}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 20px 50px #00000059;min-width:0}
+.wide{grid-column:1/-1}
+h2{font-size:13px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 12px}
+.bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:14px}
+.grp{display:flex;align-items:center;gap:8px}.grp>span{font-size:12px;color:var(--dim)}
+.seg{display:inline-flex;background:#0000004d;border:1px solid var(--line);border-radius:12px;padding:4px;gap:2px}
+.seg button{font:inherit;font-size:13px;font-weight:600;color:var(--mut);background:transparent;border:0;border-radius:9px;padding:6px 12px;cursor:pointer;min-width:38px;transition:background .15s,color .15s}
+.seg button:hover{color:var(--fg)}.seg button.on{background:#ffffff14;color:var(--fg);box-shadow:inset 0 0 0 1px var(--line2)}
+/* item rows */
+.head,.it{display:grid;grid-template-columns:minmax(0,2fr) repeat(4,minmax(0,1fr)) 36px;gap:8px;align-items:center}
+.head{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);padding:0 2px 6px}
+.it{padding:6px 0;border-top:1px solid var(--line)}
+.it label{display:none;font-size:11px;color:var(--dim);margin-bottom:3px}
+.it input{width:100%;min-width:0;font:inherit;font-size:14px;padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:#0000004d;color:var(--fg);font-variant-numeric:tabular-nums;transition:border-color .15s}
+.it input:hover{border-color:var(--line2)}.it input:focus{border-color:color-mix(in srgb,var(--acc) 70%,transparent);outline:none}
+.it input.err{border-color:color-mix(in srgb,var(--bad) 70%,transparent)}
+.it input::placeholder{color:var(--dim)}
+.x{width:36px;height:36px;border-radius:10px;border:0;background:transparent;color:var(--dim);display:grid;place-items:center;cursor:pointer;transition:color .15s,background .15s}
+.x:hover{color:var(--bad);background:#ffffff08}.x svg{width:16px;height:16px}
+.acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:13px;font-weight:650;border-radius:12px;padding:9px 14px;cursor:pointer;border:1px solid var(--line2);background:#ffffff08;color:var(--fg);transition:background .15s,transform .12s}
+.btn:hover{background:#ffffff12}.btn:active{transform:scale(.98)}.btn svg{width:15px;height:15px}
+.btn.pri{background:var(--acc);border-color:transparent;color:#0a0c11;box-shadow:0 8px 22px #ffd23f2e}.btn.pri:hover{background:#ffdc66}
+/* results */
+.res{position:relative;display:grid;grid-template-columns:30px 1fr auto;gap:4px 12px;align-items:center;padding:13px 14px;border-radius:14px;border:1px solid var(--line);background:#ffffff05;margin-bottom:8px;overflow:hidden}
+.res .b{position:absolute;left:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:3px;opacity:.75}
+.res .n{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--mut);background:#ffffff0d;font-variant-numeric:tabular-nums}
+.res h3{margin:0;font-size:14px;font-weight:650;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.res .v{text-align:right;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}.res .v small{display:block;font-size:11px;font-weight:500;color:var(--dim)}
+.res p{grid-column:2/-1;margin:0;color:var(--mut);font-size:12.5px;font-variant-numeric:tabular-nums}
+.res.best{border-color:color-mix(in srgb,var(--acc) 60%,transparent);background:color-mix(in srgb,var(--acc) 8%,transparent)}
+.res.best .n{background:var(--acc);color:#0a0c11}
+.tag{display:inline-block;margin-left:8px;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--acc);background:color-mix(in srgb,var(--acc) 15%,transparent);border-radius:999px;padding:2px 8px;vertical-align:2px}
+.bad{color:var(--bad);font-size:13px;margin:6px 0 0}
+.empty{color:var(--dim);font-size:14px;padding:18px;text-align:center;border:1px dashed var(--line2);border-radius:14px}
+/* daily */
+.goal{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--mut)}
+.goal input{width:92px;font:inherit;font-size:20px;font-weight:650;padding:8px 10px;border-radius:12px;border:1px solid var(--line2);background:#0000004d;color:var(--fg);text-align:center;font-variant-numeric:tabular-nums}
+.goal input:focus{outline:none;border-color:color-mix(in srgb,var(--acc) 70%,transparent)}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.stat div{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#ffffff05}
+.stat b{display:block;font-size:24px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--dim)}
+#dayOut{margin-top:12px;font-size:13px;color:var(--mut)}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.info{grid-column:1/-1;color:var(--mut);font-size:14px}
+.info details{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+.info summary{cursor:pointer;font-weight:600;color:var(--fg)}
+.info p{margin:10px 0 0}
+footer{max-width:1040px;margin:0 auto;padding:0 20px 34px;color:var(--dim);font-size:13px}
+footer a{color:var(--mut)}footer a:hover{color:var(--fg)}
+@media(max-width:640px){
+  .card{padding:16px;border-radius:20px}
+  .head{display:none}
+  .it{grid-template-columns:repeat(4,minmax(0,1fr)) 36px;gap:8px 6px;padding:12px 0}
+  .it .nm{grid-column:1/5}.it .x{grid-column:5;grid-row:1;align-self:end}
+  .res h3{white-space:normal}
+  .it label{display:block}
+  .it input{padding:8px;font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<header><h1>Protein Cost Calculator</h1><a href="#" id="shareLink">copy link</a></header>
+<header>
+  <div class="brand"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0c11" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>Protein Cost Calculator</div>
+  <button class="ghost" id="shareLink" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Copy link</span></button>
+</header>
+<div class="lead"><h1>Which food gives you the most protein for your money?</h1>Enter price, pack size and protein from the label – the list ranks itself.</div>
 <main>
-<p style="margin:0 0 6px">Which food gives you the most protein for your money? Enter price, pack size and protein from the label – the list ranks itself.</p>
-<div class="row"><span style="color:var(--mut);font-size:14px">Currency</span><span id="curs"></span><span style="color:var(--mut);font-size:14px;margin-left:8px">Pack size in</span><span id="units"></span></div>
-<div id="items"></div>
-<div class="row"><button id="add">+ Add food</button><button id="examples">Load examples</button><button id="clear">Clear list</button></div>
-<h2>Ranking – cheapest protein first</h2>
-<div id="results"></div>
-<h2>Your daily protein cost</h2>
-<div id="day">I want <input type="number" id="target" min="1" max="500" step="1" inputmode="numeric"> g protein a day → <span id="dayOut"></span></div>
+<section class="card wide" aria-label="Your foods">
+  <div class="bar"><div class="grp"><span>Currency</span><div class="seg" id="curs" role="group" aria-label="Currency"></div></div><div class="grp"><span>Pack size in</span><div class="seg" id="units" role="group" aria-label="Unit"></div></div></div>
+  <div class="head" aria-hidden="true"><span>Food</span><span>Price</span><span>Pack</span><span>Protein / 100 g</span><span>kcal / 100 g</span><span></span></div>
+  <div id="items"></div>
+  <div class="acts">
+    <button class="btn pri" id="add" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add food</button>
+    <button class="btn" id="examples" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Load examples</button>
+    <button class="btn" id="clear" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Clear list</button>
+  </div>
+</section>
+<section class="card" aria-label="Ranking">
+  <h2>Ranking · cheapest protein first</h2>
+  <div id="results" aria-live="polite"></div>
+</section>
+<section class="card" aria-label="Daily protein cost">
+  <h2>Your daily protein cost</h2>
+  <label class="goal">I want <input type="number" id="target" min="1" max="500" step="1" inputmode="numeric"> g protein a day</label>
+  <div class="stat"><div><b id="dDay">–</b><span>per day</span></div><div><b id="dMon">–</b><span>per month (30 days)</span></div></div>
+  <div id="dayOut"></div>
+</section>
+<div class="info">
 <details><summary>How it is calculated</summary>
 <p><b>Protein in the pack</b> = pack size × protein per 100 g ÷ 100.<br><b>Cost per 100 g protein</b> = price ÷ protein in the pack × 100 (lower is better).<br><b>Protein per €/$</b> = protein in the pack ÷ price (higher is better).<br><b>kcal per g protein</b> = kcal per 100 g ÷ protein per 100 g – handy when you cut: lower means leaner protein.</p>
 <p><b>Label says “per bar” or “per serving”?</b> Protein per 100 g = protein per bar ÷ bar weight × 100 (a 60 g bar with 20 g protein = 33 per 100 g). For dry foods (lentils, oats, rice) use the dry values from the pack.</p>
 <p>The examples use rough supermarket prices to show how it works – type in the prices from your own store. This tool compares the amount of protein for the money, not taste or quality. It gives no nutrition or health advice.</p></details>
-<p class="note">We rank protein bars on TikTok: taste, macros, price – <a href="https://www.tiktok.com/@jnc033" rel="noopener">@jnc033 protein bar ranking</a>. More free tools: <a href="../hiit-timer/">HIIT timer</a> · <a href="../pomodoro-noise/">Pomodoro with brown noise</a> · <a href="../">all tools</a>. Free tool by Paul Volk – no ads, no account, nothing uploaded. Your list is saved in the link.</p>
+</div>
 </main>
+<footer>We rank protein bars on TikTok: taste, macros, price – <a href="https://www.tiktok.com/@jnc033" rel="noopener">@jnc033 protein bar ranking</a>. More free tools: <a href="../hiit-timer/">HIIT timer</a> · <a href="../pomodoro-noise/">Pomodoro with brown noise</a> · <a href="../">all tools</a>. Free tool by Paul Volk – no ads, no account, nothing uploaded. Your list is saved in the link.</footer>
 <script>
 // ===== Engine (pure, tested in selbsttest.js) =====
 const CUR={eur:'€',usd:'$',gbp:'£'};
@@ -81,38 +152,45 @@ function parseState(h){let cur='eur',unit='g',target=140,items=null;
   if(items===null)items=EXAMPLES.map(x=>Object.assign({},x));return{cur,unit,target,items}}
 if(typeof module!=='undefined'){module.exports={CUR,UNIT,EXAMPLES,num,calc,rank,dayCost,money,stateToHash,parseState}}
 
+
 // ===== UI =====
 if(typeof document!=='undefined'){
 const $=id=>document.getElementById(id);let S=parseState(location.hash);
+const X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>';
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function save(){history.replaceState(null,'',stateToHash(S.items,S.cur,S.unit,S.target))}
-function toggles(el,obj,key,lab){el.innerHTML='';Object.keys(obj).forEach(k=>{const b=document.createElement('button');b.textContent=lab(k);b.classList.toggle('on',S[key]===k);b.style.marginRight='4px';b.onclick=()=>{S[key]=k;drawAll()};el.appendChild(b)})}
+function toggles(el,obj,key,lab){el.innerHTML='';Object.keys(obj).forEach(k=>{const b=document.createElement('button');b.type='button';b.textContent=lab(k);b.classList.toggle('on',S[key]===k);b.setAttribute('aria-pressed',S[key]===k);b.onclick=()=>{S[key]=k;drawAll()};el.appendChild(b)})}
+function marks(){document.querySelectorAll('.it').forEach((d,i)=>{const it=S.items[i];if(!it)return;const c=calc(it,S.unit);const touched=it.n||it.p||it.w||it.q;
+  d.querySelectorAll('input').forEach(inp=>{const f=inp.dataset.f;inp.classList.toggle('err',!!(touched&&!c.ok&&((f==='p'&&c.why==='price')||(f==='w'&&c.why==='pack size')||(f==='q'&&c.why.startsWith('protein')))))})})}
 function drawItems(){const box=$('items');box.innerHTML='';const s=CUR[S.cur];
   S.items.forEach((it,i)=>{const d=document.createElement('div');d.className='it';
-    d.innerHTML='<div class="nm"><label>Food</label><input data-f="n" maxlength="40" value="'+esc(it.n)+'" placeholder="e.g. Greek yogurt"></div>'+
-    '<div><label>Price '+s+'</label><input data-f="p" inputmode="decimal" value="'+esc(it.p)+'"></div>'+
-    '<div><label>Pack ('+S.unit+')</label><input data-f="w" inputmode="decimal" value="'+esc(it.w)+'"></div>'+
-    '<div><label>Protein/100g</label><input data-f="q" inputmode="decimal" value="'+esc(it.q)+'"></div>'+
-    '<div><label>kcal/100g</label><input data-f="k" inputmode="decimal" value="'+esc(it.k==null?'':it.k)+'" placeholder="opt."></div>'+
-    '<button class="x" aria-label="remove">✕</button>';
+    d.innerHTML='<div class="nm"><label>Food</label><input data-f="n" maxlength="40" value="'+esc(it.n)+'" placeholder="e.g. Greek yogurt" aria-label="Food name"></div>'+
+    '<div><label>Price '+s+'</label><input data-f="p" inputmode="decimal" value="'+esc(it.p)+'" placeholder="'+s+'" aria-label="Price in '+s+'"></div>'+
+    '<div><label>Pack ('+S.unit+')</label><input data-f="w" inputmode="decimal" value="'+esc(it.w)+'" placeholder="'+S.unit+'" aria-label="Pack size in '+S.unit+'"></div>'+
+    '<div><label>Protein/100g</label><input data-f="q" inputmode="decimal" value="'+esc(it.q)+'" placeholder="g" aria-label="Protein per 100 g"></div>'+
+    '<div><label>kcal/100g</label><input data-f="k" inputmode="decimal" value="'+esc(it.k==null?'':it.k)+'" placeholder="optional" aria-label="kcal per 100 g, optional"></div>'+
+    '<button class="x" type="button" aria-label="Remove '+esc(it.n||'food')+'" title="Remove">'+X+'</button>';
     d.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',e=>{it[e.target.dataset.f]=e.target.value;drawRes();save()}));
     d.querySelector('button').onclick=()=>{S.items.splice(i,1);drawAll()};box.appendChild(d)})}
 function drawRes(){const r=rank(S.items,S.unit),box=$('results');box.innerHTML='';
-  if(!r.length){box.innerHTML='<p class="bad">Add a food with price, pack size and protein per 100 g.</p>'}
+  if(!r.length){box.innerHTML='<div class="empty">Add a food with price, pack size and protein per 100 g.</div>'}
   const top=r.length?r[0].r.perMoney:1,s=CUR[S.cur];
   r.forEach((x,j)=>{const d=document.createElement('div');d.className='res'+(j===0?' best':'');const R=x.r;
-    d.innerHTML='<i class="b" style="width:'+Math.max(4,Math.round(R.perMoney/top*100))+'%"></i><h3>'+(j+1)+'. '+esc(x.it.n||'Food '+(x.i+1))+(j===0?' – best value':'')+'</h3>'+
-      '<p><span class="big">'+money(R.cost100,S.cur)+'</span> per 100 g protein · <span class="big">'+R.perMoney.toFixed(1)+' g</span> protein per '+s+'1 · '+Math.round(R.prot)+' g protein in the pack'+(R.kcalPerG?' · '+R.kcalPerG.toFixed(1)+' kcal per g protein':'')+'</p>';box.appendChild(d)});
+    d.innerHTML='<span class="n">'+(j+1)+'</span><h3>'+esc(x.it.n||'Food '+(x.i+1))+(j===0?'<span class="tag">Best value</span>':'')+'</h3>'+
+      '<div class="v">'+money(R.cost100,S.cur)+'<small>per 100 g protein</small></div>'+
+      '<p>'+R.perMoney.toFixed(1)+' g protein per '+s+'1 · '+Math.round(R.prot)+' g in the pack'+(R.kcalPerG?' · '+R.kcalPerG.toFixed(1)+' kcal per g protein':'')+'</p>'+
+      '<i class="b" style="width:'+Math.max(4,Math.round(R.perMoney/top*100))+'%"></i>';box.appendChild(d)});
   const bad=S.items.map((it,i)=>({it,i,c:calc(it,S.unit)})).filter(x=>!x.c.ok&&(x.it.n||x.it.p||x.it.w||x.it.q));
   bad.forEach(x=>{const p=document.createElement('p');p.className='bad';p.textContent=(x.it.n||'Food '+(x.i+1))+': check '+x.c.why+'.';box.appendChild(p)});
   const dc=r.length?dayCost(r[0].r.perGram,S.target):null;
-  $('dayOut').textContent=dc?'with '+(r[0].it.n||'your best food')+': '+money(dc.day,S.cur)+' a day, about '+money(dc.month,S.cur)+' a month.':'enter a target and at least one food.'}
+  $('dDay').textContent=dc?money(dc.day,S.cur):'–';$('dMon').textContent=dc?money(dc.month,S.cur):'–';
+  $('dayOut').textContent=dc?'Based on your best value: '+(r[0].it.n||'your best food')+'.':'Enter a target and at least one food.';marks()}
 function drawAll(){toggles($('curs'),CUR,'cur',k=>CUR[k]);toggles($('units'),UNIT,'unit',k=>k);drawItems();drawRes();save()}
 $('target').value=S.target;$('target').oninput=e=>{S.target=e.target.value;drawRes();save()};
 $('add').onclick=()=>{if(S.items.length<30){S.items.push({n:'',p:'',w:'',q:'',k:''});drawAll();const ins=document.querySelectorAll('.it input[data-f=n]');ins[ins.length-1].focus()}};
 $('examples').onclick=()=>{S.items=EXAMPLES.map(x=>Object.assign({},x));S.unit='g';drawAll()};
 $('clear').onclick=()=>{S.items=[{n:'',p:'',w:'',q:'',k:''}];drawAll()};
-$('shareLink').onclick=e=>{e.preventDefault();save();(navigator.clipboard?navigator.clipboard.writeText(location.href):Promise.reject()).then(()=>{e.target.textContent='link copied'},()=>{e.target.textContent='copy from the address bar'});setTimeout(()=>e.target.textContent='copy link',2000)};
+$('shareLink').onclick=e=>{e.preventDefault();save();const sp=$('shareLink').querySelector('span');(navigator.clipboard?navigator.clipboard.writeText(location.href):Promise.reject()).then(()=>{sp.textContent='Link copied'},()=>{sp.textContent='Copy from the address bar'});setTimeout(()=>sp.textContent='Copy link',2000)};
 drawAll()}
 </script>
 </body>
