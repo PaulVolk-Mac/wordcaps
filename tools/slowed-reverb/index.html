@@ -145,12 +145,12 @@ footer a{color:var(--mut)}footer a:hover{color:var(--fg)}
 <p>The song is played slower, like a record or tape at a lower speed – so the pitch drops with it (0.85× is about 2.8 semitones lower). That is the classic “slowed” sound. Then a reverb adds a big, soft room behind it. Super slowed goes further (0.75×, more reverb), nightcore and sped up do the opposite.</p>
 <p>Tip: most slowed + reverb edits sit between 0.80× and 0.90× with 30–45 % reverb. Add 2–3 dB bass if the slower song feels thin.</p></details>
 <details><summary>Is my file uploaded? Which formats work?</summary>
-<p>No. The file is decoded and processed by your browser (Web Audio). Nothing goes to a server, there is no account and no tracking. Everything your browser can play works – MP3, WAV, OGG and on most systems M4A/AAC and FLAC. The download is a 16-bit WAV, peaks limited to −1 dB so it does not clip.</p></details>
+<p>No. The file is decoded and processed by your browser (Web Audio). Nothing goes to a server, there is no account and no cookies. Everything your browser can play works – MP3, WAV, OGG and on most systems M4A/AAC and FLAC. The download is a 16-bit WAV, peaks limited to −1 dB so it does not clip.</p></details>
 <details><summary>Can I upload my slowed version to YouTube or TikTok?</summary>
 <p>Only if you own the song or are allowed to edit and share it. Slowing a song down does not change who owns it. Use your own music, royalty-free tracks with a license that allows edits, or songs you have permission for.</p></details>
 </div>
 </main>
-<footer>More free tools: <a href="../noise-machine/">Brown noise machine</a> · <a href="../safe-zone-checker/">Safe zone checker</a> · <a href="../subtitle-converter/">Subtitle converter</a> · <a href="../">all tools</a>. Free tool by Paul Volk – no ads, no account, nothing uploaded. Your settings are saved in the link.</footer>
+<footer>More free tools: <a href="../noise-machine/">Brown noise machine</a> · <a href="../safe-zone-checker/">Safe zone checker</a> · <a href="../subtitle-converter/">Subtitle converter</a> · <a href="../">all tools</a>. Free tool by Paul Volk – no ads, no account, nothing uploaded. Your settings are saved in the link. · Privacy: visits are counted with <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> (no cookies, no fingerprinting).</footer>
 <script>
 // ===== ENGINE (pure functions, tested by selbsttest.js) =====
 const PRESETS={
@@ -294,5 +294,6 @@ document.addEventListener('keydown',e=>{if(e.code==='Space'&&e.target===document
 update(true);drawWave();
 }
 </script>
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c310764ce891411fbe074a6826875ccf"}'></script>
 </body>
 </html>
