@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Subtitle Converter – SRT to VTT, VTT to SRT, ASS, TXT (in your browser)</title>
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/tools/subtitle-converter/">
+<meta name="description" content="Convert subtitles between SRT, VTT, ASS and plain text for free. Runs 100% in your browser – no upload, no sign-up, no watermark. Shift timing too.">
+<style>
+:root{--bg:#0f1115;--card:#181b22;--txt:#e9ecf2;--mut:#9aa3b2;--acc:#e8384f}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt)}
+main{max-width:920px;margin:0 auto;padding:24px 16px 48px}h1{font-size:1.7rem;margin:.2em 0}p.lead{color:var(--mut);margin-top:0}
+.card{background:var(--card);border-radius:12px;padding:16px;margin:16px 0}
+textarea{width:100%;min-height:220px;background:#0b0d11;color:var(--txt);border:1px solid #2a2f3a;border-radius:8px;padding:10px;font:13px/1.45 ui-monospace,Consolas,monospace}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+select,button,input[type=number]{background:#232836;color:var(--txt);border:1px solid #333a49;border-radius:8px;padding:8px 12px;font-size:15px}
+button.primary{background:var(--acc);border-color:var(--acc);font-weight:600;cursor:pointer}button{cursor:pointer}
+.mut{color:var(--mut);font-size:.9rem}#msg{min-height:1.4em;color:#ffcf70}
+.cta{border:1px solid var(--acc)}.cta a{color:#fff;font-weight:600}
+h2{font-size:1.15rem;margin:.4em 0}details{margin:8px 0}summary{cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<main>
+<h1>Free Subtitle Converter</h1>
+<p class="lead">SRT ⇄ VTT ⇄ ASS ⇄ plain text. Everything runs in your browser – your file never leaves your computer. No sign-up, no watermark.</p>
+
+<div class="card">
+  <div class="row">
+    <input type="file" id="file" accept=".srt,.vtt,.ass,.ssa,.txt">
+    <span class="mut">or paste below</span>
+  </div>
+  <textarea id="inp" placeholder="1&#10;00:00:01,000 --> 00:00:03,500&#10;Paste your subtitles here"></textarea>
+  <div class="row">
+    <label>Convert to
+      <select id="fmt">
+        <option value="vtt">VTT (WebVTT)</option>
+        <option value="srt">SRT (SubRip)</option>
+        <option value="ass">ASS (Aegisub / CapCut import)</option>
+        <option value="txt">TXT (text only)</option>
+        <option value="txtt">TXT with timestamps</option>
+      </select>
+    </label>
+    <label>Shift timing (seconds) <input type="number" id="shift" value="0" step="0.1" style="width:90px"></label>
+    <button class="primary" id="go">Convert</button>
+    <button id="dl">Download</button>
+    <button id="cp">Copy</button>
+  </div>
+  <div id="msg"></div>
+  <textarea id="out" readonly placeholder="Result"></textarea>
+</div>
+
+<div class="card cta">
+  <h2>Want word-by-word captions like TikTok and Shorts?</h2>
+  <p>A converter only changes the file type. <b>WordCaps Studio</b> creates animated word-by-word captions from your video – offline on Windows, no subscription, no watermark.
+  <a href="https://paulvolk-mac.github.io/wordcaps/?ref=p01" id="wc">See WordCaps Studio →</a></p>
+</div>
+
+<div class="card">
+  <h2>FAQ</h2>
+  <details><summary>How do I convert SRT to VTT?</summary><p>Load or paste the .srt file, choose “VTT”, press Convert, then Download. Commas in timestamps become dots and the WEBVTT header is added.</p></details>
+  <details><summary>How do I convert VTT to SRT?</summary><p>Same steps with “SRT”. Cue settings (position, align) and styling tags are removed, cues are numbered.</p></details>
+  <details><summary>Is my file uploaded?</summary><p>No. The conversion is plain JavaScript in this page. You can even use it offline after it has loaded.</p></details>
+  <details><summary>My subtitles are out of sync – can I fix that?</summary><p>Yes. Enter a positive number to delay all subtitles or a negative number to show them earlier (e.g. -1.5).</p></details>
+  <details><summary>Which formats are supported?</summary><p>Input: SRT, VTT, ASS/SSA. Output: SRT, VTT, ASS, text only, text with timestamps.</p></details>
+</div>
+<p class="mut">Free tool by the maker of WordCaps Studio. Not affiliated with TikTok, YouTube or CapCut.</p>
+</main>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+function t2ms(s){s=s.trim().replace(',', '.');const p=s.split(':');let h=0,m=0,sec=0;
+  if(p.length===3){h=+p[0];m=+p[1];sec=+p[2];}else if(p.length===2){m=+p[0];sec=+p[1];}else return NaN;
+  return Math.round(((h*60+m)*60+sec)*1000);}
+function pad(n,l){return String(n).padStart(l,'0');}
+function ms2(ms,sep){ms=Math.max(0,Math.round(ms));const h=Math.floor(ms/3600000),m=Math.floor(ms/60000)%60,s=Math.floor(ms/1000)%60,r=ms%1000;return pad(h,2)+':'+pad(m,2)+':'+pad(s,2)+sep+pad(r,3);}
+function ms2ass(ms){ms=Math.max(0,Math.round(ms));const h=Math.floor(ms/3600000),m=Math.floor(ms/60000)%60,s=Math.floor(ms/1000)%60,cs=Math.floor((ms%1000)/10);return h+':'+pad(m,2)+':'+pad(s,2)+'.'+pad(cs,2);}
+function clean(t){return t.replace(/<[^>]+>/g,'').replace(/\{[^}]*\}/g,'').trim();}
+function parse(src){
+  src=src.replace(/^\uFEFF/,'').replace(/\r\n?/g,'\n');const cues=[];
+  if(/^\s*\[Script Info\]/i.test(src)||/^Dialogue:/m.test(src)){
+    let fields=null;
+    for(const line of src.split('\n')){
+      if(/^Format:/i.test(line)&&fields===null&&/Start/i.test(line)&&/Text/i.test(line)){fields=line.slice(7).split(',').map(x=>x.trim().toLowerCase());continue;}
+      if(!/^Dialogue:/i.test(line))continue;
+      const f=fields||['layer','start','end','style','name','marginl','marginr','marginv','effect','text'];
+      const parts=line.slice(9).split(',');const ti=f.indexOf('text');
+      const rec={};f.forEach((k,i)=>{rec[k]=i===ti?parts.slice(i).join(','):(parts[i]||'').trim();});
+      const text=clean(rec.text.replace(/\\N/gi,'\n').replace(/\\n/g,'\n').replace(/\\h/g,' '));
+      const a=t2ms(rec.start),b=t2ms(rec.end);if(!isNaN(a)&&!isNaN(b)&&text)cues.push({a,b,text});
+    }
+    return cues;
+  }
+  const blocks=src.split(/\n\s*\n/);
+  for(const bl of blocks){
+    const lines=bl.split('\n').filter(l=>l.trim()!=='');
+    const i=lines.findIndex(l=>l.includes('-->'));if(i<0)continue;
+    const m=lines[i].match(/([\d:.,]+)\s*-->\s*([\d:.,]+)/);if(!m)continue;
+    const a=t2ms(m[1]),b=t2ms(m[2]);if(isNaN(a)||isNaN(b))continue;
+    const text=lines.slice(i+1).map(clean).filter(Boolean).join('\n');
+    if(text)cues.push({a,b,text});
+  }
+  return cues;
+}
+function build(cues,fmt){
+  if(fmt==='srt')return cues.map((c,i)=>(i+1)+'\n'+ms2(c.a,',')+' --> '+ms2(c.b,',')+'\n'+c.text).join('\n\n')+'\n';
+  if(fmt==='vtt')return 'WEBVTT\n\n'+cues.map(c=>ms2(c.a,'.')+' --> '+ms2(c.b,'.')+'\n'+c.text).join('\n\n')+'\n';
+  if(fmt==='txt')return cues.map(c=>c.text.replace(/\n/g,' ')).join('\n')+'\n';
+  if(fmt==='txtt')return cues.map(c=>'['+ms2(c.a,'.').slice(0,8)+'] '+c.text.replace(/\n/g,' ')).join('\n')+'\n';
+  const head='[Script Info]\nScriptType: v4.00+\nPlayResX: 1080\nPlayResY: 1920\nWrapStyle: 0\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Default,Arial,72,&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,4,1,2,60,60,420,1\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
+  return head+cues.map(c=>'Dialogue: 0,'+ms2ass(c.a)+','+ms2ass(c.b)+',Default,,0,0,0,,'+c.text.replace(/\n/g,'\\N')).join('\n')+'\n';
+}
+function convert(src,fmt,shiftSec){const cues=parse(src);const d=Math.round((+shiftSec||0)*1000);cues.forEach(c=>{c.a+=d;c.b+=d;});return {n:cues.length,out:cues.length?build(cues,fmt):''};}
+if(typeof window!=='undefined'&&document.body){
+  let name='subtitles';
+  $('file').onchange=e=>{const f=e.target.files[0];if(!f)return;name=f.name.replace(/\.[^.]+$/,'');const r=new FileReader();r.onload=()=>{$('inp').value=r.result;};r.readAsText(f);};
+  $('go').onclick=()=>{const r=convert($('inp').value,$('fmt').value,$('shift').value);$('out').value=r.out;$('msg').textContent=r.n?r.n+' subtitles converted.':'No subtitles found – is this SRT, VTT or ASS?';};
+  $('dl').onclick=()=>{if(!$('out').value)$('go').click();if(!$('out').value)return;const fmt=$('fmt').value;const ext=fmt.startsWith('txt')?'txt':fmt;const b=new Blob([$('out').value],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name+'.'+ext;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);};
+  $('cp').onclick=()=>{if($('out').value)navigator.clipboard.writeText($('out').value).then(()=>{$('msg').textContent='Copied.';});};
+}
+if(typeof module!=='undefined')module.exports={parse,build,convert};
+</script>
+</body>
+</html>
