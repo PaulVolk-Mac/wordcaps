@@ -181,6 +181,24 @@ document.addEventListener("DOMContentLoaded",function(){var h=document.querySele
  matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){setz(w)});});})();
 
 </script>
+<style>
+/* A-318: loop section + 8D */
+.opt{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.chk{display:flex;align-items:center;gap:12px;cursor:pointer;min-height:44px}
+.chk input{flex:0 0 auto;width:20px;height:20px;margin:0;accent-color:var(--acc);cursor:pointer}
+.chk input:disabled{cursor:default}.chk:has(input:disabled){opacity:.55;cursor:default}
+.chk b{display:block;font-size:14px;font-weight:600;color:var(--fg)}.chk small{display:block;font-size:12.5px;color:var(--dim)}
+#loopBody,#rotBox{margin-top:10px}#rotBox{margin-bottom:0}
+.lrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.btn.sm{font-size:13px;font-weight:600;padding:8px 12px;border-radius:10px;background:var(--panel);color:var(--fg);border-color:var(--line2)}
+.btn.sm:hover{background:var(--soft)}
+.rep{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--mut);margin-left:auto}
+.rep select{font:inherit;font-size:13px;color:var(--fg);background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:8px 10px}
+.lnote{margin:10px 0 0;font-size:12.5px;color:var(--dim);font-variant-numeric:tabular-nums;min-height:18px}
+.tile:last-child:nth-child(odd){grid-column:1/-1}
+.reset{margin-top:14px}
+@media(max-width:480px){.rep{margin-left:0;flex-basis:100%}.lrow .btn.sm{flex:1;justify-content:center}}
+</style>
 <!-- /look-v4 -->
 <!-- handy-ergo -->
 <style>
@@ -212,7 +230,7 @@ small,.tag,.tile span{font-size:12px!important}
   <button class="ghost" id="shareLink" type="button" aria-label="Copy link to these settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Copy link</span></button>
 </header>
 <div class="lead"><h1>Make your song slowed + reverb – free, right in your browser</h1>
-<p>Open an audio file, pick a preset, fine-tune speed, reverb and bass while it plays, then download a WAV. Your file never leaves your device.</p></div>
+<p>Open an audio file, pick a preset, fine-tune speed, reverb and bass while it plays, loop your favourite part or make it 8D, then download a WAV. Your file never leaves your device.</p></div>
 <main>
 <section class="card" aria-labelledby="h-track">
   <h2 id="h-track">Your track</h2>
@@ -225,6 +243,16 @@ small,.tag,.tile span{font-size:12px!important}
     <button class="play" id="play" type="button" aria-label="Play" disabled><svg id="playIc" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
     <div class="tm"><b id="pos">0:00</b> / <span id="len">0:00</span></div>
     <div class="fname" id="fname">No file yet</div>
+  </div>
+  <div class="opt">
+    <label class="chk"><input type="checkbox" id="loopOn" disabled><span><b>Loop a section</b><small>Use only your favourite part and repeat it</small></span></label>
+    <div id="loopBody" hidden>
+      <div class="sl"><div class="top"><span>Start</span><b id="vA">0:00.00</b></div><input type="range" id="la" min="0" max="1" step="0.01" value="0" aria-label="Loop start"></div>
+      <div class="sl"><div class="top"><span>End</span><b id="vE">0:00.00</b></div><input type="range" id="le" min="0" max="1" step="0.01" value="1" aria-label="Loop end"></div>
+      <div class="lrow"><button class="btn sm" id="setA" type="button">Start at playhead</button><button class="btn sm" id="setE" type="button">End at playhead</button>
+        <label class="rep">Repeat <select id="rep" aria-label="How often the section repeats in the download"><option value="1">1× (just cut)</option><option>2</option><option>3</option><option>4</option><option>6</option><option>8</option><option>12</option><option>16</option><option>24</option><option>32</option></select></label></div>
+      <p class="lnote" id="vLoop"></p>
+    </div>
   </div>
   <div class="exp" aria-label="Download">
     <button class="btn pri" id="dl" type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span>Download WAV</span></button>
@@ -240,6 +268,10 @@ small,.tag,.tile span{font-size:12px!important}
   <div class="sl"><div class="top"><span>Reverb amount</span><b id="vMix"></b></div><input type="range" id="mix" min="0" max="0.9" step="0.01" aria-label="Reverb amount"></div>
   <div class="sl"><div class="top"><span>Room size</span><b id="vDecay"></b></div><input type="range" id="decay" min="0.5" max="8" step="0.1" aria-label="Room size in seconds"></div>
   <div class="sl"><div class="top"><span>Bass boost</span><b id="vBass"></b></div><input type="range" id="bass" min="0" max="9" step="1" aria-label="Bass boost in dB"></div>
+  <div class="opt">
+    <label class="chk"><input type="checkbox" id="pan"><span><b>8D audio</b><small id="panHint">The sound circles around your head – use headphones</small></span></label>
+    <div class="sl" id="rotBox" hidden><div class="top"><span>One circle every</span><b id="vRot"></b></div><input type="range" id="rot" min="2" max="20" step="0.5" aria-label="Seconds per circle"></div>
+  </div>
   <button class="reset" id="reset" type="button">Reset to preset</button>
 </section>
 
@@ -251,6 +283,10 @@ small,.tag,.tile span{font-size:12px!important}
 <details><summary>How does slowed + reverb work?</summary>
 <p>The song is played slower, like a record or tape at a lower speed – so the pitch drops with it (0.85× is about 2.8 semitones lower). That is the classic “slowed” sound. Then a reverb adds a big, soft room behind it. Super slowed goes further (0.75×, more reverb), nightcore and sped up do the opposite.</p>
 <p>Tip: most slowed + reverb edits sit between 0.80× and 0.90× with 30–45 % reverb. Add 2–3 dB bass if the slower song feels thin.</p></details>
+<details><summary>How do I loop one part of a song?</summary>
+<p>Switch on “Loop a section”, press play and set start and end with the sliders or with “Start at playhead” / “End at playhead”. You hear the loop right away with your effect on it. Choose how often it repeats – the download is that part, repeated, with a tiny 12 ms blend at each repeat so it does not click. “1×” simply cuts the part out. A download is at most 15 minutes long.</p></details>
+<details><summary>What is 8D audio?</summary>
+<p>A stereo trick, not real surround sound: the song slowly travels from one ear to the other and back while the reverb stays wide, so on headphones it feels as if it circles around your head. On speakers you mostly hear it move left and right. Pick the “8D Audio” preset or switch it on for any other preset, and set how many seconds one circle takes.</p></details>
 <details><summary>Is my file uploaded? Which formats work?</summary>
 <p>No. The file is decoded and processed by your browser (Web Audio). Nothing goes to a server, there is no account and no tracking. Everything your browser can play works – MP3, WAV, OGG and on most systems M4A/AAC and FLAC. The download is a 16-bit WAV, peaks limited to −1 dB so it does not clip.</p></details>
 <details><summary>Can I upload my slowed version to YouTube or TikTok?</summary>
@@ -273,29 +309,62 @@ small,.tag,.tile span{font-size:12px!important}
 <script>
 // ===== ENGINE (pure functions, tested by selbsttest.js) =====
 const PRESETS={
-  'slowed-reverb':{n:'Slowed + Reverb',speed:0.85,mix:0.38,decay:3.4,bass:2},
-  'super-slowed':{n:'Super Slowed',speed:0.75,mix:0.48,decay:5.0,bass:3},
-  'slowed':{n:'Slowed',speed:0.88,mix:0,decay:2.5,bass:1},
-  'daycore':{n:'Daycore',speed:0.8,mix:0.25,decay:2.6,bass:0},
-  'sped-up':{n:'Sped Up',speed:1.15,mix:0.08,decay:1.6,bass:0},
-  'nightcore':{n:'Nightcore',speed:1.25,mix:0,decay:1.5,bass:0}
+  'slowed-reverb':{n:'Slowed + Reverb',speed:0.85,mix:0.38,decay:3.4,bass:2,pan:0,rot:8},
+  'super-slowed':{n:'Super Slowed',speed:0.75,mix:0.48,decay:5.0,bass:3,pan:0,rot:8},
+  'slowed':{n:'Slowed',speed:0.88,mix:0,decay:2.5,bass:1,pan:0,rot:8},
+  'daycore':{n:'Daycore',speed:0.8,mix:0.25,decay:2.6,bass:0,pan:0,rot:8},
+  'sped-up':{n:'Sped Up',speed:1.15,mix:0.08,decay:1.6,bass:0,pan:0,rot:8},
+  'nightcore':{n:'Nightcore',speed:1.25,mix:0,decay:1.5,bass:0,pan:0,rot:8},
+  '8d':{n:'8D Audio',speed:1,mix:0.3,decay:2.8,bass:0,pan:1,rot:8}
 };
-const LIM={speed:[0.5,1.5],mix:[0,0.9],decay:[0.5,8],bass:[0,9]};
+const LIM={speed:[0.5,1.5],mix:[0,0.9],decay:[0.5,8],bass:[0,9],rot:[2,20],n:[1,32]};
+const MINLOOP=0.25,MAXOUT=900,XFADE=0.012,PAN_DEPTH=0.92,BACK_DEPTH=0.12;
 function clamp(v,a,b){v=Number(v);if(!isFinite(v))return a;return Math.min(b,Math.max(a,v))}
 function round(v,d){const f=Math.pow(10,d);return Math.round(v*f)/f}
 function norm(s){s=s||{};const p=PRESETS[s.p]?s.p:'slowed-reverb',b=PRESETS[p];
   const g=(k,d)=>s[k]===undefined||s[k]===''||s[k]===null||!isFinite(Number(s[k]))?b[k]:round(clamp(s[k],LIM[k][0],LIM[k][1]),d);
-  return {p,speed:g('speed',2),mix:g('mix',2),decay:g('decay',1),bass:g('bass',0)}}
-function stateToHash(s){s=norm(s);return '#p='+s.p+'&s='+s.speed+'&r='+s.mix+'&d='+s.decay+'&b='+s.bass}
+  const sec=v=>{v=Number(v);return isFinite(v)&&v>0?round(Math.min(v,86400),2):0};
+  const pan=s.pan===undefined||s.pan===null||s.pan===''?b.pan:(s.pan===true||Number(s.pan)===1?1:0);
+  return {p,speed:g('speed',2),mix:g('mix',2),decay:g('decay',1),bass:g('bass',0),pan,rot:g('rot',1),
+    loop:s.loop===true||Number(s.loop)===1?1:0,a:sec(s.a),e:sec(s.e),n:isFinite(Number(s.n))&&s.n!==''&&s.n!==null&&s.n!==undefined?Math.round(clamp(s.n,LIM.n[0],LIM.n[1])):1}}
+// old links stay exactly as they were; 8D and loop only add their part when used
+function stateToHash(s){s=norm(s);return '#p='+s.p+'&s='+s.speed+'&r='+s.mix+'&d='+s.decay+'&b='+s.bass
+  +(s.pan||PRESETS[s.p].pan?'&x='+s.pan+'&t='+s.rot:'')+(s.loop?'&l=1&a='+s.a+'&e='+s.e+'&n='+s.n:'')}
 function parseState(h){const o={};String(h||'').replace(/^#/,'').split('&').forEach(kv=>{const i=kv.indexOf('=');if(i<1)return;
-  const k=kv.slice(0,i),v=decodeURIComponent(kv.slice(i+1));const m={p:'p',s:'speed',r:'mix',d:'decay',b:'bass'}[k];if(m)o[m]=m==='p'?v:Number(v)});
+  const k=kv.slice(0,i),v=decodeURIComponent(kv.slice(i+1));const m={p:'p',s:'speed',r:'mix',d:'decay',b:'bass',x:'pan',t:'rot',l:'loop',a:'a',e:'e',n:'n'}[k];if(m)o[m]=m==='p'?v:Number(v)});
   return norm(o)}
 // which preset matches the values (or 'custom')
-function presetOf(s){for(const k in PRESETS){const b=PRESETS[k];if(b.speed===s.speed&&b.mix===s.mix&&b.decay===s.decay&&b.bass===s.bass)return k}return 'custom'}
+function presetOf(s){for(const k in PRESETS){const b=PRESETS[k];if(b.speed===s.speed&&b.mix===s.mix&&b.decay===s.decay&&b.bass===s.bass&&b.pan===(s.pan||0)&&(!b.pan||b.rot===s.rot))return k}return 'custom'}
 // semitones the pitch moves (tape style: pitch follows speed)
 function semitones(speed){return 12*Math.log2(speed)}
 // output length in seconds: song gets longer/shorter, plus the reverb tail
-function outSeconds(dur,s){s=norm(s);return dur/s.speed+(s.mix>0?s.decay:0.05)}
+function outSeconds(dur,s){s=norm(s);if(s.loop){const r=loopRange(dur,s);dur=(r.e-r.a)*effRepeats(dur,s)}return dur/s.speed+(s.mix>0?s.decay:0.05)}
+// loop section in seconds of the original file, always valid: at least MINLOOP long, inside the file; e=0 means "to the end"
+function loopRange(dur,s){dur=Math.max(0,Number(dur)||0);const min=Math.min(MINLOOP,dur);let a=clamp(s&&s.a,0,Math.max(0,dur-min)),e=s&&Number(s.e)>0?Number(s.e):dur;
+  e=clamp(e,a+min,dur);return {a,e}}
+// repeats actually rendered: the download never gets longer than MAXOUT seconds
+function effRepeats(dur,s){s=norm(s);const r=loopRange(dur,s),one=(r.e-r.a)/s.speed;return Math.max(1,Math.min(s.n,one>0?Math.floor(MAXOUT/one):1))}
+// one loop pass that repeats without a click: the last XFADE seconds blend into the audio just before the start
+// ('pre'), or the first ones blend out of the audio just after the end ('post'); with neither available a tiny dip ('dip')
+function loopPeriod(chs,sr,a,e,xf){const len=chs[0].length,ai=Math.max(0,Math.min(len-2,Math.round(a*sr))),ei=Math.max(ai+2,Math.min(len,Math.round(e*sr))),L=ei-ai;
+  const X=Math.max(1,Math.min(Math.round((xf===undefined?XFADE:xf)*sr),L>>1)),mode=ai>=X?'pre':ei+X<=len?'post':'dip';
+  const out=chs.map(d=>{const p=d.slice(ai,ei);
+    for(let i=0;i<X;i++){const t=(i+0.5)/X,fi=Math.sin(t*Math.PI/2),fo=Math.cos(t*Math.PI/2);
+      if(mode==='pre'){const k=L-X+i;p[k]=p[k]*fo+d[ai-X+i]*fi}
+      else if(mode==='post')p[i]=d[ei+i]*fo+p[i]*fi;
+      else{p[i]*=t;p[L-X+i]*=1-t}}
+    return p});
+  return {chs:out,L,X,mode,ai,ei}}
+// the section n times in a row, clean first/last pass and a 5 ms fade where the cut is inside the song
+function makeLoop(chs,sr,a,e,n,xf){const P=loopPeriod(chs,sr,a,e,xf),L=P.L,X=P.X,len=chs[0].length;n=Math.max(1,Math.round(n)||1);
+  const F=Math.max(1,Math.min(Math.round(0.005*sr),L>>1));
+  const out=chs.map((d,c)=>{const o=new Float32Array(L*n),p=P.chs[c];for(let k=0;k<n;k++)o.set(p,k*L);
+    if(P.mode==='post')for(let i=0;i<X;i++)o[i]=d[P.ai+i];
+    if(P.mode==='pre')for(let i=0;i<X;i++)o[L*n-X+i]=d[P.ei-X+i];
+    if(P.ai>0&&P.mode!=='dip')for(let i=0;i<F;i++)o[i]*=i/F;
+    if(P.ei<len&&P.mode!=='dip')for(let i=0;i<F;i++)o[L*n-1-i]*=i/F;
+    return o});
+  return {chs:out,L,X,mode:P.mode,n}}
 // deterministic random numbers (same impulse every time)
 function rng(seed){let x=seed>>>0||1;return ()=>{x^=x<<13;x>>>=0;x^=x>>>17;x^=x<<5;x>>>=0;return x/4294967296}}
 // stereo impulse response: short pre-delay, early reflections, exponential tail that gets darker over time
@@ -316,10 +385,12 @@ function encodeWav(chs,sr,gain){gain=gain===undefined?1:gain;const nc=chs.length
   let o=44;for(let i=0;i<len;i++)for(let c=0;c<nc;c++){let x=chs[c][i]*gain;x=x>1?1:x<-1?-1:x;v.setInt16(o,x<0?Math.round(x*32768):Math.round(x*32767),true);o+=2}
   return buf}
 function outName(file,s){s=norm(s);let b=String(file||'audio').replace(/\.[a-z0-9]{1,5}$/i,'').replace(/[\\/:*?"<>|]+/g,' ').replace(/\s+/g,' ').trim().slice(0,80)||'audio';
-  const k=presetOf(s),lab=k==='custom'?(s.speed<1?'slowed':s.speed>1?'sped up':'edit')+(s.mix>0?' + reverb':''):PRESETS[k].n.toLowerCase();
-  return b+' ('+lab+').wav'}
+  const k=presetOf(s),lab=k==='custom'?(s.speed<1?'slowed':s.speed>1?'sped up':'edit')+(s.mix>0?' + reverb':'')+(s.pan?' 8d':''):PRESETS[k].n.toLowerCase();
+  return b+' ('+lab+(s.loop?' loop':'')+').wav'}
 function fmtTime(t){t=Math.max(0,Math.floor(Number(t)||0));const h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=t%60;
   return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(s).padStart(2,'0')}
+// exact time for the loop points: 1:02.50
+function fmtExact(t){t=Math.max(0,Number(t)||0);const c=Math.round(t*100),m=Math.floor(c/6000),s=(c%6000)/100;return m+':'+(s<10?'0':'')+s.toFixed(2)}
 // equal-power dry/wet
 function mixGains(mix){mix=clamp(mix,0,1);return {dry:Math.cos(mix*Math.PI/2),wet:Math.sin(mix*Math.PI/2)*1.4}}
 // waveform peaks for drawing
@@ -334,13 +405,14 @@ function demoSound(sr){const n=Math.floor(sr*8),L=new Float32Array(n),R=new Floa
     const ht=(t+0.25)%0.5;const h=(r()*2-1)*0.06*Math.exp(-ht*60);
     L[i]=x+h*0.8;R[i]=x+h*1.1}
   return [L,R]}
-if(typeof module!=='undefined')module.exports={PRESETS,LIM,clamp,norm,stateToHash,parseState,presetOf,semitones,outSeconds,rng,makeImpulse,peak,normGain,encodeWav,outName,fmtTime,mixGains,wavePeaks,demoSound};
+if(typeof module!=='undefined')module.exports={PRESETS,LIM,MINLOOP,MAXOUT,XFADE,loopRange,effRepeats,loopPeriod,makeLoop,fmtExact,clamp,norm,stateToHash,parseState,presetOf,semitones,outSeconds,rng,makeImpulse,peak,normGain,encodeWav,outName,fmtTime,mixGains,wavePeaks,demoSound};
 
 
 // ===== UI =====
 if(typeof document!=='undefined'){
 const $=id=>document.getElementById(id);let S=parseState(location.hash);
-let ctx=null,buf=null,name='',src=null,nodes=null,playing=false,pos=0,t0=0,rateNow=1,irKey='',raf=0,peaks=null;
+let ctx=null,buf=null,name='',src=null,nodes=null,playing=false,pos=0,t0=0,rateNow=1,irKey='',raf=0,peaks=null,lpBuf=null,lpKey='',LR=null;
+const can8d=!!(window.AudioContext||window.webkitAudioContext)&&'StereoPannerNode' in window;
 const PLAY='<path d="M8 5v14l11-7z"/>',PAUSE='<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
 function msg(t,c){const m=$('msg');m.textContent=t;m.className=c||''}
 function getCtx(){if(!ctx){const C=window.AudioContext||window.webkitAudioContext;ctx=new C()}if(ctx.state==='suspended')ctx.resume();return ctx}
@@ -349,44 +421,84 @@ function irBuffer(c,sr){const ch=makeImpulse(sr,S.decay,7),b=c.createBuffer(2,ch
 function chain(c,dest){const shelf=c.createBiquadFilter();shelf.type='lowshelf';shelf.frequency.value=120;shelf.gain.value=S.bass;
   const dry=c.createGain(),wet=c.createGain(),conv=c.createConvolver(),out=c.createGain();conv.buffer=irBuffer(c,c.sampleRate);
   const g=mixGains(S.mix);dry.gain.value=g.dry;wet.gain.value=g.wet;out.gain.value=0.9;
-  shelf.connect(dry);shelf.connect(conv);conv.connect(wet);dry.connect(out);wet.connect(out);out.connect(dest);return {shelf,dry,wet,conv,out}}
-function curPos(){return playing&&ctx?Math.min(buf.duration,pos+(ctx.currentTime-t0)*rateNow):pos}
-function stop(keep){if(src){try{src.onended=null;src.stop()}catch(e){}src.disconnect();src=null}if(nodes){nodes.out.disconnect();nodes=null}
+  shelf.connect(conv);conv.connect(wet);dry.connect(out);wet.connect(out);out.connect(dest);const nd={shelf,dry,wet,conv,out,osc:[]};
+  // 8D: the dry sound travels left-right (sine) and gets a little quieter "behind" (cosine); the reverb stays wide
+  if(can8d&&c.createStereoPanner){const pn=c.createStereoPanner(),back=c.createGain(),o1=c.createOscillator(),o2=c.createOscillator(),d1=c.createGain(),d2=c.createGain();
+    o1.frequency.value=o2.frequency.value=1/S.rot;o2.setPeriodicWave(c.createPeriodicWave(new Float32Array([0,1]),new Float32Array([0,0])));
+    d1.gain.value=S.pan?PAN_DEPTH:0;d2.gain.value=S.pan?BACK_DEPTH:0;back.gain.value=S.pan?1-BACK_DEPTH:1;
+    o1.connect(d1);d1.connect(pn.pan);o2.connect(d2);d2.connect(back.gain);shelf.connect(pn);pn.connect(back);back.connect(dry);o1.start(0);o2.start(0);
+    Object.assign(nd,{pn,back,d1,d2,osc:[o1,o2]})}
+  else shelf.connect(dry);
+  return nd}
+function loopOn(){return !!(S.loop&&buf)}
+function range(){return LR=loopRange(buf?buf.duration:0,S)}
+function bufChs(){const a=[];for(let c=0;c<buf.numberOfChannels;c++)a.push(buf.getChannelData(c));return a}
+function toBuffer(c,chs,sr){const b=c.createBuffer(chs.length,chs[0].length,sr);chs.forEach((d,i)=>b.getChannelData(i).set(d));return b}
+function loopBuffer(c){const r=range(),k=r.a+'|'+r.e;if(k!==lpKey||!lpBuf){lpBuf=toBuffer(c,loopPeriod(bufChs(),buf.sampleRate,r.a,r.e).chs,buf.sampleRate);lpKey=k}return lpBuf}
+function curPos(){if(!(playing&&ctx))return pos;const run=(ctx.currentTime-t0)*rateNow;
+  if(loopOn()){const r=LR||range(),L=r.e-r.a;return r.a+(((pos-r.a+run)%L)+L)%L}return Math.min(buf.duration,pos+run)}
+function stop(keep){if(src){try{src.onended=null;src.stop()}catch(e){}src.disconnect();src=null}if(nodes){nodes.osc.forEach(o=>{try{o.stop()}catch(e){}});nodes.out.disconnect();nodes=null}
   if(playing)pos=keep?curPos():pos;playing=false;cancelAnimationFrame(raf);$('playIc').innerHTML=PLAY;$('play').setAttribute('aria-label','Play')}
 function start(){if(!buf)return;const c=getCtx();if(pos>=buf.duration-0.05)pos=0;nodes=chain(c,c.destination);irKey=String(S.decay);
-  src=c.createBufferSource();src.buffer=buf;src.playbackRate.value=S.speed;rateNow=S.speed;src.connect(nodes.shelf);
-  src.onended=()=>{if(playing){playing=false;pos=0;stop(false);drawHead()}};t0=c.currentTime;src.start(0,pos);playing=true;
+  src=c.createBufferSource();src.playbackRate.value=S.speed;rateNow=S.speed;src.connect(nodes.shelf);t0=c.currentTime;
+  if(loopOn()){const r=range();if(pos<r.a||pos>=r.e-0.01)pos=r.a;src.buffer=loopBuffer(c);src.loop=true;src.start(0,pos-r.a)}
+  else{src.buffer=buf;src.onended=()=>{if(playing){playing=false;pos=0;stop(false);drawHead()}};src.start(0,pos)}
+  playing=true;
   $('playIc').innerHTML=PAUSE;$('play').setAttribute('aria-label','Pause');tick()}
 function tick(){drawHead();if(playing)raf=requestAnimationFrame(tick)}
 function live(){if(!playing||!nodes)return;const c=ctx,now=c.currentTime;
   if(S.speed!==rateNow){pos=curPos();t0=now;rateNow=S.speed;src.playbackRate.setTargetAtTime(S.speed,now,0.01)}
   const g=mixGains(S.mix);nodes.dry.gain.setTargetAtTime(g.dry,now,0.03);nodes.wet.gain.setTargetAtTime(g.wet,now,0.03);nodes.shelf.gain.setTargetAtTime(S.bass,now,0.03);
+  if(nodes.pn){nodes.d1.gain.setTargetAtTime(S.pan?PAN_DEPTH:0,now,0.05);nodes.d2.gain.setTargetAtTime(S.pan?BACK_DEPTH:0,now,0.05);nodes.back.gain.setTargetAtTime(S.pan?1-BACK_DEPTH:1,now,0.05);
+    nodes.osc.forEach(o=>o.frequency.setTargetAtTime(1/S.rot,now,0.05))}
   if(String(S.decay)!==irKey){irKey=String(S.decay);clearTimeout(live.t);live.t=setTimeout(()=>{if(nodes)nodes.conv.buffer=irBuffer(ctx,ctx.sampleRate)},180)}}
 function drawWave(){const cv=$('cv'),r=cv.getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1);cv.width=Math.max(1,r.width*dpr);cv.height=Math.max(1,r.height*dpr);
   const g=cv.getContext('2d');g.clearRect(0,0,cv.width,cv.height);if(!buf)return;const cols=Math.floor(cv.width/(3*dpr));
-  peaks=wavePeaks(buf.getChannelData(0),cols);const mx=Math.max(0.01,...peaks),mid=cv.height/2;const grad=g.createLinearGradient(0,0,cv.width,0);grad.addColorStop(0,'#a78bfa');grad.addColorStop(1,'#7c5cff');g.fillStyle=grad;
-  for(let i=0;i<cols;i++){const h=Math.max(2*dpr,peaks[i]/mx*(cv.height*0.86));g.fillRect(i*3*dpr,mid-h/2,2*dpr,h)}}
+  if(!peaks||peaks.length!==cols||peaks.of!==buf){peaks=wavePeaks(buf.getChannelData(0),cols);peaks.of=buf}const lo=loopOn(),lr=lo?range():null,ca=lo?lr.a/buf.duration*cols:0,ce=lo?lr.e/buf.duration*cols:cols;const mx=Math.max(0.01,...peaks),mid=cv.height/2;const grad=g.createLinearGradient(0,0,cv.width,0);grad.addColorStop(0,'#a78bfa');grad.addColorStop(1,'#7c5cff');g.fillStyle=grad;
+  for(let i=0;i<cols;i++){const h=Math.max(2*dpr,peaks[i]/mx*(cv.height*0.86));g.globalAlpha=i+0.5>=ca&&i+0.5<ce?1:0.25;g.fillRect(i*3*dpr,mid-h/2,2*dpr,h)}
+  g.globalAlpha=1;if(lo){g.fillRect(Math.round(ca*3*dpr),0,2*dpr,cv.height);g.fillRect(Math.min(cv.width-2*dpr,Math.round(ce*3*dpr)),0,2*dpr,cv.height)}}
 function drawHead(){const p=buf?curPos()/buf.duration:0;$('ph').style.left=(p*100)+'%';$('wave').setAttribute('aria-valuenow',Math.round(p*100));
-  $('pos').textContent=fmtTime(buf?curPos()/S.speed:0)}
-function facts(){const has=!!buf;$('len').textContent=has?fmtTime(buf.duration/S.speed):'0:00';
+  $('pos').textContent=fmtTime(buf?(curPos()-(loopOn()?(LR||range()).a:0))/S.speed:0)}
+function loopUi(){const has=!!buf,on=loopOn(),d=has?buf.duration:0,r=range();$('loopOn').checked=!!S.loop;$('loopOn').disabled=!has;$('loopBody').hidden=!(S.loop&&has);
+  $('pan').checked=!!S.pan;$('pan').disabled=!can8d;$('rotBox').hidden=!S.pan;$('rot').value=S.rot;fill($('rot'));$('vRot').textContent=S.rot.toFixed(1)+' s';
+  if(!can8d)$('panHint').textContent='Not supported by this browser';
+  if(!has)return;['la','le'].forEach(k=>{$(k).max=d;$(k).step=d>600?0.1:0.01});$('la').value=r.a;$('le').value=r.e;fill($('la'));fill($('le'));
+  $('vA').textContent=fmtExact(r.a);$('vE').textContent=fmtExact(r.e);$('rep').value=S.n;const n=effRepeats(d,S);
+  $('vLoop').textContent=on?fmtExact(r.e-r.a)+' of the song'+(n<S.n?' · only '+n+'× fit into 15 minutes':''):''}
+function facts(){const has=!!buf,r=range();$('len').textContent=has?fmtTime((loopOn()?r.e-r.a:buf.duration)/S.speed):'0:00';
   $('oLen').textContent=has?fmtTime(outSeconds(buf.duration,S)):'–';const st=semitones(S.speed);$('oPitch').textContent=(Math.abs(st)<0.05?'±0':(st>0?'+':'−')+Math.abs(st).toFixed(1))+' st';
   $('oName').textContent=has?outName(name,S):'–';$('dl').disabled=!has;$('play').disabled=!has}
 function fill(el){const a=+el.min,b=+el.max;el.style.setProperty('--f',((el.value-a)/(b-a)*100)+'%')}
-function sliders(){$('speed').value=S.speed;$('mix').value=S.mix;$('decay').value=S.decay;$('bass').value=S.bass;['speed','mix','decay','bass'].forEach(k=>fill($(k)));labels()}
+function sliders(){loopUi();$('speed').value=S.speed;$('mix').value=S.mix;$('decay').value=S.decay;$('bass').value=S.bass;['speed','mix','decay','bass'].forEach(k=>fill($(k)));labels()}
 function labels(){$('vSpeed').textContent=S.speed.toFixed(2)+'×';const st=semitones(S.speed);$('vSemi').textContent=Math.abs(st)<0.05?'same pitch':(st>0?'+':'−')+Math.abs(st).toFixed(1)+' semitones';
   $('vMix').textContent=Math.round(S.mix*100)+' %';$('vDecay').textContent=S.decay.toFixed(1)+' s';$('vBass').textContent=(S.bass?'+':'')+S.bass+' dB'}
 function tiles(){const box=$('tiles');box.innerHTML='';const cur=presetOf(S);Object.keys(PRESETS).forEach(k=>{const p=PRESETS[k],b=document.createElement('button');b.type='button';b.className='tile'+(cur===k?' on':'');b.dataset.p=k;
-  b.setAttribute('aria-pressed',cur===k);b.innerHTML='<b>'+p.n+'</b><span>'+p.speed.toFixed(2)+'× · '+Math.round(p.mix*100)+' % reverb</span>';
-  b.onclick=()=>{S=norm(Object.assign({p:k},PRESETS[k]));update(true)};box.appendChild(b)})}
+  b.setAttribute('aria-pressed',cur===k);b.innerHTML='<b>'+p.n+'</b><span>'+(p.pan?'circles around you · headphones':p.speed.toFixed(2)+'× · '+Math.round(p.mix*100)+' % reverb')+'</span>';
+  b.onclick=()=>{S=norm(Object.assign({p:k},PRESETS[k],keepLoop()));update(true)};box.appendChild(b)})}
+// after the preset: a preset's own n is its name, the loop's n is the repeat count
+function keepLoop(){return {loop:S.loop,a:S.a,e:S.e,n:S.n}}
+// loop points changed: redraw, and restart the sound a moment later so dragging stays smooth
+function reloop(){loopUi();facts();drawWave();drawHead();save();clearTimeout(reloop.t);reloop.t=setTimeout(()=>{if(playing){stop(true);start()}else{const r=range();if(loopOn()&&(pos<r.a||pos>=r.e))pos=r.a;drawHead()}},140)}
+function setLoop(o){S=norm(Object.assign({},S,o));reloop()}
 function save(){history.replaceState(null,'',stateToHash(S))}
 function update(all){if(all)sliders();else labels();tiles();facts();live();drawHead();save()}
 ['speed','mix','decay','bass'].forEach(k=>$(k).addEventListener('input',e=>{const o=Object.assign({},S);o[k]=+e.target.value;const p=presetOf(norm(o));if(p!=='custom')o.p=p;S=norm(o);fill(e.target);update(false)}));
-$('reset').onclick=()=>{S=norm(Object.assign({p:S.p},PRESETS[S.p]));update(true)};
+$('reset').onclick=()=>{S=norm(Object.assign({p:S.p},PRESETS[S.p],keepLoop()));update(true)};
+$('loopOn').addEventListener('change',e=>{if(!buf)return;const r=range();setLoop(e.target.checked?{loop:1,a:round(r.a,2),e:round(r.e,2)}:{loop:0})});
+$('la').addEventListener('input',e=>{const r=range(),a=Math.min(+e.target.value,r.e-MINLOOP);setLoop({a:round(Math.max(0,a),2),e:round(r.e,2)})});
+$('le').addEventListener('input',e=>{const r=range(),v=Math.max(+e.target.value,r.a+MINLOOP);setLoop({a:round(r.a,2),e:round(Math.min(buf.duration,v),2)})});
+$('setA').onclick=()=>{const r=range(),p=curPos();setLoop({a:round(Math.min(p,buf.duration-MINLOOP),2),e:round(p+MINLOOP>r.e?buf.duration:r.e,2)})};
+$('setE').onclick=()=>{const r=range(),p=curPos();setLoop({a:round(p-MINLOOP<r.a?0:r.a,2),e:round(Math.max(p,MINLOOP),2)})};
+$('rep').addEventListener('change',e=>{S=norm(Object.assign({},S,{n:+e.target.value}));loopUi();facts();save()});
+$('pan').addEventListener('change',e=>{const o=Object.assign({},S,{pan:e.target.checked?1:0});const p=presetOf(norm(o));if(p!=='custom')o.p=p;S=norm(o);update(true)});
+$('rot').addEventListener('input',e=>{const o=Object.assign({},S,{rot:+e.target.value});const p=presetOf(norm(o));if(p!=='custom')o.p=p;S=norm(o);update(true)});
 $('play').onclick=()=>{if(!buf)return;if(playing)stop(true);else start()};
 function load(ab,nm){stop(false);msg('Decoding '+nm+' …');const c=getCtx();
-  return new Promise((res,rej)=>{const p=c.decodeAudioData(ab,res,rej);if(p&&p.then)p.then(res,rej)}).then(b=>{buf=b;name=nm;pos=0;$('none').style.display='none';
+  return new Promise((res,rej)=>{const p=c.decodeAudioData(ab,res,rej);if(p&&p.then)p.then(res,rej)}).then(b=>{buf=b;name=nm;pos=0;newFile();$('none').style.display='none';
     $('fname').textContent=nm;drawWave();facts();drawHead();msg('Ready: '+nm+' ('+fmtTime(b.duration)+'). Press play and shape the sound.','ok')})
   .catch(()=>msg('This file could not be read. Try an MP3 or WAV – some browsers do not support M4A or FLAC.','bad'))}
+// loop points from a link only make sense for the same file: keep them if they fit, else switch the loop off
+function newFile(){lpBuf=null;lpKey='';peaks=null;if(S.loop&&(S.a>=buf.duration-MINLOOP||S.e>buf.duration+0.01))S=norm(Object.assign({},S,{loop:0,a:0,e:0}));loopUi();save()}
 function openFile(f){if(!f)return;if(f.size>300*1024*1024){msg('That file is very big (over 300 MB). Use a shorter or compressed file.','bad');return}
   f.arrayBuffer().then(ab=>load(ab,f.name))}
 $('file').addEventListener('change',e=>{openFile(e.target.files[0]);e.target.value=''});
@@ -394,14 +506,15 @@ const dz=$('drop');['dragenter','dragover'].forEach(t=>dz.addEventListener(t,e=>
 ['dragleave','drop'].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove('over')}));
 dz.addEventListener('drop',e=>openFile(e.dataTransfer.files[0]));
 $('demo').onclick=()=>{const c=getCtx(),sr=c.sampleRate,ch=demoSound(sr),b=c.createBuffer(2,ch[0].length,sr);b.getChannelData(0).set(ch[0]);b.getChannelData(1).set(ch[1]);
-  stop(false);buf=b;name='demo-loop.wav';pos=0;$('none').style.display='none';$('fname').textContent='Demo loop (made in your browser)';drawWave();facts();drawHead();msg('Demo loop loaded. Press play, then try the presets.','ok')};
-function seek(e){if(!buf)return;const r=$('wave').getBoundingClientRect(),x=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));const was=playing;stop(false);pos=x*buf.duration;if(was)start();else drawHead()}
+  stop(false);buf=b;name='demo-loop.wav';pos=0;newFile();$('none').style.display='none';$('fname').textContent='Demo loop (made in your browser)';drawWave();facts();drawHead();msg('Demo loop loaded. Press play, then try the presets.','ok')};
+function seek(e){if(!buf)return;const r=$('wave').getBoundingClientRect(),x=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));const was=playing;stop(false);pos=x*buf.duration;if(loopOn()){const r=range();pos=Math.min(Math.max(pos,r.a),r.e-0.02)}if(was)start();else drawHead()}
 $('wave').addEventListener('pointerdown',seek);
 $('wave').addEventListener('keydown',e=>{if(!buf)return;const d=e.key==='ArrowRight'?5:e.key==='ArrowLeft'?-5:0;if(!d)return;e.preventDefault();const was=playing;stop(true);pos=Math.min(buf.duration,Math.max(0,pos+d));if(was)start();else drawHead()});
-$('dl').onclick=async()=>{if(!buf)return;const sr=buf.sampleRate,n=Math.ceil(outSeconds(buf.duration,S)*sr);
+$('dl').onclick=async()=>{if(!buf)return;const sr=buf.sampleRate,n=Math.ceil(outSeconds(buf.duration,S)*sr);await new Promise(r=>setTimeout(r,30));
   $('dl').disabled=true;$('busy').style.display='block';msg('Rendering your '+(presetOf(S)==='custom'?'edit':PRESETS[presetOf(S)].n)+' … this takes a few seconds for a full song.');
   try{const C=window.OfflineAudioContext||window.webkitOfflineAudioContext,oc=new C(2,n,sr),nd=chain(oc,oc.destination),s=oc.createBufferSource();
-    s.buffer=buf;s.playbackRate.value=S.speed;s.connect(nd.shelf);s.start(0);const r=await oc.startRendering();
+    if(loopOn()){const lr=range();s.buffer=toBuffer(oc,makeLoop(bufChs(),sr,lr.a,lr.e,effRepeats(buf.duration,S)).chs,sr)}else s.buffer=buf;
+    s.playbackRate.value=S.speed;s.connect(nd.shelf);s.start(0);const r=await oc.startRendering();
     const chs=[r.getChannelData(0),r.getChannelData(1)],wav=encodeWav(chs,sr,normGain(peak(chs)));
     const url=URL.createObjectURL(new Blob([wav],{type:'audio/wav'})),a=document.createElement('a');a.href=url;a.download=outName(name,S);document.body.appendChild(a);a.click();a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),30000);msg('Done: '+outName(name,S)+' ('+(wav.byteLength/1048576).toFixed(1)+' MB).','ok')}
