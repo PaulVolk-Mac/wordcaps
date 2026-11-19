@@ -36,3 +36,10 @@
 
 ## About this repository
 This repository only hosts the website (GitHub Pages). The app itself is closed-source and sold on itch.io. It is not related to other open-source projects named "wordcaps".
+
+## Free tools: one list for everything
+
+`tools/tools.json` is the single source for the tool overview (`tools/index.html`: search, categories) and for the "More free tools" block at the end of every tool page. Only tools with `"status": "live"` are linked.
+
+- New or changed tool: edit `tools/tools.json`, then run `node scripts/build-tools.mjs`.
+- Check before every PR: `node --test` (tools.json matches the pages, generated blocks are current, no dead internal links). No dependencies needed.

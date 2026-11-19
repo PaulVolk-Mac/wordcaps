@@ -48,6 +48,23 @@ footer a{color:var(--mut)}
 .theme button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 @media(max-width:600px),(pointer:coarse){.theme button{min-height:44px;min-width:44px;padding:5px 10px;font-size:13px}}
 @media(max-width:480px){h1{font-size:24px}.tool{padding:14px}.go{display:none}}
+/* Suche + Kategorien (A-322): Liste bleibt statisches HTML, das Skript blendet nur aus. */
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.filter{display:grid;gap:10px;margin:0 0 8px}
+.filter[hidden],.empty[hidden],ul.tools li[hidden]{display:none}
+#tq{width:100%;font:inherit;font-size:16px;color:var(--fg);background:var(--panel);border:1px solid var(--line2);border-radius:12px;padding:11px 14px;min-height:46px;box-shadow:var(--shadow)}
+#tq::placeholder{color:var(--dim);opacity:1}
+#tq:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button,.empty button{font:inherit;font-size:14px;font-weight:550;color:var(--mut);background:var(--soft);border:1px solid transparent;border-radius:999px;padding:6px 14px;min-height:36px;cursor:pointer}
+.chips button:hover{color:var(--fg)}
+.chips button[aria-pressed=true]{background:var(--fg);color:var(--bg)}
+.chips button:focus-visible,.empty button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.stat{margin:0 0 10px;min-height:20px;font-size:13px;color:var(--mut)}
+.tx .cat{margin-top:6px;font-size:12.5px;font-weight:550;letter-spacing:.02em}
+.empty{margin:4px 0 0;padding:18px;border:1px dashed var(--line2);border-radius:16px;color:var(--mut)}
+.empty button{margin-left:6px;color:var(--fg)}
+@media(max-width:600px),(pointer:coarse){.chips button,.empty button{min-height:44px;padding:8px 16px}}
 </style>
 <script data-look="v4">
 (function(){var K="tool-theme",d=document.documentElement,m=document.querySelector('meta[name=theme-color]');
@@ -70,15 +87,46 @@ document.addEventListener("DOMContentLoaded",function(){var h=document.querySele
 <main>
 <h1>Free tools</h1>
 <p class="lead">Small tools that run completely in your browser. Nothing is uploaded, no account, no ads.</p>
-<ul class="tools">
-<li><a class="tool" href="subtitle-converter/"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 15h4M13 15h4M7 11h10"/></svg></span><span class="tx"><b>Subtitle Converter</b><span>Convert SRT to VTT, VTT to SRT, ASS or TXT and shift timing – a free subtitle converter online that runs in your browser, no upload.</span></span><span class="go" aria-hidden="true">→</span></a></li>
-<li><a class="tool" href="safe-zone-checker/"><span class="ic"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M9 6h6M9 18h3"/></svg></span><span class="tx"><b>TikTok / Reels / Shorts Safe Zone Checker</b><span>Free TikTok safe zone checker and overlay templates: drop your image or video and see what the app UI will cover. No upload.</span></span><span class="go" aria-hidden="true">→</span></a></li>
-<li><a class="tool" href="hiit-timer/"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg></span><span class="tx"><b>HIIT &amp; Tabata Timer</b><span>Free HIIT timer online with sound: Tabata, EMOM, 45/15, 30/30 and boxing rounds – beeps, voice, screen stays awake.</span></span><span class="go" aria-hidden="true">→</span></a></li>
-<li><a class="tool" href="noise-machine/"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h2M7 8v8M11 5v14M15 9v6M19 7v10"/></svg></span><span class="tx"><b>Brown &amp; White Noise Machine</b><span>Brown noise generator and white noise machine online: brown, pink, white noise, rain, fan, ocean – sleep timer, black screen, no ads.</span></span><span class="go" aria-hidden="true">→</span></a></li>
-<li><a class="tool" href="slowed-reverb/"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></span><span class="tx"><b>Slowed + Reverb Maker</b><span>Slowed and reverb generator online: slow down your own song, add reverb and bass, hear it live, download a WAV. Nightcore maker too. No upload.</span></span><span class="go" aria-hidden="true">→</span></a></li>
+<!-- tools-list:start (generated from tools/tools.json by scripts/build-tools.mjs - do not edit by hand) -->
+<div class="filter" id="tfilter" hidden>
+<label class="sr" for="tq">Search tools</label>
+<input type="search" id="tq" placeholder="Search tools, e.g. subtitles, timer, noise" autocomplete="off" spellcheck="false">
+<div class="chips" role="group" aria-label="Category"><button type="button" data-cat="all" aria-pressed="true">All</button><button type="button" data-cat="video" aria-pressed="false">Video</button><button type="button" data-cat="audio" aria-pressed="false">Audio</button><button type="button" data-cat="fitness" aria-pressed="false">Fitness</button><button type="button" data-cat="focus" aria-pressed="false">Focus</button></div>
+</div>
+<p class="stat" id="tstat" role="status" aria-live="polite"></p>
+<ul class="tools" id="tlist">
+<li data-cats="video" data-search="subtitle converter convert srt to vtt, vtt to srt, ass or txt and shift timing – a free subtitle converter online that runs in your browser, no upload. srt vtt ass txt subtitles captions timing sync shift video"><a class="tool" href="subtitle-converter/"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 15h4M13 15h4M7 11h10"/></svg></span><span class="tx"><b>Subtitle Converter</b><span>Convert SRT to VTT, VTT to SRT, ASS or TXT and shift timing – a free subtitle converter online that runs in your browser, no upload.</span><span class="cat">Video</span></span><span class="go" aria-hidden="true">→</span></a></li>
+<li data-cats="video" data-search="tiktok / reels / shorts safe zone checker free tiktok safe zone checker and overlay templates: drop your image or video and see what the app ui will cover. no upload. tiktok reels shorts instagram youtube overlay template safe area 9:16 video"><a class="tool" href="safe-zone-checker/"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M9 6h6M9 18h3"/></svg></span><span class="tx"><b>TikTok / Reels / Shorts Safe Zone Checker</b><span>Free TikTok safe zone checker and overlay templates: drop your image or video and see what the app UI will cover. No upload.</span><span class="cat">Video</span></span><span class="go" aria-hidden="true">→</span></a></li>
+<li data-cats="fitness" data-search="hiit &amp; tabata timer free hiit timer online with sound: tabata, emom, 45/15, 30/30 and boxing rounds – beeps, voice, screen stays awake. interval workout gym training boxing rounds stopwatch emom tabata fitness"><a class="tool" href="hiit-timer/"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg></span><span class="tx"><b>HIIT &amp; Tabata Timer</b><span>Free HIIT timer online with sound: Tabata, EMOM, 45/15, 30/30 and boxing rounds – beeps, voice, screen stays awake.</span><span class="cat">Fitness</span></span><span class="go" aria-hidden="true">→</span></a></li>
+<li data-cats="focus audio" data-search="brown &amp; white noise machine brown noise generator and white noise machine online: brown, pink, white noise, rain, fan, ocean – sleep timer, black screen, no ads. sleep study concentration relax rain fan ocean pink noise ambient focus audio"><a class="tool" href="noise-machine/"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h2M7 8v8M11 5v14M15 9v6M19 7v10"/></svg></span><span class="tx"><b>Brown &amp; White Noise Machine</b><span>Brown noise generator and white noise machine online: brown, pink, white noise, rain, fan, ocean – sleep timer, black screen, no ads.</span><span class="cat">Focus · Audio</span></span><span class="go" aria-hidden="true">→</span></a></li>
+<li data-cats="audio" data-search="slowed + reverb maker slowed and reverb generator online: slow down your own song, add reverb and bass, hear it live, download a wav. nightcore maker too. no upload. music song nightcore sped up bass wav mp3 pitch tempo audio"><a class="tool" href="slowed-reverb/"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></span><span class="tx"><b>Slowed + Reverb Maker</b><span>Slowed and reverb generator online: slow down your own song, add reverb and bass, hear it live, download a WAV. Nightcore maker too. No upload.</span><span class="cat">Audio</span></span><span class="go" aria-hidden="true">→</span></a></li>
 </ul>
+<p class="empty" id="tempty" hidden>No tool matches. <button type="button" id="tclear">Show all tools</button></p>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","name":"Free tools","itemListElement":[{"@type":"ListItem","position":1,"name":"Subtitle Converter","url":"https://paulvolk-mac.github.io/wordcaps/tools/subtitle-converter/"},{"@type":"ListItem","position":2,"name":"TikTok / Reels / Shorts Safe Zone Checker","url":"https://paulvolk-mac.github.io/wordcaps/tools/safe-zone-checker/"},{"@type":"ListItem","position":3,"name":"HIIT & Tabata Timer","url":"https://paulvolk-mac.github.io/wordcaps/tools/hiit-timer/"},{"@type":"ListItem","position":4,"name":"Brown & White Noise Machine","url":"https://paulvolk-mac.github.io/wordcaps/tools/noise-machine/"},{"@type":"ListItem","position":5,"name":"Slowed + Reverb Maker","url":"https://paulvolk-mac.github.io/wordcaps/tools/slowed-reverb/"}]}</script>
+<!-- tools-list:end -->
 <p class="cta">Need animated word-by-word captions for TikTok, Shorts and Reels? <a href="../?ref=tools">WordCaps Studio</a> makes them offline on Windows.</p>
 </main>
 <footer>Privacy: visits are counted with <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> (no cookies, no fingerprinting). Your files never leave your device.</footer>
+<script data-tools-filter>
+/* Filter fuer die Tool-Liste (A-322). Ohne JavaScript bleibt die volle Liste sichtbar.
+   Liest ?cat= und ?q= beim Laden, schreibt die Adresse aber nie um (der Besucherzaehler soll nicht doppelt zaehlen). */
+(function(){var bar=document.getElementById("tfilter"),q=document.getElementById("tq"),stat=document.getElementById("tstat"),
+empty=document.getElementById("tempty"),clear=document.getElementById("tclear");
+if(!bar||!q)return;
+var items=[].slice.call(document.querySelectorAll("#tlist>li")),chips=[].slice.call(bar.querySelectorAll(".chips button")),cat="all";
+function run(){var words=q.value.toLowerCase().split(/\s+/).filter(Boolean),n=0;
+ items.forEach(function(li){var ok=(cat==="all"||li.dataset.cats.split(" ").indexOf(cat)>-1)&&words.every(function(w){return li.dataset.search.indexOf(w)>-1});
+  li.hidden=!ok;if(ok)n++});
+ chips.forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.cat===cat))});
+ stat.textContent=n===items.length?n+" free tools":n+" of "+items.length+" tools";
+ empty.hidden=n>0}
+chips.forEach(function(b){b.addEventListener("click",function(){cat=b.dataset.cat;run()})});
+q.addEventListener("input",run);
+clear.addEventListener("click",function(){q.value="";cat="all";run();q.focus()});
+try{var p=new URLSearchParams(location.search),c=p.get("cat");
+ if(c&&chips.some(function(b){return b.dataset.cat===c}))cat=c;
+ if(p.get("q"))q.value=p.get("q").slice(0,60)}catch(e){}
+bar.hidden=false;run()})();
+</script>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c310764ce891411fbe074a6826875ccf"}'></script>
 </body></html>
