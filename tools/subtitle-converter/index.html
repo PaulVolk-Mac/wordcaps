@@ -121,6 +121,18 @@ textarea::placeholder{color:var(--dim)}
 .st input{font:inherit;font-size:17px;font-weight:600;text-align:center;width:100%;min-width:0;border:0;background:transparent;color:var(--fg);padding:2px 0;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
 .st input::-webkit-outer-spin-button,.st input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .st input:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+.sync{margin:0 0 12px;border:1px solid var(--line);border-radius:14px;padding:0 12px}
+.sync summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;font-size:13px;font-weight:600}
+.sync summary small{display:block;color:var(--dim);font-size:12px;font-weight:400}
+.sync summary::-webkit-details-marker{display:none}.sync summary::after{content:"+";font-size:18px;font-weight:400;color:var(--mut)}.sync[open] summary::after{content:"–"}
+.sync .seg{display:flex;margin:2px 0 12px}.sync .seg button{flex:1;padding-inline:6px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-bottom:10px}
+.row.pt{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.row label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--mut);min-width:0}
+.row select,.row input{font:inherit;font-size:14px;color:var(--fg);background:var(--soft,#ffffff0d);border:1px solid var(--line2);border-radius:10px;padding:9px 10px;width:100%;min-width:0;font-variant-numeric:tabular-nums}
+.row select:focus-visible,.row input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.note{font-size:12px;color:var(--dim);margin:0 0 12px}
+textarea[readonly]#inp{opacity:.85}
 .acts{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
 .btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-size:14px;font-weight:650;border-radius:999px;padding:11px 20px;cursor:pointer;border:0;background:var(--acc);color:#0a0c11;box-shadow:0 8px 24px #5b7cf040;transition:transform .12s,opacity .15s}
 .btn:hover{transform:translateY(-1px)}.btn:active{transform:none}.btn svg{width:17px;height:17px}
@@ -237,8 +249,8 @@ small,.tag,.tile span{font-size:12px!important}
   <h2>Your subtitles <span class="tag" id="detected">no file yet</span></h2>
   <label class="drop" id="drop">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
-    <span><b id="fname">Drop a file here or click to choose</b><small>.srt · .vtt · .ass · .ssa · .txt – or paste below</small></span>
-    <input type="file" id="file" accept=".srt,.vtt,.ass,.ssa,.txt">
+    <span><b id="fname">Drop files here or click to choose</b><small>.srt · .vtt · .ass · .ssa · .txt – several files become one ZIP</small></span>
+    <input type="file" id="file" accept=".srt,.vtt,.ass,.ssa,.txt" multiple>
   </label>
   <textarea id="inp" spellcheck="false" aria-label="Subtitles to convert" placeholder="1&#10;00:00:01,000 --> 00:00:03,500&#10;Paste your subtitles here"></textarea>
   <div id="stats">Supports SRT, WebVTT and ASS/SSA (Aegisub, CapCut export).</div>
@@ -247,9 +259,22 @@ small,.tag,.tile span{font-size:12px!important}
   <h2>Convert to</h2>
   <div class="tiles" id="fmts" role="radiogroup" aria-label="Output format"></div>
   <div class="shift">
-    <span>Shift timing<small>+ delays subtitles, − shows them earlier</small></span>
-    <div class="st"><button type="button" data-d="-0.1" aria-label="Earlier by 0.1 seconds">−</button><input type="number" id="shift" value="0" step="0.1" inputmode="decimal" aria-label="Shift timing in seconds"><button type="button" data-d="0.1" aria-label="Later by 0.1 seconds">+</button></div>
+    <span>Shift timing<small>seconds · + delays, − shows earlier · e.g. −0.25</small></span>
+    <div class="st"><button type="button" data-d="-0.1" aria-label="Earlier by 0.1 seconds">−</button><input type="number" id="shift" value="0" step="any" inputmode="decimal" aria-label="Shift timing in seconds"><button type="button" data-d="0.1" aria-label="Later by 0.1 seconds">+</button></div>
   </div>
+  <details class="sync" id="sync">
+    <summary><span>Fix drift<small>subtitles start fine, then run away more and more</small></span></summary>
+    <div class="seg" id="modes" role="group" aria-label="Drift fix"><button type="button" data-m="off">Off</button><button type="button" data-m="fps">Frame rate</button><button type="button" data-m="pts">Two lines</button></div>
+    <div id="pfps" hidden>
+      <div class="row"><label>Subtitles were made for<select id="ff" aria-label="Frame rate the subtitles were made for"></select></label><label>My video has<select id="ft" aria-label="Frame rate of my video"></select></label></div>
+      <p class="note">Typical case: a 25 fps subtitle on a 23.976 fps video (or the other way round).</p>
+    </div>
+    <div id="ppts" hidden>
+      <div class="row pt"><label>Early line<select id="pa" aria-label="Early line"></select></label><label>should start at<input id="ta" type="text" inputmode="decimal" autocomplete="off" aria-label="New start time of the early line"></label></div>
+      <div class="row pt"><label>Late line<select id="pb" aria-label="Late line"></select></label><label>should start at<input id="tb" type="text" inputmode="decimal" autocomplete="off" aria-label="New start time of the late line"></label></div>
+      <p class="note">Play your video, note when these two lines are really spoken (e.g. 1:02.5) and type it in. Everything in between is stretched to fit.</p>
+    </div>
+  </details>
   <textarea id="out" readonly spellcheck="false" aria-label="Converted subtitles" placeholder="Your converted subtitles appear here"></textarea>
   <div class="acts">
     <button class="btn" id="dl" type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5"/><path d="M5 20h14"/></svg><span id="dlt">Download .vtt</span></button>
@@ -269,8 +294,10 @@ small,.tag,.tile span{font-size:12px!important}
 <details><summary>How do I convert SRT to VTT?</summary><p>Drop or paste the .srt file and pick “VTT”. The result appears right away – press Download. Commas in timestamps become dots and the WEBVTT header is added.</p></details>
 <details><summary>How do I convert VTT to SRT?</summary><p>Same steps with “SRT”. Cue settings (position, align) and styling tags are removed, cues are numbered.</p></details>
 <details><summary>Is my file uploaded?</summary><p>No. The conversion is plain JavaScript in this page. You can even use it offline after it has loaded.</p></details>
-<details><summary>My subtitles are out of sync – can I fix that?</summary><p>Yes. Use “Shift timing”: a positive number delays all subtitles, a negative number shows them earlier (e.g. -1.5).</p></details>
-<details><summary>Which formats are supported?</summary><p>Input: SRT, VTT, ASS/SSA. Output: SRT, VTT, ASS (1080×1920, ready for CapCut and Aegisub), text only, text with timestamps.</p></details>
+<details><summary>My subtitles are out of sync – can I fix that?</summary><p>Yes. If they are late or early by the same amount everywhere, use “Shift timing”: a positive number delays all subtitles, a negative number shows them earlier (e.g. -1.5 or -0.25).</p></details>
+<details><summary>The subtitles drift – fine at the start, wrong at the end. What now?</summary><p>That is a speed problem, usually a frame rate mismatch. Open “Fix drift”. If you know the frame rates, pick “Frame rate” (for example subtitles made for 25 fps, video has 23.976 fps). If you don’t, pick “Two lines”: choose one line near the start and one near the end and type when each is really spoken – the tool stretches everything in between.</p></details>
+<details><summary>Can I convert several files at once?</summary><p>Yes. Choose or drop several files. They all get the same format and timing settings and are saved as one ZIP – built in your browser, nothing is uploaded.</p></details>
+<details><summary>Which formats are supported?</summary><p>Input: SRT, VTT, ASS/SSA. Output: SRT, VTT, ASS (1080×1920, ready for CapCut and Aegisub), text only, text with timestamps. Lines that would end before 0:00 after shifting are removed.</p></details>
 </div>
 </main>
 <!-- related-tools:start (generated from tools/tools.json by scripts/build-tools.mjs - do not edit by hand) -->
@@ -329,7 +356,45 @@ function build(cues,fmt){
   const head='[Script Info]\nScriptType: v4.00+\nPlayResX: 1080\nPlayResY: 1920\nWrapStyle: 0\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Default,Arial,72,&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,4,1,2,60,60,420,1\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n';
   return head+cues.map(c=>'Dialogue: 0,'+ms2ass(c.a)+','+ms2ass(c.b)+',Default,,0,0,0,,'+c.text.replace(/\n/g,'\\N')).join('\n')+'\n';
 }
-function convert(src,fmt,shiftSec){const cues=parse(src);const d=Math.round((+shiftSec||0)*1000);cues.forEach(c=>{c.a+=d;c.b+=d;});return {n:cues.length,out:cues.length?build(cues,fmt):''};}
+
+// ===== Timing: shift, frame rate, two-point sync =====
+// A time typed by a person: "62.5", "1:02.5", "00:01:02,500" -> ms (NaN if it is not a time)
+function ptime(s){s=String(s==null?'':s).trim().replace(',', '.');if(!/^-?\d[\d:.]*$/.test(s))return NaN;
+  const neg=s[0]==='-';if(neg)s=s.slice(1);const p=s.split(':');if(p.length>3||p.some(x=>x===''||isNaN(+x)))return NaN;
+  let v=0;for(const x of p)v=v*60+ +x;v=Math.round(v*1000);return neg?-v:v;}
+// new time = k * old time + d (ms). o: number (shift in s) or {shift, mode:'off'|'fps'|'pts', from, to, a1,b1,a2,b2}
+function plan(o){if(typeof o!=='object'||o===null)o={shift:o};let k=1,d=0,err='';
+  if(o.mode==='fps'){const f=+o.from,t=+o.to;if(f>0&&t>0&&isFinite(f)&&isFinite(t))k=f/t;else err='fps';}
+  else if(o.mode==='pts'){const a1=o.a1,b1=o.b1,a2=o.a2,b2=o.b2;
+    if(![a1,b1,a2,b2].every(x=>typeof x==='number'&&isFinite(x)))err='time';
+    else if(a1===a2)err='same';
+    else{const kk=(b2-b1)/(a2-a1);if(!(kk>0))err='order';else if(kk<0.5||kk>2)err='range';else{k=kk;d=b1-kk*a1;}}}
+  const s=+o.shift;if(isFinite(s))d+=Math.round(s*1000);
+  return {k,d,err};}
+// Cues that would end at or before 0:00 are removed (cut), a start before 0:00 is clamped to 0.
+function retime(cues,o){const {k,d,err}=plan(o);const out=[];let cut=0;
+  for(const c of cues){const a=Math.round(c.a*k+d),b=Math.round(c.b*k+d);if(b<=0){cut++;continue;}out.push({a:Math.max(0,a),b,text:c.text});}
+  return {cues:out,cut,k,d,err};}
+function convert(src,fmt,o){const r=retime(parse(src),o),c=r.cues;
+  return {n:c.length,out:c.length?build(c,fmt):'',cut:r.cut,k:r.k,err:r.err,end:c.length?c[c.length-1].b:0};}
+
+// ===== Batch: several files -> one ZIP (stored, no compression, no library) =====
+const CRCT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let i=0;i<8;i++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0;}return t;})();
+function crc32(u){let c=0xFFFFFFFF;for(let i=0;i<u.length;i++)c=CRCT[(c^u[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0;}
+function zip(files,date){const enc=new TextEncoder(),d=date||new Date();
+  const dt=(Math.max(0,d.getFullYear()-1980)<<9|(d.getMonth()+1)<<5|d.getDate())&0xFFFF,tm=(d.getHours()<<11|d.getMinutes()<<5|d.getSeconds()>>1)&0xFFFF;
+  const loc=[],cen=[];let off=0;
+  for(const f of files){const n=enc.encode(f.name),b=enc.encode(f.text),crc=crc32(b);
+    const h=new DataView(new ArrayBuffer(30));h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(10,tm,true);h.setUint16(12,dt,true);h.setUint32(14,crc,true);h.setUint32(18,b.length,true);h.setUint32(22,b.length,true);h.setUint16(26,n.length,true);
+    const c=new DataView(new ArrayBuffer(46));c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(8,0x0800,true);c.setUint16(12,tm,true);c.setUint16(14,dt,true);c.setUint32(16,crc,true);c.setUint32(20,b.length,true);c.setUint32(24,b.length,true);c.setUint16(28,n.length,true);c.setUint32(42,off,true);
+    loc.push(new Uint8Array(h.buffer),n,b);cen.push(new Uint8Array(c.buffer),n);off+=30+n.length+b.length;}
+  const cs=cen.reduce((s,x)=>s+x.length,0),e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+  const out=new Uint8Array(off+cs+22);let p=0;for(const x of [...loc,...cen,new Uint8Array(e.buffer)]){out.set(x,p);p+=x.length;}return out;}
+function batch(files,fmt,o){const ext=fmt.startsWith('txt')?'txt':fmt,done=[],skipped=[],seen={};
+  for(const f of files){const r=convert(f.text,fmt,o);if(!r.n){skipped.push(f.name);continue;}
+    const base=(f.name.replace(/\.[^.]+$/,'')||'subtitles').replace(/[\\/:*?"<>|]/g,'_'),key=base.toLowerCase();seen[key]=(seen[key]||0)+1;
+    done.push({name:base+(seen[key]>1?' ('+seen[key]+')':'')+'.'+ext,text:r.out,n:r.n,cut:r.cut});}
+  return {files:done,skipped};}
 
 // ===== UI =====
 if(typeof document!=='undefined'&&document.body){
@@ -339,40 +404,74 @@ const FM=[['srt','SRT','SubRip','<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M
  ['ass','ASS','CapCut · Aegisub','<path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 7l3 3"/>'],
  ['txt','TXT','text only','<path d="M5 6h14M5 11h14M5 16h9"/>'],
  ['txtt','TXT','with times','<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>']];
+const FPS=[['23.976',24000/1001],['24',24],['25',25],['29.97',30000/1001],['30',30],['50',50],['59.94',60000/1001],['60',60]];
+const DROP='Drop files here or click to choose';
 const sv=p=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';
-let fmt='vtt',name='subtitles',tmr=0;
+let fmt='vtt',name='subtitles',tmr=0,files=[],mode='off',sig='',last=[];
 try{const s=localStorage.getItem('subconv1');if(s&&FM.some(f=>f[0]===s))fmt=s}catch(e){}
 FM.forEach(([k,l,sub,ic])=>{const b=document.createElement('button');b.type='button';b.className='tile';b.dataset.f=k;b.setAttribute('role','radio');
   b.innerHTML=sv(ic)+'<span>'+l+'<small>'+sub+'</small></span>';b.onclick=()=>{fmt=k;try{localStorage.setItem('subconv1',k)}catch(e){}run()};$('fmts').appendChild(b)});
-function detect(s){s=s.replace(/^﻿/,'').trimStart();if(!s)return '';if(/^\[Script Info\]/i.test(s)||/^Dialogue:/m.test(s))return 'ASS';if(/^WEBVTT/.test(s))return 'VTT';if(/\d,\d{3}\s*-->/.test(s))return 'SRT';if(/-->/.test(s))return 'VTT';return '?'}
+[['ff','25'],['ft','23.976']].forEach(([id,def])=>FPS.forEach(([l])=>{const o=document.createElement('option');o.value=l;o.textContent=l+' fps';o.selected=l===def;$(id).appendChild(o)}));
+const fpsv=id=>(FPS.find(f=>f[0]===$(id).value)||[0,0])[1];
+function detect(s){s=s.replace(/^\uFEFF/,'').trimStart();if(!s)return '';if(/^\[Script Info\]/i.test(s)||/^Dialogue:/m.test(s))return 'ASS';if(/^WEBVTT/.test(s))return 'VTT';if(/\d,\d{3}\s*-->/.test(s))return 'SRT';if(/-->/.test(s))return 'VTT';return '?'}
 function hms(ms){const t=Math.round(ms/1000),h=Math.floor(t/3600),m=Math.floor(t/60)%60,s=t%60;return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(s).padStart(2,'0')}
 function msg(t,c){$('msg').textContent=t;$('msg').className=c||''}
+// the two anchor lines: placeholders show the current start, an empty field means "leave as it is"
+function ph(){[['pa','ta'],['pb','tb']].forEach(([p,t])=>{const c=last[+$(p).value];$(t).placeholder=c?ms2(c.a,'.'):'0:00.000'})}
+function fill(cues){const s=cues.length+'|'+(cues[0]?cues[0].a:'')+'|'+(cues.length?cues[cues.length-1].a:'');if(s===sig)return;sig=s;
+  ['pa','pb'].forEach((id,j)=>{const el=$(id);el.textContent='';cues.forEach((c,i)=>{const o=document.createElement('option');o.value=i;const tx=c.text.replace(/\n/g,' ');
+    o.textContent='#'+(i+1)+' · '+ms2(c.a,'.').slice(0,8)+' · '+(tx.length>26?tx.slice(0,25)+'…':tx);el.appendChild(o)});el.value=j?Math.max(0,cues.length-1):0});
+  $('ta').value=$('tb').value='';ph()}
+function opts(cues){const o={shift:$('shift').value,mode};
+  if(mode==='fps'){o.from=fpsv('ff');o.to=fpsv('ft')}
+  if(mode==='pts'&&cues.length){const c1=cues[+$('pa').value]||cues[0],c2=cues[+$('pb').value]||cues[cues.length-1];
+    o.a1=c1.a;o.a2=c2.a;o.b1=$('ta').value.trim()?ptime($('ta').value):c1.a;o.b2=$('tb').value.trim()?ptime($('tb').value):c2.a}
+  return o}
+const ERR={fps:'Pick both frame rates.',time:'Type the new time like 1:02.5 or 00:01:02,500.',same:'Pick two different lines – ideally one near the start and one near the end.',
+  order:'These two times do not fit: the later line must stay after the earlier one.',range:'These two times would make the subtitles more than twice as fast or slow – please check them.'};
 function run(){
   [...$('fmts').children].forEach(b=>{const on=b.dataset.f===fmt;b.classList.toggle('on',on);b.setAttribute('aria-checked',on)});
-  const ext=fmt.startsWith('txt')?'txt':fmt;$('dlt').textContent='Download .'+ext;
+  [...$('modes').children].forEach(b=>{const on=b.dataset.m===mode;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+  $('pfps').hidden=mode!=='fps';$('ppts').hidden=mode!=='pts';
+  const ext=fmt.startsWith('txt')?'txt':fmt,many=files.length>1;$('dlt').textContent=many?'Download '+files.length+' files (.zip)':'Download .'+ext;
+  $('inp').readOnly=many;
   const src=$('inp').value,d=detect(src),tg=$('detected');
-  if(!d){tg.textContent='no file yet';tg.className='tag';$('out').value='';$('stats').textContent='Supports SRT, WebVTT and ASS/SSA (Aegisub, CapCut export).';msg('');$('dl').disabled=$('cp').disabled=true;return}
-  const r=convert(src,fmt,$('shift').value);$('out').value=r.out;$('dl').disabled=$('cp').disabled=!r.n;
-  if(r.n){const c=parse(src);tg.textContent=(d==='?'?'subtitles':d)+' detected';tg.className='tag ok';
-    $('stats').innerHTML='<b>'+r.n+'</b> subtitle'+(r.n>1?'s':'')+' · <b>'+hms(c[c.length-1].b)+'</b> long'+(+$('shift').value?' · shifted '+(+$('shift').value>0?'+':'')+(+$('shift').value)+' s':'');
-    {const f=FM.find(x=>x[0]===fmt);msg(r.n+' subtitle'+(r.n>1?'s':'')+' converted to '+f[1]+(fmt==='txtt'?' with timestamps':'')+'.','ok')}}
+  if(!d){last=[];fill(last);tg.textContent='no file yet';tg.className='tag';$('out').value='';$('stats').textContent='Supports SRT, WebVTT and ASS/SSA (Aegisub, CapCut export).';msg('');$('dl').disabled=$('cp').disabled=true;return}
+  last=parse(src);fill(last);const r=convert(src,fmt,opts(last)),sh=+$('shift').value;$('out').value=r.out;$('dl').disabled=$('cp').disabled=!r.n;
+  if(r.n){tg.textContent=(d==='?'?'subtitles':d)+' detected';tg.className='tag ok';
+    $('stats').innerHTML='<b>'+r.n+'</b> subtitle'+(r.n>1?'s':'')+' · <b>'+hms(r.end)+'</b> long'+(sh?' · shifted '+(sh>0?'+':'')+sh+' s':'')
+      +(r.k!==1?' · stretched ×'+r.k.toFixed(4):'')+(r.cut?' · '+r.cut+' before 0:00 removed':'')+(many?' · preview: file 1 of '+files.length:'');
+    if(r.err)msg(ERR[r.err],'bad');
+    else{const f=FM.find(x=>x[0]===fmt);msg((many?files.length+' files ready – preview shows the first one. ':'')+r.n+' subtitle'+(r.n>1?'s':'')+' converted to '+f[1]+(fmt==='txtt'?' with timestamps':'')+'.','ok')}}
+  else if(last.length){tg.textContent=(d==='?'?'subtitles':d)+' detected';tg.className='tag ok';$('stats').textContent='';msg('With this timing every subtitle would start before 0:00 – use a smaller shift.','bad')}
   else{tg.textContent='not recognised';tg.className='tag bad';$('stats').textContent='';msg('No subtitles found – is this SRT, VTT or ASS?','bad')}
 }
 function later(){clearTimeout(tmr);tmr=setTimeout(run,150)}
-function readFile(f){if(!f)return;name=f.name.replace(/\.[^.]+$/,'')||'subtitles';$('fname').textContent=f.name;const r=new FileReader();r.onload=()=>{$('inp').value=r.result;run()};r.readAsText(f)}
-$('file').onchange=e=>readFile(e.target.files[0]);
+function readFiles(list){const fs=[...(list||[])];if(!fs.length)return;
+  Promise.all(fs.map(f=>f.text().then(text=>({name:f.name,text})))).then(a=>{files=a;name=a[0].name.replace(/\.[^.]+$/,'')||'subtitles';
+    $('fname').textContent=a.length>1?a.length+' files · preview: '+a[0].name:a[0].name;$('inp').value=a[0].text;run()},()=>msg('Could not read the file.','bad'))}
+function save(blob,fn){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+$('file').onchange=e=>readFiles(e.target.files);
 ['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();$('drop').classList.add('over')}));
 ['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();if(ev==='drop'||!e.relatedTarget)$('drop').classList.remove('over')}));
-document.addEventListener('drop',e=>{const f=e.dataTransfer&&e.dataTransfer.files[0];if(f)readFile(f)});
-$('inp').addEventListener('input',later);$('shift').addEventListener('input',later);
-document.querySelectorAll('.st button').forEach(b=>b.onclick=()=>{$('shift').value=Math.round(((+$('shift').value||0)+ +b.dataset.d)*10)/10;run()});
-$('dl').onclick=()=>{if(!$('out').value)return;const ext=fmt.startsWith('txt')?'txt':fmt;const bl=new Blob([$('out').value],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download=name+'.'+ext;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);msg('Saved as '+name+'.'+ext,'ok')};
+document.addEventListener('drop',e=>{if(e.dataTransfer)readFiles(e.dataTransfer.files)});
+$('inp').addEventListener('input',()=>{files=[];later()});$('shift').addEventListener('input',later);
+['ta','tb'].forEach(id=>$(id).addEventListener('input',later));
+['ff','ft'].forEach(id=>$(id).addEventListener('change',run));
+['pa','pb'].forEach(id=>$(id).addEventListener('change',()=>{ph();run()}));
+[...$('modes').children].forEach(b=>b.onclick=()=>{mode=b.dataset.m;run()});
+document.querySelectorAll('.st button').forEach(b=>b.onclick=()=>{$('shift').value=Math.round(((+$('shift').value||0)+ +b.dataset.d)*1000)/1000;run()});
+$('dl').onclick=()=>{clearTimeout(tmr);run();if(!$('out').value)return;const ext=fmt.startsWith('txt')?'txt':fmt;
+  if(files.length>1){const r=batch(files,fmt,opts(last));if(!r.files.length){msg('None of these files contain subtitles.','bad');return}
+    const zn='subtitles_'+ext+'.zip';save(new Blob([zip(r.files)],{type:'application/zip'}),zn);
+    msg(r.files.length+' file'+(r.files.length>1?'s':'')+' saved as '+zn+(r.skipped.length?' · skipped (no subtitles found): '+r.skipped.join(', '):''),r.skipped.length?'bad':'ok');return}
+  save(new Blob([$('out').value],{type:'text/plain;charset=utf-8'}),name+'.'+ext);msg('Saved as '+name+'.'+ext,'ok')};
 $('cp').onclick=()=>{if($('out').value&&navigator.clipboard)navigator.clipboard.writeText($('out').value).then(()=>msg('Copied to clipboard.','ok'),()=>msg('Copy blocked by the browser – select the text and press Ctrl+C.','bad'))};
-$('clr').onclick=()=>{$('inp').value='';$('shift').value=0;$('file').value='';name='subtitles';$('fname').textContent='Drop a file here or click to choose';run();$('inp').focus()};
+$('clr').onclick=()=>{$('inp').value='';$('shift').value=0;$('file').value='';files=[];mode='off';name='subtitles';$('fname').textContent=DROP;run();$('inp').focus()};
 if(location.hash==='#demo'){$('inp').value='1\n00:00:01,000 --> 00:00:03,200\nOkay, so this is the bar everyone\nis talking about.\n\n2\n00:00:03,400 --> 00:00:05,900\n20 grams of protein, 190 calories.\n\n3\n00:00:06,100 --> 00:00:08,800\nLet’s see if it actually tastes good.\n\n4\n00:00:09,000 --> 00:00:12,400\nHonestly? Better than I expected.\n';name='bar_review';$('fname').textContent='bar_review.srt'}
 run();
 }
-if(typeof module!=='undefined')module.exports={parse,build,convert};
+if(typeof module!=='undefined')module.exports={parse,build,convert,ptime,plan,retime,crc32,zip,batch,ms2,ms2ass};
 </script>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c310764ce891411fbe074a6826875ccf"}'></script>
 </body>
