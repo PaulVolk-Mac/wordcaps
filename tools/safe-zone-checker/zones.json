@@ -1,0 +1,31 @@
+{
+  "version": "2026-11-19",
+  "canvas": [1080, 1920],
+  "note": "Pixels at 1080x1920. Platforms publish safe zones for ads only; organic posts show a little less interface, so these are the cautious values. side = extra covered strip (button column) left of the right margin, from y down to the bottom margin.",
+  "zones": {
+    "tiktok": {
+      "name": "TikTok", "t": 240, "b": 660, "r": 120, "l": 120, "side": {"w": 180, "y": 840},
+      "basis": "official", "estimated": [], "checked": "2026-11-19",
+      "source": {"title": "TikTok Ads Help – Auction In-Feed Ads, safe zone file “In-Feed Standard Version LTR”", "url": "https://ads.tiktok.com/help/article/tiktok-auction-in-feed-ads", "updated": "June 2026"},
+      "how": "Measured from the official file Feed.png (720x1280: top 160, bottom 440, sides 80, button column 120 wide from y 560), scaled x1.5."
+    },
+    "reels": {
+      "name": "Reels", "t": 220, "b": 672, "r": 130, "l": 60,
+      "basis": "partly official", "estimated": ["t", "r", "l"], "checked": "2026-11-19",
+      "source": {"title": "Meta for Developers – Reels Ads (“Keep the bottom 35% of your 9:16 creative free of text, logos, and other key elements”)", "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/creative/reels-ads", "updated": ""},
+      "how": "Bottom = 35% of 1920 (official). Top, right and left are our own estimates from the app layout – Meta shows them only in a diagram we could not read as text."
+    },
+    "shorts": {
+      "name": "Shorts", "t": 288, "b": 672, "r": 192, "l": 48,
+      "basis": "official", "estimated": [], "checked": "2026-11-19",
+      "source": {"title": "Google Ads Help – About video ad specs, vertical safe zone overlay (1080x1920)", "url": "https://support.google.com/google-ads/answer/13547298", "updated": ""},
+      "how": "Measured from Google's official PNG youtubesafezoneoverlay_vertical_final.png: safe box x 48–888, y 288–1248."
+    },
+    "combined": {
+      "name": "All-in-one", "t": 288, "b": 672, "r": 192, "l": 120, "side": {"w": 180, "y": 840},
+      "basis": "strictest of all three", "estimated": [], "checked": "2026-11-19",
+      "source": {"title": "Strictest margin of TikTok, Reels and Shorts above", "url": "", "updated": ""},
+      "how": "Largest value per side of the three platforms, plus TikTok's button column."
+    }
+  }
+}

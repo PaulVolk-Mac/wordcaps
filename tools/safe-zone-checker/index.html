@@ -135,6 +135,16 @@ h1{font:inherit;margin:0}
 .cta p{margin:0;color:var(--mut);max-width:640px;font-size:14px}
 .side{display:grid;gap:18px}.side .card{margin:0}
 .info{display:grid;gap:10px}
+.steps{display:none;gap:6px;margin-top:10px;flex-wrap:wrap;justify-content:center;align-items:center;font-size:12px;color:var(--dim)}
+.steps.on{display:flex}.steps .ghost{font-size:12px;padding:6px 10px;font-variant-numeric:tabular-nums}
+.steps select{font:inherit;font-size:12px;color:var(--fg);background:var(--panel);border:1px solid var(--line2);border-radius:8px;padding:5px 6px}
+.chk{margin-top:12px;padding:11px 13px;border-radius:10px;font-size:13px;border:1px solid var(--line2);color:var(--fg)}
+.chk b{display:block}.chk.bad{border-color:#d97706;background:color-mix(in srgb,#f59e0b 13%,transparent)}
+.chk.ok{border-color:color-mix(in srgb,var(--brk) 55%,transparent);background:color-mix(in srgb,var(--brk) 8%,transparent)}
+.scan{display:none;margin-top:10px}.scan.on{display:block}
+.hits{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center;font-size:12px;color:var(--mut)}.hits .ghost{font-size:12px;padding:6px 10px;font-variant-numeric:tabular-nums}
+.legend .y{border:2px solid #f5c451;width:10px;height:10px}
+.src{font-size:12px;color:var(--mut);margin:10px 0 0;overflow-wrap:anywhere}.src a{color:var(--fg)}
 @media(max-width:560px){h1{font-size:14px}.badge span{display:none}.badge{padding:7px}.card{padding:18px}
 .nums{grid-template-columns:repeat(2,1fr)}.dl{grid-template-columns:repeat(2,1fr)}.zip .btn,.cta .btn{flex:1 1 auto}}
 </style>
@@ -239,8 +249,15 @@ small,.tag,.tile span{font-size:12px!important}
 <section class="card stage" aria-label="Preview">
   <div class="seg" id="tabs" role="radiogroup" aria-label="Platform"></div>
   <div class="phone"><canvas id="cv" width="1080" height="1920" aria-label="Preview of your frame with the app interface"></canvas><span class="notch"></span></div>
-  <div class="seek" id="seekw"><span>Frame</span><input type="range" id="seek" min="0" max="1000" value="500" aria-label="Pick a frame of the video"><span id="tc">0:00</span></div>
-  <div class="legend"><span><i class="r"></i>covered by the app</span><span><i class="g"></i>safe area</span></div>
+  <div class="seek" id="seekw"><span>Frame</span><input type="range" id="seek" min="0" max="1000" value="500" aria-label="Pick a frame of the video"><span id="tc">0:00.00</span></div>
+  <div class="steps" id="steps" role="group" aria-label="Step through the video">
+    <button class="ghost" type="button" id="b1s" title="Back 1 second (Shift + Left arrow)">−1 s</button>
+    <button class="ghost" type="button" id="b1f" title="Back 1 frame (Left arrow)">−1 frame</button>
+    <button class="ghost" type="button" id="f1f" title="Forward 1 frame (Right arrow)">+1 frame</button>
+    <button class="ghost" type="button" id="f1s" title="Forward 1 second (Shift + Right arrow)">+1 s</button>
+    <label>fps <select id="fps" aria-label="Frame rate of your video"><option>24</option><option>25</option><option selected>30</option><option>50</option><option>60</option></select></label>
+  </div>
+  <div class="legend"><span><i class="r"></i>covered by the app</span><span><i class="g"></i>safe area</span><span><i class="y"></i>text in covered area</span></div>
 </section>
 <div class="side">
 <section class="card" aria-label="Your frame">
@@ -254,6 +271,11 @@ small,.tag,.tile span{font-size:12px!important}
     <label class="sw"><span>Show app buttons<small>likes, comments, share, caption</small></span><input type="checkbox" id="ui" checked><span class="t"></span></label>
     <label class="sw"><span>Shade covered areas<small>red = hidden behind the interface</small></span><input type="checkbox" id="zones" checked><span class="t"></span></label>
   </div>
+  <div class="chk" id="chk" role="status" aria-live="polite"></div>
+  <div class="scan" id="scanw">
+    <button class="ghost" type="button" id="scanb">Check the whole video</button>
+    <div class="hits" id="hits"></div>
+  </div>
 </section>
 <section class="card" aria-label="Measurements">
   <h2>Margins <span class="tag" id="ptag">All-in-one</span></h2>
@@ -264,7 +286,8 @@ small,.tag,.tile span{font-size:12px!important}
     <div class="num"><small>Left</small><b id="nl">0<span>px</span></b></div>
   </div>
   <div class="box"><span>Safe box <b id="sb">0×0</b> <span id="sp"></span></span><button class="ghost" id="cp" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy</span></button></div>
-  <p class="note" id="msg" role="status">Pixels at 1080×1920. Approximations measured from the current app layouts (Nov 2026) – platforms publish no official organic safe zones and the interface differs by device, so preview once in the app.</p>
+  <p class="src" id="srcl"></p>
+  <p class="note" id="msg" role="status">Pixels at 1080×1920. The platforms publish safe zones for ads only; organic posts show a little less interface, so these are the cautious values. The interface differs by device – preview once in the app.</p>
 </section>
 <section class="card" aria-label="Free PNG overlays">
   <h2>Free PNG overlays <span class="tag">1080×1920 · transparent</span></h2>
@@ -281,64 +304,147 @@ small,.tag,.tile span{font-size:12px!important}
   <a class="btn" href="https://paulvolk-mac.github.io/wordcaps/?ref=p03" id="wc">See WordCaps Studio →</a>
 </section>
 <div class="info" id="how">
-<details><summary>What is the TikTok safe zone?</summary><p>The part of a 9:16 video that the TikTok app does not cover. At 1080×1920 the like/comment/share buttons take about 140 px on the right, the caption and music line about 420 px at the bottom and the top tabs about 130 px.</p></details>
-<details><summary>Are Reels and Shorts different?</summary><p>Yes. Reels cover more at the top (about 220 px), Shorts less at the bottom (about 360 px). “All-in-one” uses the strictest margin of all three, so one edit works everywhere.</p></details>
+<details><summary>What is the TikTok safe zone?</summary><p>The part of a 9:16 video that the TikTok app does not cover. TikTok’s official safe zone file for in-feed ads (checked 19 Nov 2026) keeps 240 px free at the top, 660 px at the bottom and 120 px on each side at 1080×1920, plus a 180 px button column on the right in the lower half. Organic posts have no button below the caption, so slightly more room at the bottom is usually visible.</p></details>
+<details><summary>Are Reels and Shorts different?</summary><p>Yes. Google’s official overlay for vertical YouTube ads keeps 288 px free at the top, 672 px at the bottom, 192 px on the right and 48 px on the left. Meta officially asks to keep the bottom 35% (672 px) of a Reels ad free; the top and side values shown here for Reels are our estimates. “All-in-one” uses the strictest margin of all three, so one edit works everywhere.</p></details>
+<details><summary>How does the “text in covered area” warning work?</summary><p>The checker looks at the pixels of the frame you see: spots with many hard light/dark edges in both directions (typical for captions and logos) inside a covered zone are marked yellow. It is a hint, not text recognition – busy backgrounds can trigger it, and soft low-contrast text can be missed. “Check the whole video” tests two frames per second and lists the moments with a warning.</p></details>
+<details><summary>Where do the numbers come from?</summary><p>From the official help pages for advertisers: TikTok’s downloadable in-feed safe zone file, Google’s vertical video ad overlay and Meta’s Reels ads documentation. Each platform tab shows its source link and the date we last checked it; the same data is in <a href="zones.json">zones.json</a>. We could not verify an official safe zone for Instagram Stories, so Stories are not included.</p></details>
 <details><summary>Is my video uploaded?</summary><p>No. Your file is drawn on a canvas inside this page and never leaves your computer. You can use the checker offline once it has loaded.</p></details>
 <details><summary>How do I use the PNG overlay in CapCut?</summary><p>Add the PNG as an overlay on the top track over the whole clip, place captions and faces inside the green box, then delete or hide the overlay before you export.</p></details>
 <details><summary>Where should captions go?</summary><p>Inside the green box, ideally in its lower third – high enough to clear the caption and music line, low enough not to cover faces.</p></details>
 </div>
 </main>
 <footer>Free tool by the maker of WordCaps Studio. More free tools: <a href="../subtitle-converter/">Subtitle converter</a> · <a href="../slowed-reverb/">Slowed + Reverb Maker</a> · <a href="https://paulvolk-mac.github.io/wordcaps/tools/?ref=p03">all tools</a>. Not affiliated with TikTok, Instagram, YouTube or CapCut. · Privacy: visits are counted with <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> (no cookies, no fingerprinting).</footer>
+<script type="application/json" id="zonedata">
+{
+  "version": "2026-11-19",
+  "canvas": [1080, 1920],
+  "note": "Pixels at 1080x1920. Platforms publish safe zones for ads only; organic posts show a little less interface, so these are the cautious values. side = extra covered strip (button column) left of the right margin, from y down to the bottom margin.",
+  "zones": {
+    "tiktok": {
+      "name": "TikTok", "t": 240, "b": 660, "r": 120, "l": 120, "side": {"w": 180, "y": 840},
+      "basis": "official", "estimated": [], "checked": "2026-11-19",
+      "source": {"title": "TikTok Ads Help – Auction In-Feed Ads, safe zone file “In-Feed Standard Version LTR”", "url": "https://ads.tiktok.com/help/article/tiktok-auction-in-feed-ads", "updated": "June 2026"},
+      "how": "Measured from the official file Feed.png (720x1280: top 160, bottom 440, sides 80, button column 120 wide from y 560), scaled x1.5."
+    },
+    "reels": {
+      "name": "Reels", "t": 220, "b": 672, "r": 130, "l": 60,
+      "basis": "partly official", "estimated": ["t", "r", "l"], "checked": "2026-11-19",
+      "source": {"title": "Meta for Developers – Reels Ads (“Keep the bottom 35% of your 9:16 creative free of text, logos, and other key elements”)", "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/creative/reels-ads", "updated": ""},
+      "how": "Bottom = 35% of 1920 (official). Top, right and left are our own estimates from the app layout – Meta shows them only in a diagram we could not read as text."
+    },
+    "shorts": {
+      "name": "Shorts", "t": 288, "b": 672, "r": 192, "l": 48,
+      "basis": "official", "estimated": [], "checked": "2026-11-19",
+      "source": {"title": "Google Ads Help – About video ad specs, vertical safe zone overlay (1080x1920)", "url": "https://support.google.com/google-ads/answer/13547298", "updated": ""},
+      "how": "Measured from Google's official PNG youtubesafezoneoverlay_vertical_final.png: safe box x 48–888, y 288–1248."
+    },
+    "combined": {
+      "name": "All-in-one", "t": 288, "b": 672, "r": 192, "l": 120, "side": {"w": 180, "y": 840},
+      "basis": "strictest of all three", "estimated": [], "checked": "2026-11-19",
+      "source": {"title": "Strictest margin of TikTok, Reels and Shorts above", "url": "", "updated": ""},
+      "how": "Largest value per side of the three platforms, plus TikTok's button column."
+    }
+  }
+}
+</script>
 <script>
 "use strict";
-// Naeherungswerte in px bei 1080x1920 (identisch zu tools/bauen.sh und MASSE.md)
-const Z={tiktok:{name:"TikTok",t:130,b:420,r:140,l:60},reels:{name:"Reels",t:220,b:420,r:130,l:60},shorts:{name:"Shorts",t:120,b:360,r:130,l:48},combined:{name:"All-in-one",t:220,b:420,r:140,l:60}};
+// Zones: one source of truth = zones.json (embedded copy above, so the page also works offline / from a ZIP)
 const W=1080,H=1920,$=id=>document.getElementById(id),cv=$('cv'),cx=cv.getContext('2d');
-let cur='combined',kind='safe_zone',src=null,vid=null,demo=location.hash==='#demo';
+const DATA=JSON.parse($('zonedata').textContent),Z=DATA.zones;
+let cur='combined',kind='safe_zone',src=null,vid=null,fps=30,last=null,once=null,busy=false,demo=location.hash==='#demo';
 try{const s=localStorage.getItem('safezone1');if(s&&Z[s])cur=s}catch(e){}
+/*LOGIC*/
 function safe(k){const z=Z[k];return{x:z.l,y:z.t,w:W-z.l-z.r,h:H-z.t-z.b}}
+// covered rectangles of a platform in 1080x1920 pixels
+function rects(k){const z=Z[k],s=safe(k),a=[{n:'top',x:0,y:0,w:W,h:z.t},{n:'bottom',x:0,y:H-z.b,w:W,h:z.b},{n:'right',x:W-z.r,y:z.t,w:z.r,h:s.h},{n:'left',x:0,y:z.t,w:z.l,h:s.h}];
+ if(z.side)a.push({n:'buttons',x:W-z.r-z.side.w,y:z.side.y,w:z.side.w,h:H-z.b-z.side.y});return a}
+// Pixel check: L = luminance (0..255) of the frame scaled to w x h, rs = covered rects, sc = w/1080.
+// A 12x12 cell counts as "text-like" when it has many hard edges in BOTH directions (letters), not just one line.
+function scanLum(L,w,h,rs,sc){const C=12,T=60,hits=[],per={};
+ for(const r of rs){let n=0,tot=0;const x0=Math.round(r.x*sc),y0=Math.round(r.y*sc),x1=Math.round((r.x+r.w)*sc),y1=Math.round((r.y+r.h)*sc);
+  for(let cy=y0;cy+C<=y1;cy+=C)for(let cx0=x0;cx0+C<=x1;cx0+=C){tot++;let eh=0,ev=0;
+   for(let y=cy;y<cy+C;y++)for(let x=cx0;x<cx0+C;x++){const i=y*w+x;if(x+1<w&&Math.abs(L[i]-L[i+1])>T)eh++;if(y+1<h&&Math.abs(L[i]-L[i+w])>T)ev++}
+   if(eh>=6&&ev>=6){n++;hits.push({x:cx0/sc,y:cy/sc,s:C/sc,n:r.n})}}
+  per[r.n]={cells:n,total:tot}}
+ return{hits,per}}
+function bad(res){return res?Object.keys(res.per).filter(n=>res.per[n].cells>=2):[]}
+function tcs(t,f){const n=Math.round(t*f),s=Math.floor(n/f);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')+'.'+String(n%f).padStart(2,'0')}
+function ranges(list,gap){const out=[];for(const h of list){const p=out[out.length-1];if(p&&h.t-p.b<=gap){p.b=h.t;h.z.forEach(z=>p.z.includes(z)||p.z.push(z))}else out.push({a:h.t,b:h.t,z:h.z.slice()})}return out}
+/*/LOGIC*/
+const SW=270,SH=480,sc2=document.createElement('canvas');sc2.width=SW;sc2.height=SH;const sx=sc2.getContext('2d',{willReadFrequently:true}),LUM=new Uint8Array(SW*SH);
+const ZN={top:'top bar',bottom:'caption area (bottom)',right:'right edge',left:'left edge',buttons:'button column'};
 function sample(){const g=cx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#2b3550');g.addColorStop(.55,'#3b2f4a');g.addColorStop(1,'#1b1f29');cx.fillStyle=g;cx.fillRect(0,0,W,H);
- cx.fillStyle='#ffffff14';cx.beginPath();cx.arc(W/2,760,230,0,7);cx.fill();cx.fillRect(W/2-330,1000,660,700);
+ cx.fillStyle='#ffffff14';cx.beginPath();cx.arc(W/2,640,200,0,7);cx.fill();cx.fillRect(W/2-300,860,600,900);
  cx.textAlign='center';cx.font='800 92px system-ui,Segoe UI,sans-serif';cx.lineWidth=14;cx.strokeStyle='#000';cx.fillStyle='#fff';
- cx.strokeText('THIS IS THE',W/2,1300);cx.fillText('THIS IS THE',W/2,1300);cx.fillStyle='#ffd400';cx.strokeText('CAPTION',W/2,1410);cx.fillText('CAPTION',W/2,1410);
- if(!demo){cx.fillStyle='#ffffffb0';cx.font='600 44px system-ui,Segoe UI,sans-serif';cx.fillText('Drop your frame →',W/2,560)}}
+ cx.strokeText('THIS IS THE',W/2,1340);cx.fillText('THIS IS THE',W/2,1340);cx.fillStyle='#ffd400';cx.strokeText('CAPTION',W/2,1450);cx.fillText('CAPTION',W/2,1450);
+ if(!demo){cx.fillStyle='#ffffffb0';cx.font='600 44px system-ui,Segoe UI,sans-serif';cx.fillText('Drop your frame',W/2,470)}}
+function check(){try{sx.drawImage(cv,0,0,SW,SH);const d=sx.getImageData(0,0,SW,SH).data;for(let i=0,j=0;i<LUM.length;i++,j+=4)LUM[i]=(d[j]*77+d[j+1]*150+d[j+2]*29)>>8;return scanLum(LUM,SW,SH,rects(cur),SW/W)}catch(e){return null}}
+function report(res){const c=$('chk'),b=bad(res);
+ if(!res){c.className='chk';c.textContent='The pixel check is not available in this browser.';return}
+ if(b.length){c.className='chk bad';c.innerHTML='<b>⚠ Text in a covered area</b>'+(src?'This frame':'The sample caption')+' has text or sharp detail under the '+b.map(n=>ZN[n]).join(', ')+' on '+Z[cur].name+'. Move it into the green box.'}
+ else{c.className='chk ok';c.innerHTML='<b>✓ Nothing important is covered</b>No text or sharp detail found in the covered areas of this frame on '+Z[cur].name+'.'}
+ c.dataset.zones=b.join(',')}
 function draw(){
  cx.clearRect(0,0,W,H);
  if(src){cx.fillStyle='#000';cx.fillRect(0,0,W,H);const sw=src.videoWidth||src.naturalWidth,sh=src.videoHeight||src.naturalHeight;const s=Math.max(W/sw,H/sh);cx.drawImage(src,(W-sw*s)/2,(H-sh*s)/2,sw*s,sh*s)}else sample();
- const z=Z[cur],s=safe(cur);
- if($('zones').checked){cx.fillStyle='rgba(229,57,53,.40)';cx.fillRect(0,0,W,z.t);cx.fillRect(0,H-z.b,W,z.b);cx.fillRect(W-z.r,z.t,z.r,s.h);cx.fillStyle='rgba(229,57,53,.22)';cx.fillRect(0,z.t,z.l,s.h)}
- if($('ui').checked){cx.fillStyle='rgba(255,255,255,.88)';const bx=W-z.r/2;[0,1,2,3,4].forEach(i=>{cx.beginPath();cx.arc(bx,H-z.b-80-i*150,34,0,7);cx.fill()});
+ last=check(); // on the clean frame, before anything is drawn on top
+ const z=Z[cur],s=safe(cur),rs=rects(cur);
+ if($('zones').checked){rs.forEach(r=>{cx.fillStyle=r.n==='left'?'rgba(229,57,53,.22)':'rgba(229,57,53,.40)';cx.fillRect(r.x,r.y,r.w,r.h)})}
+ if($('ui').checked){cx.fillStyle='rgba(255,255,255,.88)';const bx=z.side?W-z.r-z.side.w/2:W-z.r/2;[0,1,2,3].forEach(i=>{cx.beginPath();cx.arc(bx,H-z.b-70-i*110,34,0,7);cx.fill()});
   const r=(x,y,w,h)=>{cx.beginPath();cx.roundRect?cx.roundRect(x,y,w,h,h/2):cx.rect(x,y,w,h);cx.fill()};
-  r(36,H-z.b+40,420,30);r(36,H-z.b+90,640,24);r(36,H-z.b+130,520,24);cx.fillRect(0,H-120,W,2);
+  r(36,H-z.b+60,420,30);r(36,H-z.b+110,640,24);r(36,H-z.b+150,520,24);cx.fillRect(0,H-120,W,2);
   r(W/2-210,z.t/2-14,180,28);r(W/2+30,z.t/2-14,180,28)}
- cx.strokeStyle='#00e676';cx.lineWidth=6;cx.setLineDash([]);cx.strokeRect(s.x,s.y,s.w,s.h);
+ cx.strokeStyle='#00e676';cx.lineWidth=6;cx.setLineDash([]);cx.beginPath();
+ if(z.side){const sx0=W-z.r-z.side.w;cx.moveTo(s.x,s.y);cx.lineTo(s.x+s.w,s.y);cx.lineTo(s.x+s.w,z.side.y);cx.lineTo(sx0,z.side.y);cx.lineTo(sx0,s.y+s.h);cx.lineTo(s.x,s.y+s.h);cx.closePath()}else cx.rect(s.x,s.y,s.w,s.h);cx.stroke();
+ if(last){cx.strokeStyle='#f5c451';cx.lineWidth=5;last.hits.forEach(h=>cx.strokeRect(h.x+3,h.y+3,h.s-6,h.s-6))}
+ report(last);if(once){const f=once;once=null;f()}
 }
 function tabs(){const t=$('tabs');t.innerHTML='';for(const k in Z){const b=document.createElement('button');b.type='button';b.textContent=Z[k].name;b.dataset.p=k;b.setAttribute('role','radio');b.setAttribute('aria-checked',k===cur);b.className=k===cur?'on':'';
- b.onclick=()=>{cur=k;try{localStorage.setItem('safezone1',k)}catch(e){}update()};t.appendChild(b)}}
+ b.onclick=()=>{if(busy)return;cur=k;try{localStorage.setItem('safezone1',k)}catch(e){}$('hits').innerHTML='';update()};t.appendChild(b)}}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function table(){const z=Z[cur],s=safe(cur);$('ptag').textContent=z.name;
- [['nt',z.t],['nb',z.b],['nr',z.r],['nl',z.l]].forEach(([i,v])=>$(i).innerHTML=v+'<span>px</span>');$('sb').textContent=s.w+'×'+s.h;$('sp').textContent='at x '+s.x+', y '+s.y}
+ [['nt',z.t],['nb',z.b],['nr',z.r],['nl',z.l]].forEach(([i,v])=>$(i).innerHTML=v+'<span>px</span>');$('sb').textContent=s.w+'×'+s.h;$('sp').textContent='at x '+s.x+', y '+s.y+(z.side?' · minus button column':'');
+ const so=z.source,d=new Date(z.checked+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+ $('srcl').innerHTML='<b>Source ('+esc(z.basis)+'):</b> '+(so.url?'<a href="'+esc(so.url)+'" rel="noopener nofollow" target="_blank">'+esc(so.title)+'</a>':esc(so.title))+(so.updated?' · page updated '+esc(so.updated):'')+' · checked '+d+'. '+esc(z.how)}
 const PI={tiktok:'<path d="M14 3v11a4 4 0 1 1-4-4"/><path d="M14 3c.5 2.5 2.5 4.5 5 5"/>',reels:'<rect x="3" y="3" width="18" height="18" rx="5"/><path d="M3 8h18M8 3l3 5M14 3l3 5M10 12v5l4-2.5z"/>',
  shorts:'<rect x="3" y="5" width="18" height="14" rx="4"/><path d="M10 9.5v5l4.5-2.5z"/>',combined:'<rect x="6" y="2" width="12" height="20" rx="3"/><rect x="8.5" y="6" width="7" height="10" rx="1"/>'};
 function dl(){const d=$('dl');d.innerHTML='';for(const k in Z){const a=document.createElement('a');a.className='tile';a.href='png/'+k+'_'+kind+'_1080x1920.png';a.download='';a.dataset.p=k;
  a.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+PI[k]+'</svg><span>'+Z[k].name+'<small>PNG · '+(kind==='safe_zone'?'safe zone':'guide lines')+'</small></span>';d.appendChild(a)}
  [...$('kind').children].forEach(b=>{const on=b.dataset.k===kind;b.classList.toggle('on',on);b.setAttribute('aria-checked',on)})}
 function update(){tabs();table();draw()}
-function mmss(t){t=Math.floor(t||0);return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')}
+// --- video: slider, frame steps, whole-video check
+function seekTo(t){if(!vid||!vid.duration)return;vid.currentTime=Math.max(0,Math.min(vid.duration-.002,t))}
+function step(frames){if(!vid||busy)return;seekTo((Math.round(vid.currentTime*fps)+frames)/fps+.0005)}
+function shown(){$('tc').textContent=tcs(vid.currentTime,fps);const v=Math.round(1000*vid.currentTime/vid.duration);$('seek').value=v;$('seek').style.setProperty('--p',v/10+'%')}
+async function scanAll(){if(!vid||busy||!vid.duration)return;busy=true;const keep=vid.currentTime,n=Math.min(240,Math.max(2,Math.ceil(vid.duration*2))),found=[],b=$('scanb');$('hits').innerHTML='';
+ for(let i=0;i<n;i++){const t=vid.duration*(i+.5)/n;await new Promise(r=>{once=r;seekTo(t);setTimeout(()=>{if(once===r){once=null;r()}},2000)});
+  const z=bad(last);if(z.length)found.push({t:vid.currentTime,z});b.textContent='Checking… '+Math.round(100*(i+1)/n)+'%'}
+ busy=false;b.textContent='Check the whole video again';const rg=ranges(found,vid.duration/n*1.5),hb=$('hits');hb.dataset.done=String(n);
+ if(!rg.length){hb.innerHTML='<span>No covered text found in '+n+' checked frames on '+esc(Z[cur].name)+'.</span>';seekTo(keep);return}
+ hb.innerHTML='<span>Covered text at (click to jump):</span>';rg.slice(0,12).forEach(r=>{const x=document.createElement('button');x.type='button';x.className='ghost';x.dataset.t=r.a;
+  x.textContent=tcs(r.a,fps)+(r.b>r.a?' – '+tcs(r.b,fps):'')+' · '+r.z.join(', ');x.onclick=()=>seekTo(r.a);hb.appendChild(x)});
+ if(rg.length>12){const m=document.createElement('span');m.textContent='+ '+(rg.length-12)+' more';hb.appendChild(m)}seekTo(rg[0].a)}
 function load(f){if(!f)return;const ok=/^(image|video)\//.test(f.type)||/\.(png|jpe?g|webp|gif|mp4|mov|webm|m4v)$/i.test(f.name);
  if(!ok){$('msg').textContent='That file is not an image or video – try a .png, .jpg or .mp4.';return}
- const u=URL.createObjectURL(f);$('fname').textContent=f.name;$('ftag').textContent=f.type.startsWith('video')||/\.(mp4|mov|webm|m4v)$/i.test(f.name)?'video':'image';$('ftag').className='tag ok';
- if($('ftag').textContent==='video'){vid=document.createElement('video');vid.src=u;vid.muted=true;vid.playsInline=true;vid.preload='auto';
-  vid.onloadeddata=()=>{src=vid;vid.currentTime=Math.min(1,vid.duration/2);$('seekw').classList.add('on')};vid.onseeked=()=>{$('tc').textContent=mmss(vid.currentTime);draw()};
-  vid.onerror=()=>{$('msg').textContent='Your browser cannot play this video – try an .mp4 (H.264) or a screenshot.'};
-  $('seek').oninput=()=>{if(vid.duration)vid.currentTime=vid.duration*$('seek').value/1000}}
- else{const im=new Image();im.onload=()=>{src=im;vid=null;$('seekw').classList.remove('on');draw()};im.onerror=()=>{$('msg').textContent='This image could not be read.'};im.src=u}}
+ const u=URL.createObjectURL(f),isv=f.type.startsWith('video')||/\.(mp4|mov|webm|m4v)$/i.test(f.name);$('fname').textContent=f.name;$('ftag').textContent=isv?'video':'image';$('ftag').className='tag ok';$('hits').innerHTML='';$('scanb').textContent='Check the whole video';
+ const vis=on=>['seekw','steps','scanw'].forEach(i=>$(i).classList.toggle('on',on));
+ if(isv){const v=document.createElement('video');v.src=u;v.muted=true;v.playsInline=true;v.preload='auto';
+  v.onloadeddata=()=>{vid=v;src=v;vis(true);seekTo(Math.min(1,v.duration/2))};v.onseeked=()=>{if(vid!==v)return;shown();draw()};
+  v.onerror=()=>{$('msg').textContent='Your browser cannot play this video – try an .mp4 (H.264) or a screenshot.'}}
+ else{const im=new Image();im.onload=()=>{src=im;vid=null;vis(false);draw()};im.onerror=()=>{$('msg').textContent='This image could not be read.'};im.src=u}}
+$('seek').oninput=()=>{if(vid&&vid.duration&&!busy)seekTo(vid.duration*$('seek').value/1000)};
+$('b1f').onclick=()=>step(-1);$('f1f').onclick=()=>step(1);$('b1s').onclick=()=>step(-fps);$('f1s').onclick=()=>step(fps);
+$('fps').onchange=()=>{fps=+$('fps').value;if(vid)shown()};$('scanb').onclick=scanAll;
+document.addEventListener('keydown',e=>{if(!vid||e.altKey||e.ctrlKey||e.metaKey)return;const t=e.target.tagName;if(t==='SELECT'||t==='TEXTAREA'||(t==='INPUT'&&e.target.type!=='range'&&e.target.type!=='checkbox'))return;
+ if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();step((e.key==='ArrowLeft'?-1:1)*(e.shiftKey?fps:1))}});
 $('file').onchange=e=>load(e.target.files[0]);
 ['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();$('drop').classList.add('over')}));
 ['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();if(ev==='drop'||!e.relatedTarget)$('drop').classList.remove('over')}));
 document.addEventListener('drop',e=>{const f=e.dataTransfer&&e.dataTransfer.files[0];if(f)load(f)});
 ['ui','zones'].forEach(i=>$(i).onchange=draw);
 [...$('kind').children].forEach(b=>b.onclick=()=>{kind=b.dataset.k;dl()});
-$('cp').onclick=()=>{const z=Z[cur],s=safe(cur),t=z.name+' safe zone @1080x1920: top '+z.t+', bottom '+z.b+', right '+z.r+', left '+z.l+' px – safe box '+s.w+'x'+s.h+' at x '+s.x+', y '+s.y;
+$('cp').onclick=()=>{const z=Z[cur],s=safe(cur),t=z.name+' safe zone @1080x1920: top '+z.t+', bottom '+z.b+', right '+z.r+', left '+z.l+' px – safe box '+s.w+'x'+s.h+' at x '+s.x+', y '+s.y+(z.side?', button column '+z.side.w+' px wide from y '+z.side.y:'')+' ('+z.basis+', checked '+z.checked+')';
  if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>{$('msg').textContent='Copied: '+t},()=>{$('msg').textContent=t})};
 dl();update();
 </script>
