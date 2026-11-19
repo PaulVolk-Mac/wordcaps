@@ -167,3 +167,28 @@ test('link checker: no dead internal links, tool links only to live tools', () =
   assert.ok(checked > 100, `only ${checked} links checked`);
   assert.deepEqual(dead, []);
 });
+
+// Lighthouse 19.11.: --dim #8f8f98 had 4.03:1 on the dark tile (#3a2f2b) and 4.41:1 on #2b2b2b (WCAG AA needs 4.5:1).
+function lum(hex) {
+  const c = [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+    .map(x => (x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+
+test('a11y: dark --dim text reaches 4.5:1 on every dark surface of every tool page', () => {
+  const pages = ['tools/index.html', ...readdirSync(join(ROOT, 'tools'), { withFileTypes: true })
+    .filter(e => e.isDirectory() && existsSync(join(ROOT, 'tools', e.name, 'index.html')))
+    .map(e => `tools/${e.name}/index.html`)];
+  for (const p of pages) {
+    const dims = [...read(p).matchAll(/color-scheme:dark;[^}]*?--dim:#([0-9a-fA-F]{6})/g)].map(m => m[1]);
+    for (const d of dims) for (const bg of ['3a2f2b', '2b2b2b', '262626', '1c1c1c'])
+      assert.ok(ratio(d, bg) >= 4.5, `${p}: --dim #${d} on #${bg} = ${ratio(d, bg).toFixed(2)}:1`);
+  }
+});
+
+test('a11y: safe zone checker – every button with aria-checked has role="radio"', () => {
+  const html = read('tools', 'safe-zone-checker', 'index.html');
+  for (const m of html.matchAll(/<button\b[^>]*aria-checked[^>]*>/g))
+    assert.match(m[0], /role="radio"/, m[0]);
+});
