@@ -129,11 +129,11 @@ function setz(w){if(w==="light"||w==="dark")d.setAttribute("data-theme",w);else 
 var w="auto";try{w=localStorage.getItem(K)||"auto"}catch(e){}
 if(w!=="auto")d.setAttribute("data-theme",w);
 document.addEventListener("DOMContentLoaded",function(){var h=document.querySelector("header");if(!h)return;
- var g=document.createElement("div");g.className="theme";g.setAttribute("role","group");g.setAttribute("aria-label","Appearance");
- [["auto","Auto"],["light","Light"],["dark","Dark"]].forEach(function(x){var b=document.createElement("button");b.type="button";b.dataset.t=x[0];b.textContent=x[1];
-  b.title=x[0]==="auto"?"Follow your system (Windows/phone setting)":x[1]+" mode";
-  b.onclick=function(){w=x[0];try{localStorage.setItem(K,w)}catch(e){}setz(w)};g.appendChild(b)});
- var s=h.querySelector(".ghost");h.insertBefore(g,s);setz(w);
+ var g=h.querySelector(".theme");if(!g){g=document.createElement("div");g.className="theme";g.setAttribute("role","group");g.setAttribute("aria-label","Appearance");
+  [["auto","Auto"],["light","Light"],["dark","Dark"]].forEach(function(x){var b=document.createElement("button");b.type="button";b.dataset.t=x[0];b.textContent=x[1];
+   b.title=x[0]==="auto"?"Follow your system (Windows/phone setting)":x[1]+" mode";g.appendChild(b)});
+  h.insertBefore(g,h.querySelector(".ghost"))}
+ g.querySelectorAll("button").forEach(function(b){b.onclick=function(){w=b.dataset.t;try{localStorage.setItem(K,w)}catch(e){}setz(w)}});setz(w);
  matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){setz(w)});});})();
 
 </script>
@@ -172,7 +172,7 @@ small,.tag,.tile span{font-size:12px!important}
 <body>
 <header>
   <div class="brand"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/></svg></span><h1>Workout Plan Generator – free 4-week plan</h1></div>
-  <button class="ghost" id="shareLink" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Copy link</span></button>
+  <div class="theme" role="group" aria-label="Appearance"><button type="button" data-t="auto" title="Follow your system (Windows/phone setting)" aria-pressed="true">Auto</button><button type="button" data-t="light" title="Light mode" aria-pressed="false">Light</button><button type="button" data-t="dark" title="Dark mode" aria-pressed="false">Dark</button></div><button class="ghost" id="shareLink" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Copy link</span></button>
 </header>
 <main>
 <section class="card setup" aria-label="Your settings">
