@@ -28,6 +28,7 @@
 - [Best offline subtitle generators for Windows (no upload)](https://paulvolk-mac.github.io/wordcaps/offline-subtitle-generator.html)
 - [CapCut auto captions not working? 8 fixes](https://paulvolk-mac.github.io/wordcaps/capcut-auto-captions-not-working.html)
 - [How to import an SRT file into CapCut](https://paulvolk-mac.github.io/wordcaps/import-srt-into-capcut.html)
+- [How to shift subtitle timing (SRT offset): 5 free ways](https://paulvolk-mac.github.io/wordcaps/shift-subtitle-timing.html)
 - [AutoSubs stays "Disconnected" in DaVinci Resolve – what works right now](https://paulvolk-mac.github.io/wordcaps/autosubs-disconnected-davinci-resolve.html)
 - [Subtitle Edit: word-by-word and karaoke highlight captions](https://paulvolk-mac.github.io/wordcaps/subtitle-edit-word-by-word-karaoke.html)
 - [Auto captions for long videos and many files – offline](https://paulvolk-mac.github.io/wordcaps/long-video-batch-auto-captions-offline.html)

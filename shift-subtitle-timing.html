@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Shift Subtitle Timing (SRT Offset) – 5 Free Ways (2026)</title>
+<meta name="description" content="Subtitles too early or too late? Shift SRT timing online in your browser, in VLC, HandBrake, Subtitle Edit or with one FFmpeg command – free, no upload, no sign-up.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/shift-subtitle-timing.html">
+<meta property="og:title" content="How to shift subtitle timing (SRT offset) – 5 free ways">
+<meta property="og:description" content="Fix subtitles that are early or late: online in the browser, VLC, HandBrake, Subtitle Edit or FFmpeg.">
+<meta property="og:image" content="https://paulvolk-mac.github.io/wordcaps/tools/subtitle-converter/og.jpg">
+<meta name="twitter:image" content="https://paulvolk-mac.github.io/wordcaps/tools/subtitle-converter/og.jpg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"How do I shift an SRT file by a few seconds?","acceptedAnswer":{"@type":"Answer","text":"Open the free subtitle converter, paste or drop the SRT, type the offset in seconds under Shift timing (positive = later, negative = earlier) and download the new file. It runs in the browser, the file is not uploaded."}},
+ {"@type":"Question","name":"Positive or negative offset – which one do I need?","acceptedAnswer":{"@type":"Answer","text":"If the text appears after the words are spoken, the subtitles are late: use a negative offset. If the text appears before the words, they are early: use a positive offset."}},
+ {"@type":"Question","name":"The subtitles start in sync but drift apart over time. Will a shift fix that?","acceptedAnswer":{"@type":"Answer","text":"No. A growing gap means a different frame rate (for example 23.976 vs 25 fps) or a different cut. Use a frame-rate change or a two-point sync, for example in Subtitle Edit."}},
+ {"@type":"Question","name":"Can I shift subtitles in VLC permanently?","acceptedAnswer":{"@type":"Answer","text":"No. The subtitle delay in VLC (keys G and H, 50 ms per press) only applies while you watch. To change the file itself, shift it with a converter, Subtitle Edit or FFmpeg."}}]}
+</script>
+</head><body>
+<header class="top"><a class="logo" href="./">Word<span>Caps</span> <small style="font-weight:600;color:#c9d1e0">Studio</small></a>
+<nav><a href="./">Home</a><a href="tools/">Tools</a><a href="./#faq">FAQ</a></nav></header>
+<main><article>
+<h1>How to shift subtitle timing (SRT offset)</h1>
+<p>The words are right, but every line shows up a second too late or too early. That is the most common subtitle problem, and it is quick to fix: add one offset to every time stamp. This guide shows five free ways, from a browser tool without install to a one-line FFmpeg command, and how to tell a simple offset from drift that needs a different fix.</p>
+
+<h2>First: which direction?</h2>
+<ul><li><b>Text comes after the words</b> → subtitles are <b>late</b> → use a <b>negative</b> offset (e.g. <code>-1.5</code> s).</li>
+<li><b>Text comes before the words</b> → subtitles are <b>early</b> → use a <b>positive</b> offset (e.g. <code>+0.8</code> s).</li></ul>
+<p>To find the amount, play the video, note the time when a clear line is spoken (say 0:12.4) and the start time of that line in the SRT (say 0:13.9). The difference, here −1.5 s, is your offset.</p>
+<p><b>Same gap at the start and at the end?</b> Then a shift is all you need. <b>Gap grows during the video?</b> Jump to <a href="#drift">subtitles drift out of sync</a>.</p>
+
+<h2>1. Online in the browser (no install, no upload)</h2>
+<p>Our free <a href="tools/subtitle-converter/">subtitle converter</a> has a <b>Shift timing</b> field:</p>
+<ol><li>Drop your <code>.srt</code>, <code>.vtt</code> or <code>.ass</code> file on the page or paste the text.</li>
+<li>Type the offset in seconds under <i>Shift timing</i>, or use the − / + buttons (0.1 s per click).</li>
+<li>Pick the output format (SRT, VTT, ASS or plain text) and download.</li></ol>
+<p>Everything runs in your browser. The file never leaves your PC, there is no sign-up and no watermark. You can convert and shift in one step, for example SRT → VTT for a web player.</p>
+
+<h2>2. VLC: while watching (not saved)</h2>
+<p>Press <b>H</b> to delay the subtitles and <b>G</b> to show them earlier, 50 ms per press (on a Mac the keys can differ, see VLC's hotkey settings). The menu way is <i>Tools → Track Synchronization → Subtitle track synchronization</i>. This only changes playback. Close the video and the offset is gone, so for a file you want to share or upload use one of the other ways.</p>
+
+<h2>3. HandBrake: offset while importing</h2>
+<p>If you encode the video with HandBrake anyway: open the <b>Subtitles</b> tab, import your SRT and set <b>Offset (ms)</b> in the import options, for example <code>-1500</code> for 1.5 s earlier. You can add the track as a soft subtitle or burn it in. The original SRT file stays unchanged.</p>
+
+<h2>4. Subtitle Edit (Windows, free)</h2>
+<p>Open the SRT, then <i>Synchronization → Adjust all times</i>. Enter the time, choose <i>Show earlier</i> or <i>Show later</i> and save. Subtitle Edit also has the drift tools from the section below.</p>
+
+<h2>5. FFmpeg: one command</h2>
+<p>With FFmpeg installed, <code>-itsoffset</code> before the input moves every time stamp:</p>
+<pre>ffmpeg -itsoffset 1.5 -i in.srt out.srt     (1.5 s later)
+ffmpeg -itsoffset -0.5 -i in.srt out.srt    (0.5 s earlier)</pre>
+<p>We tested both lines: a line at 00:00:01,000 moves to 00:00:02,500 and 00:00:00,500. Handy for many files in a batch script.</p>
+
+<h2 id="drift">Subtitles drift out of sync (a shift won't fix it)</h2>
+<p>If the first lines fit and the last ones are several seconds off, the subtitles were made for a different version of the video:</p>
+<ul><li><b>Different frame rate</b> (23.976, 24, 25 fps): the gap grows evenly. In Subtitle Edit use <i>Synchronization → Change frame rate</i>, e.g. from 25 to 23.976.</li>
+<li><b>Different cut</b> (intro removed, ad break, director's cut): the gap jumps at one point. Use a two-point sync (Subtitle Edit: <i>Point sync</i>) or shift only the lines after the jump.</li>
+<li><b>Your own edit:</b> SRT times count from the start of the audio they were made from. If you cut the video after making the SRT, make it again from the final export.</li></ul>
+
+<h2>Common problems after shifting</h2>
+<ul><li><b>Lines before 0:00:</b> with a large negative offset the first lines can end up before the start. Delete those lines or use a smaller offset; some players reject negative times.</li>
+<li><b>Comma vs dot:</b> SRT uses <code>00:00:01,500</code> (comma), WebVTT uses <code>00:00:01.500</code> (dot). Save in the format your player expects.</li>
+<li><b>Strange characters</b> (Ã¤ instead of ä): save the file as UTF-8.</li></ul>
+
+<h2 id="alternative">Avoid the problem: make captions from the final video</h2>
+<p>Captions made from the finished edit are in sync from the start. <a href="./">WordCaps Studio</a> (Windows, our app) transcribes the final MP4 on your PC, burns animated word-by-word captions into it and also writes an SRT. No account, no upload, no subscription. Disclosure: we make it, so weigh that accordingly. More free ways: <a href="how-to-make-word-by-word-captions.html">how to make word-by-word captions</a>.</p>
+<p>Related: <a href="import-srt-into-capcut.html">import an SRT file into CapCut</a> · <a href="burn-subtitles-into-video-free.html">burn subtitles into a video for free</a> · <a href="tools/">all free browser tools</a>.</p>
+<p><a class="cta" href="tools/subtitle-converter/">Open the free subtitle converter</a><a class="cta secondary" href="https://jaulana.itch.io/wordcaps">See WordCaps Studio on itch.io</a></p>
+
+<h2>FAQ</h2>
+<details open><summary>How do I shift an SRT file by a few seconds?</summary><p>Open the <a href="tools/subtitle-converter/">subtitle converter</a>, drop the file, type the offset under <i>Shift timing</i> and download. Nothing is uploaded.</p></details>
+<details><summary>Positive or negative offset – which one do I need?</summary><p>Text after the words = late = negative offset. Text before the words = early = positive offset.</p></details>
+<details><summary>The subtitles drift apart over time. Will a shift fix that?</summary><p>No. That is a frame-rate or cut difference. Use a frame-rate change or a two-point sync, see <a href="#drift">drift</a>.</p></details>
+<details><summary>Can I shift subtitles in VLC permanently?</summary><p>No, the VLC delay (G / H) only applies while you watch. Change the file with a converter, Subtitle Edit or FFmpeg.</p></details>
+<p class="note">VLC, HandBrake, Subtitle Edit and FFmpeg are projects of their respective owners; this guide is independent. Menu names can change between versions. Sources: FFmpeg documentation, option <code>-itsoffset</code> (ffmpeg.org/ffmpeg-all.html); VLC hotkeys (Tools → Preferences → Hotkeys).</p>
+</article></main>
+<footer>WordCaps Studio · <a href="./">Home</a> · <a href="tools/">Free tools</a> · <a href="import-srt-into-capcut.html">Import SRT into CapCut</a> · <a href="burn-subtitles-into-video-free.html">Burn subtitles in for free</a> · <a href="llms.txt">llms.txt</a> · Privacy: visits are counted with <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> (no cookies, no fingerprinting).</footer>
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c310764ce891411fbe074a6826875ccf"}'></script>
+</body></html>
