@@ -168,6 +168,25 @@ test('link checker: no dead internal links, tool links only to live tools', () =
   assert.deepEqual(dead, []);
 });
 
+test('tool pages: theme switcher is in the HTML header, not injected later (CLS, A-217)', () => {
+  for (const t of live) {
+    const html = read('tools', t.slug, 'index.html');
+    const head = html.slice(html.indexOf('<header'), html.indexOf('</header>'));
+    assert.match(head, /<div class="theme" role="group" aria-label="Appearance">/, `${t.slug}: static .theme missing in <header>`);
+    for (const m of ['auto', 'light', 'dark']) assert.ok(head.includes(`data-t="${m}"`), `${t.slug}: button ${m} missing`);
+    assert.equal((html.match(/class="theme"/g) || []).length, 1, `${t.slug}: exactly one .theme`);
+    assert.ok(html.includes('var g=h.querySelector(".theme");if(!g)'), `${t.slug}: script must reuse the static switcher`);
+  }
+});
+
+test('safe zone checker: platform tabs are in the HTML from the start (CLS, A-217)', () => {
+  const html = read('tools', 'safe-zone-checker', 'index.html');
+  const m = html.match(/<div class="seg" id="tabs"[^>]*>([\s\S]*?)<\/div>/);
+  assert.ok(m, 'tabs container missing');
+  for (const p of ['tiktok', 'reels', 'shorts', 'combined']) assert.ok(m[1].includes(`data-p="${p}"`), `tab ${p} missing`);
+  assert.match(m[1], /data-p="combined" role="radio" aria-checked="true" class="on"/, 'default tab must match cur=combined');
+});
+
 // Lighthouse 19.11.: --dim #8f8f98 had 4.03:1 on the dark tile (#3a2f2b) and 4.41:1 on #2b2b2b (WCAG AA needs 4.5:1).
 function lum(hex) {
   const c = [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
