@@ -1,0 +1,67 @@
+{
+  "_readme": "Single source for the tool overview (tools/index.html) and the 'More free tools' block on every tool page. Edit here, then run: node scripts/build-tools.mjs  (check: node --test). Only tools with status 'live' are linked.",
+  "base": "https://paulvolk-mac.github.io/wordcaps/tools/",
+  "categories": [
+    { "id": "video", "label": "Video" },
+    { "id": "audio", "label": "Audio" },
+    { "id": "fitness", "label": "Fitness" },
+    { "id": "focus", "label": "Focus" }
+  ],
+  "tools": [
+    {
+      "slug": "subtitle-converter",
+      "status": "live",
+      "name": "Subtitle Converter",
+      "desc": "Convert SRT to VTT, VTT to SRT, ASS or TXT and shift timing – a free subtitle converter online that runs in your browser, no upload.",
+      "tagline": "SRT, VTT, ASS and TXT – convert and shift timing.",
+      "categories": ["video"],
+      "keywords": ["srt", "vtt", "ass", "txt", "subtitles", "captions", "timing", "sync", "shift"],
+      "icon": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M7 15h4M13 15h4M7 11h10\"/>",
+      "related": ["safe-zone-checker", "slowed-reverb", "noise-machine"]
+    },
+    {
+      "slug": "safe-zone-checker",
+      "status": "live",
+      "name": "TikTok / Reels / Shorts Safe Zone Checker",
+      "desc": "Free TikTok safe zone checker and overlay templates: drop your image or video and see what the app UI will cover. No upload.",
+      "tagline": "See what TikTok, Reels and Shorts buttons cover.",
+      "categories": ["video"],
+      "keywords": ["tiktok", "reels", "shorts", "instagram", "youtube", "overlay", "template", "safe area", "9:16"],
+      "icon": "<rect x=\"6\" y=\"2\" width=\"12\" height=\"20\" rx=\"2.5\"/><path d=\"M9 6h6M9 18h3\"/>",
+      "related": ["subtitle-converter", "slowed-reverb", "hiit-timer"]
+    },
+    {
+      "slug": "hiit-timer",
+      "status": "live",
+      "name": "HIIT & Tabata Timer",
+      "desc": "Free HIIT timer online with sound: Tabata, EMOM, 45/15, 30/30 and boxing rounds – beeps, voice, screen stays awake.",
+      "tagline": "Tabata, EMOM and custom rounds with beeps and voice.",
+      "categories": ["fitness"],
+      "keywords": ["interval", "workout", "gym", "training", "boxing", "rounds", "stopwatch", "emom", "tabata"],
+      "icon": "<circle cx=\"12\" cy=\"13\" r=\"8\"/><path d=\"M12 9v4l2.5 2M10 2h4\"/>",
+      "related": ["noise-machine", "slowed-reverb", "safe-zone-checker"]
+    },
+    {
+      "slug": "noise-machine",
+      "status": "live",
+      "name": "Brown & White Noise Machine",
+      "desc": "Brown noise generator and white noise machine online: brown, pink, white noise, rain, fan, ocean – sleep timer, black screen, no ads.",
+      "tagline": "Brown, pink and white noise with a sleep timer.",
+      "categories": ["focus", "audio"],
+      "keywords": ["sleep", "study", "concentration", "relax", "rain", "fan", "ocean", "pink noise", "ambient"],
+      "icon": "<path d=\"M3 12h2M7 8v8M11 5v14M15 9v6M19 7v10\"/>",
+      "related": ["hiit-timer", "slowed-reverb", "subtitle-converter"]
+    },
+    {
+      "slug": "slowed-reverb",
+      "status": "live",
+      "name": "Slowed + Reverb Maker",
+      "desc": "Slowed and reverb generator online: slow down your own song, add reverb and bass, hear it live, download a WAV. Nightcore maker too. No upload.",
+      "tagline": "Slow down a song, add reverb, download a WAV.",
+      "categories": ["audio"],
+      "keywords": ["music", "song", "nightcore", "sped up", "bass", "wav", "mp3", "pitch", "tempo"],
+      "icon": "<path d=\"M9 18V5l11-2v13\"/><circle cx=\"6\" cy=\"18\" r=\"3\"/><circle cx=\"17\" cy=\"16\" r=\"3\"/>",
+      "related": ["noise-machine", "safe-zone-checker", "subtitle-converter"]
+    }
+  ]
+}
