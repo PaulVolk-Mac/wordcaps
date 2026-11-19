@@ -39,7 +39,18 @@
       "categories": ["fitness"],
       "keywords": ["interval", "workout", "gym", "training", "boxing", "rounds", "stopwatch", "emom", "tabata"],
       "icon": "<circle cx=\"12\" cy=\"13\" r=\"8\"/><path d=\"M12 9v4l2.5 2M10 2h4\"/>",
-      "related": ["noise-machine", "slowed-reverb", "safe-zone-checker"]
+      "related": ["workout-plan-generator", "noise-machine", "slowed-reverb"]
+    },
+    {
+      "slug": "workout-plan-generator",
+      "status": "live",
+      "name": "Workout Plan Generator",
+      "desc": "Free workout plan generator: pick your goal, 2–6 days a week and your equipment and get a 4-week training plan with sets, reps, rest and progression. No sign-up.",
+      "tagline": "4-week training plan for gym, dumbbells or bodyweight.",
+      "categories": ["fitness"],
+      "keywords": ["training", "plan", "gym", "split", "push pull legs", "upper lower", "full body", "dumbbells", "bodyweight", "routine"],
+      "icon": "<path d=\"M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12\"/>",
+      "related": ["hiit-timer", "noise-machine", "slowed-reverb"]
     },
     {
       "slug": "noise-machine",
