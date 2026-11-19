@@ -1,0 +1,17 @@
+{
+  "name": "Noise Machine – brown, pink & white noise",
+  "short_name": "Noise Machine",
+  "description": "Free brown, pink and white noise with rain, fan and ocean. Sleep timer, focus timer with breaks. Works offline.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#fafafa",
+  "categories": ["health", "lifestyle", "productivity"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
