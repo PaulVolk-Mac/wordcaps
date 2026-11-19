@@ -186,3 +186,12 @@ test('safe zone checker: platform tabs are in the HTML from the start (CLS, A-21
   for (const p of ['tiktok', 'reels', 'shorts', 'combined']) assert.ok(m[1].includes(`data-p="${p}"`), `tab ${p} missing`);
   assert.match(m[1], /data-p="combined" role="radio" aria-checked="true" class="on"/, 'default tab must match cur=combined');
 });
+
+test('workout plan generator: engine.js loads in <head>, plan renders before first paint (CLS 0.26 -> 0, A-217)', () => {
+  const html = read('tools', 'workout-plan-generator', 'index.html');
+  const headEnd = html.indexOf('</head>');
+  const tag = '<script src="engine.js"></script>';
+  assert.ok(html.indexOf(tag) > 0 && html.indexOf(tag) < headEnd, 'engine.js must be a blocking script in <head>');
+  assert.equal(html.split(tag).length - 1, 1, 'engine.js loaded exactly once');
+  assert.ok(html.indexOf('cfg=load();save();render();') > headEnd, 'render() still runs in <body>');
+});
