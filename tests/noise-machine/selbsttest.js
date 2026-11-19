@@ -1,7 +1,7 @@
 // Self-test noise machine: node tests/noise-machine/selbsttest.js  (reads the script part of the page)
 const fs=require('fs');const h=fs.readFileSync(__dirname+'/../../tools/noise-machine/index.html','utf8');
 const js=h.split('<script>')[1].split('</script>')[0];const m={exports:{}};new Function('module',js)(m);
-const {FOCUS,focusPhase,dayKey,parseDays,addFocus,focusStats,CH,PRESETS,TIMERS,makeNoise,seamJump,maxStep,rms,timerGain,volToGain,parseState,stateToHash}=m.exports;
+const {FOCUS,BREAKS,PAIR,breakGain,focusPhase,dayKey,parseDays,addFocus,focusStats,CH,PRESETS,TIMERS,makeNoise,seamJump,maxStep,rms,timerGain,volToGain,parseState,stateToHash}=m.exports;
 let ok=0,bad=0;const t=(n,c)=>{if(c){ok++}else{bad++;console.log('FAIL',n)}};
 const N=48000*12;
 for(const ty of ['white','pink','brown']){
@@ -35,14 +35,14 @@ t('7 presets',Object.keys(PRESETS).length===7);t('6 Kanäle',CH.length===6);t('T
 t('html: keine externen Skripte (ausser Cloudflare-Zaehler, PR #38)',!/<script[^>]+src=/i.test(h.replace(/<script defer src='https:\/\/static\.cloudflareinsights\.com\/beacon\.min\.js'[^>]*><\/script>/,'')));
 t('html: Titel nennt Brown + Noise (seit dem SEO-Titel "Brown &amp; White Noise Machine")',/<title>Brown[^<]*Noise/i.test(h));
 // ===== A-312: focus timer + local stats + installable app =====
-t('alt: Link ohne f -> focus 0',parseState('#rain=65&t=30').focus===0);
-t('parse f=25',parseState('#brown=70&f=25').focus===25);
-t('parse f Unsinn -> 0',parseState('#f=7').focus===0&&parseState('#f=abc').focus===0&&parseState('#f=constructor').focus===0);
-t('focus schaltet Sleep-Timer aus',parseState('#brown=70&t=30&f=50').timer===0&&parseState('#f=50&t=30').focus===50);
-t('hash mit focus',stateToHash({brown:70,pink:0,white:0,rain:0,fan:0,ocean:0},0,25)==='#brown=70&f=25');
-t('hash: focus vor timer',stateToHash({brown:70,pink:0,white:0,rain:0,fan:0,ocean:0},30,90)==='#brown=70&f=90');
+t('alt: Link ohne f -> focus 0',parseState('#rain=65&t=30').fo.f===0);
+t('parse f=25 (alter #58-Link ohne b) -> 25/5, Ton an, leiser an',(()=>{const r=parseState('#brown=70&f=25').fo;return r.f===25&&r.b===5&&r.c===1&&r.q===1})());
+t('parse f Unsinn -> 0',parseState('#f=7').fo.f===0&&parseState('#f=abc').fo.f===0&&parseState('#f=constructor').fo.f===0);
+t('focus schaltet Sleep-Timer aus',parseState('#brown=70&t=30&f=50').timer===0&&parseState('#f=50&t=30').fo.f===50);
+t('hash mit focus',stateToHash({brown:70,pink:0,white:0,rain:0,fan:0,ocean:0},0,{f:25,b:5,c:1,q:1})==='#brown=70&f=25&b=5');
+t('hash: focus vor timer',stateToHash({brown:70,pink:0,white:0,rain:0,fan:0,ocean:0},30,{f:90,b:20,c:1,q:1})==='#brown=70&f=90&b=20');
 t('hash alt unveraendert (2 Argumente)',stateToHash({brown:40,pink:0,white:0,rain:0,fan:0,ocean:20},480)==='#brown=40&ocean=20&t=480');
-t('FOCUS: 3 Modi mit Pause kuerzer als Fokus',Object.keys(FOCUS).length===3&&Object.values(FOCUS).every(([w,b])=>w>b&&b>0));
+t('FOCUS 15/25/50 (+90), Pausen 5/10 (+20)',[15,25,50,90].every(v=>FOCUS.includes(v))&&FOCUS.length===4&&[5,10,20].every(v=>BREAKS.includes(v))&&BREAKS.length===3);
 let ph=focusPhase(0,25,5);t('phase Start',ph.phase==='focus'&&ph.left===1500&&ph.round===1);
 ph=focusPhase(1499.5,25,5);t('phase kurz vor Pause',ph.phase==='focus'&&Math.abs(ph.left-0.5)<1e-9);
 ph=focusPhase(1500,25,5);t('phase Pause beginnt exakt',ph.phase==='break'&&ph.left===300&&ph.round===1);
@@ -73,6 +73,37 @@ s=focusStats({'2026-11-16':3600},'2026-11-16');t('stats Montag: Woche = heute',s
 s=focusStats({'2026-11-15':3600,'2026-11-09':60},'2026-11-15');t('stats Sonntag: Woche reicht bis Montag zurueck',s.week===61);
 s=focusStats({'2026-02-28':60,'2026-03-01':60},'2026-03-01');t('stats Serie ueber Monatsgrenze',s.streak===2);
 s=focusStats({'2026-03-28':60,'2026-03-29':60,'2026-03-30':60},'2026-03-30');t('stats Serie ueber Zeitumstellung',s.streak===3);
+// ===== A-314: Fokus-Modus nach Cowork-Vorgabe (#fokus, frei kombinierbar, 2 Schalter) =====
+const fo0=parseState('').fo;
+t('leer: Fokus aus, Schalter-Vorgabe Ton an + leiser an',fo0.f===0&&fo0.b===5&&fo0.c===1&&fo0.q===1&&parseState('').st.brown===70);
+let k=parseState('#fokus');
+t('#fokus = 25/5 + Focus-Mix',k.fo.f===25&&k.fo.b===5&&k.st.brown===64&&k.st.pink===42&&k.timer===0);
+t('#focus auch',parseState('#focus').fo.f===25&&parseState('focus').fo.f===25);
+t('#fokus behaelt einen mitgegebenen Mix',(()=>{const r=parseState('#fokus&rain=58&pink=13');return r.fo.f===25&&r.st.rain===58&&r.st.brown===0})());
+t('#fokus ueberschreibt ein ausdrueckliches f nicht',parseState('#f=50&fokus').fo.f===50&&parseState('#fokus&f=50').fo.f===50);
+t('#fokus schaltet den Sleep-Timer aus',parseState('#fokus&t=30').timer===0);
+t('#fokus -> Hash rundreise',(()=>{const h2=stateToHash(k.st,k.timer,k.fo);const r=parseState(h2);return h2==='#brown=64&pink=42&f=25&b=5'&&r.fo.f===25&&r.fo.b===5})());
+t('PAIR: Vorschlags-Pause je Fokus-Laenge, kuerzer als der Fokus',FOCUS.every(f=>BREAKS.includes(PAIR[f])&&PAIR[f]<f)&&PAIR[25]===5&&PAIR[50]===10&&PAIR[90]===20&&PAIR[15]===5);
+t('alte #58-Links ohne b: 50 -> 10, 90 -> 20, 15 -> 5',parseState('#f=50').fo.b===10&&parseState('#f=90').fo.b===20&&parseState('#f=15').fo.b===5);
+t('frei kombinierbar: jede Fokus-Laenge mit jeder Pause',FOCUS.every(f=>BREAKS.every(b=>{const r=parseState('#brown=70&f='+f+'&b='+b).fo;return r.f===f&&r.b===b})));
+t('frei kombinierbar: Hash rundreise fuer alle 12 Paare',FOCUS.every(f=>BREAKS.every(b=>{const st0=parseState('#brown=70').st,h2=stateToHash(st0,0,{f,b,c:1,q:1});const r=parseState(h2);return h2==='#brown=70&f='+f+'&b='+b&&r.fo.f===f&&r.fo.b===b})));
+t('b Unsinn -> Vorschlags-Pause',parseState('#f=50&b=7').fo.b===10&&parseState('#f=25&b=abc').fo.b===5&&parseState('#f=25&b=constructor').fo.b===5);
+t('b ohne Fokus schaltet nichts ein',parseState('#b=10').fo.f===0&&stateToHash(parseState('#b=10').st,0,parseState('#b=10').fo)==='#brown=70');
+k=parseState('#brown=64&pink=42&f=50&b=5&c=0');
+t('Schalter Ton aus (c=0), leiser bleibt an',k.fo.c===0&&k.fo.q===1&&k.fo.f===50&&k.fo.b===5);
+k=parseState('#brown=64&f=15&b=10&q=0');
+t('Schalter leiser aus (q=0), Ton bleibt an',k.fo.q===0&&k.fo.c===1&&k.fo.f===15&&k.fo.b===10);
+t('Schalter: nur 0 schaltet aus',parseState('#f=25&c=1&q=x').fo.c===1&&parseState('#f=25&c=1&q=x').fo.q===1&&parseState('#f=25&c&q').fo.c===1);
+t('Hash schreibt c=0/q=0 nur wenn aus',stateToHash({brown:70,pink:0,white:0,rain:0,fan:0,ocean:0},0,{f:25,b:10,c:0,q:0})==='#brown=70&f=25&b=10&c=0&q=0'&&stateToHash({brown:70,pink:0,white:0,rain:0,fan:0,ocean:0},0,{f:25,b:10,c:1,q:1})==='#brown=70&f=25&b=10');
+t('Hash rundreise mit beiden Schaltern aus',(()=>{const r=parseState('#brown=70&f=25&b=10&c=0&q=0').fo;return r.c===0&&r.q===0})());
+t('Fokus aus: Schalter und Pause stehen nicht im Link',stateToHash({brown:70,pink:0,white:0,rain:0,fan:0,ocean:0},30,{f:0,b:10,c:0,q:0})==='#brown=70&t=30');
+t('breakGain: leiser = 0.4 (nicht stumm, nicht voll), aus = volle Lautstaerke',breakGain(1)===0.4&&breakGain(0)===1&&breakGain(1)>0&&breakGain(1)<1);
+ph=focusPhase(15*60+9*60,15,10);t('phase 15/10: in der Pause, 1 min Rest',ph.phase==='break'&&ph.left===60&&ph.round===1);
+ph=focusPhase(3*3600,50,5);t('phase 50/5 nach 3 h',ph.round===4&&ph.phase==='focus'&&ph.left===50*60-(3*3600-3*55*60));
+t('phase: 5 Wechsel in 3 Runden 25/10',(()=>{let j=0,l=null;for(let x=0;x<3*35*60;x++){const q=focusPhase(x,25,10).phase;if(l&&q!==l)j++;l=q}return j===5})());
+t('html: Schalter Ton + leiser, Pausen-Leiste, Kurztext',/id="fChime"/.test(h)&&/id="fQuiet"/.test(h)&&/id="brk"/.test(h)&&/Quieter noise in breaks/.test(h)&&/25 minutes of focus, 5 minutes of break/.test(h));
+t('html: Pause macht leiser statt stumm',h.includes('f?1:breakGain(fo.q)')&&!h.includes('setTargetAtTime(f?1:0,'));
+t('html: Gong haengt am Schalter',h.includes('if(fo.c)gong(f)'));
 t('html: Manifest + Apple-Icon verlinkt',/<link rel="manifest" href="manifest\.webmanifest">/.test(h)&&/<link rel="apple-touch-icon" href="icon-192\.png">/.test(h));
 t('html: Service Worker nur auf http(s)',/serviceWorker\.register\('sw\.js'\)/.test(h)&&h.includes("/^https?:$/.test(location.protocol)"));
 t('html: Statistik-Hinweis "device only"',/Counted on this device only/.test(h));
