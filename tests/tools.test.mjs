@@ -167,3 +167,31 @@ test('link checker: no dead internal links, tool links only to live tools', () =
   assert.ok(checked > 100, `only ${checked} links checked`);
   assert.deepEqual(dead, []);
 });
+
+test('tool pages: theme switcher is in the HTML header, not injected later (CLS, A-217)', () => {
+  for (const t of live) {
+    const html = read('tools', t.slug, 'index.html');
+    const head = html.slice(html.indexOf('<header'), html.indexOf('</header>'));
+    assert.match(head, /<div class="theme" role="group" aria-label="Appearance">/, `${t.slug}: static .theme missing in <header>`);
+    for (const m of ['auto', 'light', 'dark']) assert.ok(head.includes(`data-t="${m}"`), `${t.slug}: button ${m} missing`);
+    assert.equal((html.match(/class="theme"/g) || []).length, 1, `${t.slug}: exactly one .theme`);
+    assert.ok(html.includes('var g=h.querySelector(".theme");if(!g)'), `${t.slug}: script must reuse the static switcher`);
+  }
+});
+
+test('safe zone checker: platform tabs are in the HTML from the start (CLS, A-217)', () => {
+  const html = read('tools', 'safe-zone-checker', 'index.html');
+  const m = html.match(/<div class="seg" id="tabs"[^>]*>([\s\S]*?)<\/div>/);
+  assert.ok(m, 'tabs container missing');
+  for (const p of ['tiktok', 'reels', 'shorts', 'combined']) assert.ok(m[1].includes(`data-p="${p}"`), `tab ${p} missing`);
+  assert.match(m[1], /data-p="combined" role="radio" aria-checked="true" class="on"/, 'default tab must match cur=combined');
+});
+
+test('workout plan generator: engine.js loads in <head>, plan renders before first paint (CLS 0.26 -> 0, A-217)', () => {
+  const html = read('tools', 'workout-plan-generator', 'index.html');
+  const headEnd = html.indexOf('</head>');
+  const tag = '<script src="engine.js"></script>';
+  assert.ok(html.indexOf(tag) > 0 && html.indexOf(tag) < headEnd, 'engine.js must be a blocking script in <head>');
+  assert.equal(html.split(tag).length - 1, 1, 'engine.js loaded exactly once');
+  assert.ok(html.indexOf('cfg=load();save();render();') > headEnd, 'render() still runs in <body>');
+});
