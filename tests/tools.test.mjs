@@ -195,3 +195,10 @@ test('workout plan generator: engine.js loads in <head>, plan renders before fir
   assert.equal(html.split(tag).length - 1, 1, 'engine.js loaded exactly once');
   assert.ok(html.indexOf('cfg=load();save();render();') > headEnd, 'render() still runs in <body>');
 });
+
+test('home page links the tools overview and every live tool (crawl path for search engines)', () => {
+  const html = stripCode(read('index.html'));
+  const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
+  assert.ok(hrefs.includes('tools/'), 'home links tools/');
+  for (const t of live) assert.ok(hrefs.includes(`tools/${t.slug}/`), `home links tools/${t.slug}/`);
+});
