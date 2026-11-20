@@ -195,3 +195,12 @@ test('workout plan generator: engine.js loads in <head>, plan renders before fir
   assert.equal(html.split(tag).length - 1, 1, 'engine.js loaded exactly once');
   assert.ok(html.indexOf('cfg=load();save();render();') > headEnd, 'render() still runs in <body>');
 });
+
+test('karaoke-style-captions: demo video + screenshot reserve their size (CLS 0.219 -> <0.1, A-217)', () => {
+  const html = read('karaoke-style-captions.html');
+  assert.match(html, /<video src="demo_stoic\.mp4"[^>]*width="270" height="480"/);
+  assert.match(html, /<img class="wide" src="screenshot_3_styles\.jpg" width="1240" height="930"/);
+  const css = read('style.css');
+  assert.match(css, /\.demo video\{[^}]*aspect-ratio:9\/16/);
+  assert.match(css, /img\.wide\{[^}]*height:auto/, 'width/height attributes must not stretch the image');
+});
