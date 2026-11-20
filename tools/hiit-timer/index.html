@@ -127,16 +127,17 @@ h1{font:inherit;margin:0}
 @media(hover:none){.hint{display:none}}
 .ring .prog{filter:none}
 .ring::before{content:"";position:absolute;inset:4%;border-radius:50%;box-shadow:0 0 46px color-mix(in srgb,var(--cur) 22%,transparent),inset 0 0 46px color-mix(in srgb,var(--cur) 10%,transparent);pointer-events:none;transition:box-shadow .4s}
+.buy{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 14px;margin-top:4px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--panel)}.buy p{margin:0;flex:1 1 240px;font-size:14px;color:var(--mut)}.buy p b{color:var(--fg)}.buy a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border-radius:9px;border:1px solid var(--line2);color:var(--fg);font-weight:600;font-size:14px;text-decoration:none}.buy a:hover{background:var(--soft)}
 </style>
 <!-- look-v4 -->
 <style>
 /* v4 "Schlicht" (Paul R-1395, 16.11.): weiss und ruhig, Hell/Dunkel folgt Windows (prefers-color-scheme), Umschalter Auto/Light/Dark.
    Nur Optik als Ueberlagerung, Engine unveraendert. Systemschrift (Segoe UI Variable) = keine externen Schriften. */
-:root{color-scheme:light;--bg:#fafafa;--panel:#ffffff;--panel2:#ffffff;--line:#e6e6e9;--line2:#d4d4d8;--fg:#18181b;--mut:#52525b;--dim:#71717a;
+:root{color-scheme:light;--bg:#fafafa;--panel:#ffffff;--panel2:#ffffff;--line:#e6e6e9;--line2:#d4d4d8;--fg:#18181b;--mut:#52525b;--dim:#5f5f67;
 --acc:#e0531f;--acc2:#e0531f;--brk:#16a34a;--soft:#f4f4f5;--onacc:#ffffff;--shadow:0 1px 2px #18181b0d,0 1px 1px #18181b08;--r:12px}
-:root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#8f8f98;
+:root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
 --acc:#ff8a5c;--acc2:#ff8a5c;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#8f8f98;
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
 --acc:#ff8a5c;--acc2:#ff8a5c;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}}
 body{background:var(--bg)!important;color:var(--fg)!important;font:15px/1.55 "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif!important}
 .mark{background:var(--fg)!important;box-shadow:none!important;border-radius:8px!important}.mark svg{stroke:var(--bg)}
@@ -187,11 +188,11 @@ function setz(w){if(w==="light"||w==="dark")d.setAttribute("data-theme",w);else 
 var w="auto";try{w=localStorage.getItem(K)||"auto"}catch(e){}
 if(w!=="auto")d.setAttribute("data-theme",w);
 document.addEventListener("DOMContentLoaded",function(){var h=document.querySelector("header");if(!h)return;
- var g=document.createElement("div");g.className="theme";g.setAttribute("role","group");g.setAttribute("aria-label","Appearance");
- [["auto","Auto"],["light","Light"],["dark","Dark"]].forEach(function(x){var b=document.createElement("button");b.type="button";b.dataset.t=x[0];b.textContent=x[1];
-  b.title=x[0]==="auto"?"Follow your system (Windows/phone setting)":x[1]+" mode";
-  b.onclick=function(){w=x[0];try{localStorage.setItem(K,w)}catch(e){}setz(w)};g.appendChild(b)});
- var s=h.querySelector(".ghost");h.insertBefore(g,s);setz(w);
+ var g=h.querySelector(".theme");if(!g){g=document.createElement("div");g.className="theme";g.setAttribute("role","group");g.setAttribute("aria-label","Appearance");
+  [["auto","Auto"],["light","Light"],["dark","Dark"]].forEach(function(x){var b=document.createElement("button");b.type="button";b.dataset.t=x[0];b.textContent=x[1];
+   b.title=x[0]==="auto"?"Follow your system (Windows/phone setting)":x[1]+" mode";g.appendChild(b)});
+  h.insertBefore(g,h.querySelector(".ghost"))}
+ g.querySelectorAll("button").forEach(function(b){b.onclick=function(){w=b.dataset.t;try{localStorage.setItem(K,w)}catch(e){}setz(w)}});setz(w);
  matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){setz(w)});});})();
 
 </script>
@@ -223,7 +224,7 @@ small,.tag,.tile span{font-size:12px!important}
 <body>
 <header>
   <div class="brand"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0c11" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span><h1>HIIT Timer – Tabata, EMOM &amp; intervals</h1></div>
-  <button class="ghost" id="shareLink" type="button" aria-label="Copy link to these settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Copy link</span></button>
+  <div class="theme" role="group" aria-label="Appearance"><button type="button" data-t="auto" title="Follow your system (Windows/phone setting)" aria-pressed="true">Auto</button><button type="button" data-t="light" title="Light mode" aria-pressed="false">Light</button><button type="button" data-t="dark" title="Dark mode" aria-pressed="false">Dark</button></div><button class="ghost" id="shareLink" type="button" aria-label="Copy link to these settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Copy link</span></button>
 </header>
 <main>
 <section class="card timer" aria-label="Timer">
@@ -263,6 +264,7 @@ small,.tag,.tile span{font-size:12px!important}
     <label class="sw"><span>Vibrate<small>on phones that support it</small></span><input type="checkbox" id="vib" checked><span class="t"></span></label>
   </div>
 </section>
+<div class="buy"><p><b>Training for more than one workout?</b> The Workout Planner &amp; Tracker (Excel / Google Sheets) logs every set and shows your next target per exercise.</p><a href="https://volkster45.gumroad.com/l/ogtgbq?ref=hiit-timer" rel="noopener">See the tracker</a></div>
 <div class="info" id="how">
 <details><summary>A free interval timer that just works</summary>
 <p>Set your work time, rest time and number of rounds, press Start and put your phone down. Three short beeps count you into every interval, a long beep starts it. The screen glows red for work, green for rest and yellow while you get ready, so you can read it from across the gym.</p></details>
@@ -284,7 +286,7 @@ small,.tag,.tile span{font-size:12px!important}
 <p class="all"><a href="../">All free tools →</a></p>
 </nav>
 <!-- related-tools:end -->
-<footer>Made by a coach who actually trains. More free tools: <a href="../slowed-reverb/">Slowed + Reverb Maker</a> · <a href="../noise-machine/">Noise machine</a> · <a href="https://paulvolk-mac.github.io/wordcaps/tools/?ref=p05">all tools</a>. No ads, no account. Your workout is saved in the link. · Privacy: visits are counted with <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> (no cookies, no fingerprinting).</footer>
+<footer>Made by a coach who actually trains. More free tools: <a href="../slowed-reverb/">Slowed + Reverb Maker</a> · <a href="../noise-machine/">Noise machine</a> · <a href="https://paulvolk-mac.github.io/wordcaps/tools/?ref=p05">all tools</a>. No ads, no account. Your workout is saved in the link. · Privacy: visits are counted with <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> (no cookies, no fingerprinting). · <a href="../../impressum.html">Legal notice (Impressum)</a></footer>
 <script>
 // ===== Engine (pure, tested in selbsttest.js) =====
 function buildPlan(c){

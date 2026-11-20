@@ -152,11 +152,11 @@ h1{font:inherit;margin:0}
 <style>
 /* v4 "Schlicht" (Paul R-1395, 16.11.): weiss und ruhig, Hell/Dunkel folgt Windows (prefers-color-scheme), Umschalter Auto/Light/Dark.
    Nur Optik als Ueberlagerung, Engine unveraendert. Systemschrift (Segoe UI Variable) = keine externen Schriften. */
-:root{color-scheme:light;--bg:#fafafa;--panel:#ffffff;--panel2:#ffffff;--line:#e6e6e9;--line2:#d4d4d8;--fg:#18181b;--mut:#52525b;--dim:#71717a;
+:root{color-scheme:light;--bg:#fafafa;--panel:#ffffff;--panel2:#ffffff;--line:#e6e6e9;--line2:#d4d4d8;--fg:#18181b;--mut:#52525b;--dim:#5f5f67;--ok:#166534;
 --acc:#e0531f;--acc2:#e0531f;--brk:#16a34a;--soft:#f4f4f5;--onacc:#ffffff;--shadow:0 1px 2px #18181b0d,0 1px 1px #18181b08;--r:12px}
-:root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#8f8f98;
+:root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;--ok:#6fd3a0;
 --acc:#ff8a5c;--acc2:#ff8a5c;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#8f8f98;
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;--ok:#6fd3a0;
 --acc:#ff8a5c;--acc2:#ff8a5c;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}}
 body{background:var(--bg)!important;color:var(--fg)!important;font:15px/1.55 "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif!important}
 .mark{background:var(--fg)!important;box-shadow:none!important;border-radius:8px!important}.mark svg{stroke:var(--bg)}
@@ -207,11 +207,11 @@ function setz(w){if(w==="light"||w==="dark")d.setAttribute("data-theme",w);else 
 var w="auto";try{w=localStorage.getItem(K)||"auto"}catch(e){}
 if(w!=="auto")d.setAttribute("data-theme",w);
 document.addEventListener("DOMContentLoaded",function(){var h=document.querySelector("header");if(!h)return;
- var g=document.createElement("div");g.className="theme";g.setAttribute("role","group");g.setAttribute("aria-label","Appearance");
- [["auto","Auto"],["light","Light"],["dark","Dark"]].forEach(function(x){var b=document.createElement("button");b.type="button";b.dataset.t=x[0];b.textContent=x[1];
-  b.title=x[0]==="auto"?"Follow your system (Windows/phone setting)":x[1]+" mode";
-  b.onclick=function(){w=x[0];try{localStorage.setItem(K,w)}catch(e){}setz(w)};g.appendChild(b)});
- var s=h.querySelector(".ghost");h.insertBefore(g,s);setz(w);
+ var g=h.querySelector(".theme");if(!g){g=document.createElement("div");g.className="theme";g.setAttribute("role","group");g.setAttribute("aria-label","Appearance");
+  [["auto","Auto"],["light","Light"],["dark","Dark"]].forEach(function(x){var b=document.createElement("button");b.type="button";b.dataset.t=x[0];b.textContent=x[1];
+   b.title=x[0]==="auto"?"Follow your system (Windows/phone setting)":x[1]+" mode";g.appendChild(b)});
+  h.insertBefore(g,h.querySelector(".ghost"))}
+ g.querySelectorAll("button").forEach(function(b){b.onclick=function(){w=b.dataset.t;try{localStorage.setItem(K,w)}catch(e){}setz(w)}});setz(w);
  matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){setz(w)});});})();
 
 </script>
@@ -239,15 +239,19 @@ small,.tag,.tile span{font-size:12px!important}
 }
 </style>
 <!-- /handy-ergo -->
+<!-- faq-ld:start (generated from tools/tools.json by scripts/build-tools.mjs - do not edit by hand) -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the TikTok safe zone?","acceptedAnswer":{"@type":"Answer","text":"The part of a 9:16 video that the TikTok app does not cover. TikTok’s official safe zone file for in-feed ads (checked 19 Nov 2026) keeps 240 px free at the top, 660 px at the bottom and 120 px on each side at 1080×1920, plus a 180 px button column on the right in the lower half. Organic posts have no button below the caption, so slightly more room at the bottom is usually visible."}},{"@type":"Question","name":"Are Reels and Shorts different?","acceptedAnswer":{"@type":"Answer","text":"Yes. Google’s official overlay for vertical YouTube ads keeps 288 px free at the top, 672 px at the bottom, 192 px on the right and 48 px on the left. Meta officially asks to keep the bottom 35% (672 px) of a Reels ad free; the top and side values shown here for Reels are our estimates. “All-in-one” uses the strictest margin of all three, so one edit works everywhere."}},{"@type":"Question","name":"How does the “text in covered area” warning work?","acceptedAnswer":{"@type":"Answer","text":"The checker looks at the pixels of the frame you see: spots with many hard light/dark edges in both directions (typical for captions and logos) inside a covered zone are marked yellow. It is a hint, not text recognition – busy backgrounds can trigger it, and soft low-contrast text can be missed. “Check the whole video” tests two frames per second and lists the moments with a warning."}},{"@type":"Question","name":"Where do the numbers come from?","acceptedAnswer":{"@type":"Answer","text":"From the official help pages for advertisers: TikTok’s downloadable in-feed safe zone file, Google’s vertical video ad overlay and Meta’s Reels ads documentation. Each platform tab shows its source link and the date we last checked it; the same data is in zones.json . We could not verify an official safe zone for Instagram Stories, so Stories are not included."}},{"@type":"Question","name":"Is my video uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Your file is drawn on a canvas inside this page and never leaves your computer. You can use the checker offline once it has loaded."}},{"@type":"Question","name":"How do I use the PNG overlay in CapCut?","acceptedAnswer":{"@type":"Answer","text":"Add the PNG as an overlay on the top track over the whole clip, place captions and faces inside the green box, then delete or hide the overlay before you export."}},{"@type":"Question","name":"Where should captions go?","acceptedAnswer":{"@type":"Answer","text":"Inside the green box, ideally in its lower third – high enough to clear the caption and music line, low enough not to cover faces."}}]}</script>
+<!-- faq-ld:end -->
 </head>
 <body>
 <header>
   <div class="brand"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0c11" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><rect x="8.5" y="6" width="7" height="10" rx="1" stroke-dasharray="2 1.6"/></svg></span><h1>Safe Zone Checker – TikTok, Reels &amp; Shorts</h1></div>
   <span class="badge" title="Your file never leaves your computer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>100% in your browser · no upload</span></span>
-</header>
+<div class="theme" role="group" aria-label="Appearance"><button type="button" data-t="auto" title="Follow your system (Windows/phone setting)" aria-pressed="true">Auto</button><button type="button" data-t="light" title="Light mode" aria-pressed="false">Light</button><button type="button" data-t="dark" title="Dark mode" aria-pressed="false">Dark</button></div>
+  </header>
 <main>
 <section class="card stage" aria-label="Preview">
-  <div class="seg" id="tabs" role="radiogroup" aria-label="Platform"></div>
+  <div class="seg" id="tabs" role="radiogroup" aria-label="Platform"><button type="button" data-p="tiktok" role="radio" aria-checked="false" class="">TikTok</button><button type="button" data-p="reels" role="radio" aria-checked="false" class="">Reels</button><button type="button" data-p="shorts" role="radio" aria-checked="false" class="">Shorts</button><button type="button" data-p="combined" role="radio" aria-checked="true" class="on">All-in-one</button></div>
   <div class="phone"><canvas id="cv" width="1080" height="1920" aria-label="Preview of your frame with the app interface"></canvas><span class="notch"></span></div>
   <div class="seek" id="seekw"><span>Frame</span><input type="range" id="seek" min="0" max="1000" value="500" aria-label="Pick a frame of the video"><span id="tc">0:00.00</span></div>
   <div class="steps" id="steps" role="group" aria-label="Step through the video">
@@ -291,7 +295,7 @@ small,.tag,.tile span{font-size:12px!important}
 </section>
 <section class="card" aria-label="Free PNG overlays">
   <h2>Free PNG overlays <span class="tag">1080×1920 · transparent</span></h2>
-  <div class="seg" id="kind" role="radiogroup" aria-label="Overlay style"><button type="button" data-k="safe_zone" class="on">Safe zone</button><button type="button" data-k="guide_lines">Guide lines</button></div>
+  <div class="seg" id="kind" role="radiogroup" aria-label="Overlay style"><button type="button" role="radio" aria-checked="true" data-k="safe_zone" class="on">Safe zone</button><button type="button" role="radio" aria-checked="false" data-k="guide_lines">Guide lines</button></div>
   <div class="dl" id="dl"></div>
   <div class="zip"><span>For CapCut, Premiere, DaVinci – put it on the top track, export without it.</span><a class="btn" id="zip" href="SafeZoneOverlays_2026.zip" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5"/><path d="M5 20h14"/></svg>All 8 as ZIP</a></div>
 </section>
@@ -325,7 +329,7 @@ small,.tag,.tile span{font-size:12px!important}
 <p class="all"><a href="../">All free tools →</a></p>
 </nav>
 <!-- related-tools:end -->
-<footer>Free tool by the maker of WordCaps Studio. More free tools: <a href="../subtitle-converter/">Subtitle converter</a> · <a href="../slowed-reverb/">Slowed + Reverb Maker</a> · <a href="https://paulvolk-mac.github.io/wordcaps/tools/?ref=p03">all tools</a>. Not affiliated with TikTok, Instagram, YouTube or CapCut. · Privacy: visits are counted with <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> (no cookies, no fingerprinting).</footer>
+<footer>Free tool by the maker of WordCaps Studio. More free tools: <a href="../subtitle-converter/">Subtitle converter</a> · <a href="../slowed-reverb/">Slowed + Reverb Maker</a> · <a href="https://paulvolk-mac.github.io/wordcaps/tools/?ref=p03">all tools</a>. Not affiliated with TikTok, Instagram, YouTube or CapCut. · Privacy: visits are counted with <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> (no cookies, no fingerprinting). · <a href="../../impressum.html">Legal notice (Impressum)</a></footer>
 <script type="application/json" id="zonedata">
 {
   "version": "2026-11-19",

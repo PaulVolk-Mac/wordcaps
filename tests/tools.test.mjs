@@ -6,7 +6,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, dirname, relative, sep } from 'node:path';
-import { ROOT, MARK, loadData, liveTools, plan, renderList, renderRelated, putRegion, esc } from '../scripts/build-tools.mjs';
+import { ROOT, MARK, loadData, liveTools, plan, renderList, renderRelated, putRegion, esc, faqItems, renderFaq } from '../scripts/build-tools.mjs';
 
 const data = loadData();
 const live = liveTools(data);
@@ -166,4 +166,133 @@ test('link checker: no dead internal links, tool links only to live tools', () =
   }
   assert.ok(checked > 100, `only ${checked} links checked`);
   assert.deepEqual(dead, []);
+});
+
+test('tool pages: theme switcher is in the HTML header, not injected later (CLS, A-217)', () => {
+  for (const t of live) {
+    const html = read('tools', t.slug, 'index.html');
+    const head = html.slice(html.indexOf('<header'), html.indexOf('</header>'));
+    assert.match(head, /<div class="theme" role="group" aria-label="Appearance">/, `${t.slug}: static .theme missing in <header>`);
+    for (const m of ['auto', 'light', 'dark']) assert.ok(head.includes(`data-t="${m}"`), `${t.slug}: button ${m} missing`);
+    assert.equal((html.match(/class="theme"/g) || []).length, 1, `${t.slug}: exactly one .theme`);
+    assert.ok(html.includes('var g=h.querySelector(".theme");if(!g)'), `${t.slug}: script must reuse the static switcher`);
+  }
+});
+
+test('safe zone checker: platform tabs are in the HTML from the start (CLS, A-217)', () => {
+  const html = read('tools', 'safe-zone-checker', 'index.html');
+  const m = html.match(/<div class="seg" id="tabs"[^>]*>([\s\S]*?)<\/div>/);
+  assert.ok(m, 'tabs container missing');
+  for (const p of ['tiktok', 'reels', 'shorts', 'combined']) assert.ok(m[1].includes(`data-p="${p}"`), `tab ${p} missing`);
+  assert.match(m[1], /data-p="combined" role="radio" aria-checked="true" class="on"/, 'default tab must match cur=combined');
+});
+
+test('tool pages: FAQPage JSON-LD in <head> matches the visible FAQ word for word (A-256)', () => {
+  let pages = 0;
+  for (const t of live) {
+    const html = read('tools', t.slug, 'index.html');
+    const items = faqItems(html);
+    const m = html.match(/<!-- faq-ld:start[^>]*-->\s*<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    if (items.length < 2) { assert.equal(m, null, `${t.slug}: FAQ JSON-LD without visible FAQ`); continue; }
+    assert.ok(m, `${t.slug}: visible FAQ but no FAQPage JSON-LD`);
+    assert.ok(html.indexOf('faq-ld:start') < html.indexOf('</head>'), `${t.slug}: FAQ JSON-LD not in <head>`);
+    const ld = JSON.parse(m[1]);
+    assert.equal(ld['@type'], 'FAQPage');
+    assert.deepEqual(ld.mainEntity.map((e) => [e.name, e.acceptedAnswer.text]), items.map((i) => [i.q, i.a]));
+    pages++;
+  }
+  assert.ok(pages >= 4, `only ${pages} tool pages with FAQ JSON-LD`);
+});
+
+test('build helpers: FAQ skips UI panels and non-questions, decodes entities, never closes the script', () => {
+  const html = '<details class="sync"><summary>Fix drift?</summary><p>ui</p></details>' +
+    '<details><summary>Good to know</summary><p>x</p></details>' +
+    '<details><summary>A &amp; B?</summary><p>Use <b>&lt;/script&gt;</b> safely.</p></details>' +
+    '<details><summary>Two?</summary><p>Yes.</p></details>';
+  assert.deepEqual(faqItems(html), [{ q: 'A & B?', a: 'Use </script> safely.' }, { q: 'Two?', a: 'Yes.' }]);
+  const out = renderFaq(html);
+  assert.ok(!out.slice(0, -'</script>'.length).includes('</'), 'answer text must not close the script tag');
+  assert.equal(renderFaq('<details><summary>Only one?</summary><p>a</p></details>'), null);
+});
+
+test('workout plan generator: engine.js loads in <head>, plan renders before first paint (CLS 0.26 -> 0, A-217)', () => {
+  const html = read('tools', 'workout-plan-generator', 'index.html');
+  const headEnd = html.indexOf('</head>');
+  const tag = '<script src="engine.js"></script>';
+  assert.ok(html.indexOf(tag) > 0 && html.indexOf(tag) < headEnd, 'engine.js must be a blocking script in <head>');
+  assert.equal(html.split(tag).length - 1, 1, 'engine.js loaded exactly once');
+  assert.ok(html.indexOf('cfg=load();save();render();') > headEnd, 'render() still runs in <body>');
+});
+
+test('karaoke-style-captions: demo video + screenshot reserve their size (CLS 0.219 -> <0.1, A-217)', () => {
+  const html = read('karaoke-style-captions.html');
+  assert.match(html, /<video src="demo_stoic\.mp4"[^>]*width="270" height="480"/);
+  assert.match(html, /<img class="wide" src="screenshot_3_styles\.jpg" width="1240" height="930"/);
+  const css = read('style.css');
+  assert.match(css, /\.demo video\{[^}]*aspect-ratio:9\/16/);
+  assert.match(css, /img\.wide\{[^}]*height:auto/, 'width/height attributes must not stretch the image');
+});
+
+// Lighthouse 19.11.: --dim #8f8f98 had 4.03:1 on the dark tile (#3a2f2b) and 4.41:1 on #2b2b2b (WCAG AA needs 4.5:1).
+function lum(hex) {
+  const c = [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+    .map(x => (x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+
+test('a11y: dark --dim text reaches 4.5:1 on every dark surface of every tool page', () => {
+  const pages = ['tools/index.html', ...readdirSync(join(ROOT, 'tools'), { withFileTypes: true })
+    .filter(e => e.isDirectory() && existsSync(join(ROOT, 'tools', e.name, 'index.html')))
+    .map(e => `tools/${e.name}/index.html`)];
+  for (const p of pages) {
+    const dims = [...read(p).matchAll(/color-scheme:dark;[^}]*?--dim:#([0-9a-fA-F]{6})/g)].map(m => m[1]);
+    for (const d of dims) for (const bg of ['3a2f2b', '2b2b2b', '262626', '1c1c1c'])
+      assert.ok(ratio(d, bg) >= 4.5, `${p}: --dim #${d} on #${bg} = ${ratio(d, bg).toFixed(2)}:1`);
+  }
+});
+
+test('a11y: light --dim / --ok text reaches 4.5:1 on light tinted surfaces (axe live 20.11., A-256)', () => {
+  const pages = ['tools/index.html', ...readdirSync(join(ROOT, 'tools'), { withFileTypes: true })
+    .filter(e => e.isDirectory() && existsSync(join(ROOT, 'tools', e.name, 'index.html')))
+    .map(e => `tools/${e.name}/index.html`)];
+  for (const p of pages) {
+    for (const m of read(p).matchAll(/color-scheme:light;[^}]*?--dim:#([0-9a-fA-F]{6})/g))
+      for (const bg of ['fcf0eb', 'f4f4f5', 'fafafa'])
+        assert.ok(ratio(m[1], bg) >= 4.5, `${p}: light --dim #${m[1]} on #${bg} = ${ratio(m[1], bg).toFixed(2)}:1`);
+    for (const m of read(p).matchAll(/color-scheme:light;[^}]*?--ok:#([0-9a-fA-F]{6})/g))
+      assert.ok(ratio(m[1], 'e8f0eb') >= 4.5, `${p}: light --ok #${m[1]} on #e8f0eb = ${ratio(m[1], 'e8f0eb').toFixed(2)}:1`);
+  }
+});
+
+test('a11y: safe zone checker – every button with aria-checked has role="radio"', () => {
+  const html = read('tools', 'safe-zone-checker', 'index.html');
+  for (const m of html.matchAll(/<button\b[^>]*aria-checked[^>]*>/g))
+    assert.match(m[0], /role="radio"/, m[0]);
+});
+
+test('home page links the tools overview and every live tool (crawl path for search engines)', () => {
+  const html = stripCode(read('index.html'));
+  const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
+  assert.ok(hrefs.includes('tools/'), 'home links tools/');
+  for (const t of live) assert.ok(hrefs.includes(`tools/${t.slug}/`), `home links tools/${t.slug}/`);
+});
+
+// A-217 (20.11.): every free tool with a matching paid product shows one plain link to it
+// (buyer path from tool traffic; before this only the plan generator had one).
+const BUY = {
+  'hiit-timer': 'https://volkster45.gumroad.com/l/ogtgbq?ref=hiit-timer',
+  'noise-machine': 'https://jaulana.itch.io/sleep-ambience-loops',
+};
+test('tool pages: buy link to the matching paid product, inside <main>, opens normally (A-217)', () => {
+  for (const [slug, url] of Object.entries(BUY)) {
+    const html = read('tools', slug, 'index.html');
+    const main = html.slice(html.indexOf('<main'), html.indexOf('</main>'));
+    const hits = main.split(`href="${url}"`).length - 1;
+    assert.equal(hits, 1, `${slug}: expected exactly one link to ${url} inside <main>`);
+    const tag = main.slice(main.lastIndexOf('<a ', main.indexOf(`href="${url}"`)), main.indexOf('>', main.indexOf(`href="${url}"`)) + 1);
+    assert.match(tag, /rel="noopener"/, `${slug}: buy link needs rel="noopener"`);
+    assert.doesNotMatch(tag, /target=/, `${slug}: no new tab`);
+    assert.match(html, /\.buy\{/, `${slug}: .buy style missing`);
+  }
 });
