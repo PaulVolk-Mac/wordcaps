@@ -277,3 +277,22 @@ test('home page links the tools overview and every live tool (crawl path for sea
   assert.ok(hrefs.includes('tools/'), 'home links tools/');
   for (const t of live) assert.ok(hrefs.includes(`tools/${t.slug}/`), `home links tools/${t.slug}/`);
 });
+
+// A-217 (20.11.): every free tool with a matching paid product shows one plain link to it
+// (buyer path from tool traffic; before this only the plan generator had one).
+const BUY = {
+  'hiit-timer': 'https://volkster45.gumroad.com/l/ogtgbq?ref=hiit-timer',
+  'noise-machine': 'https://jaulana.itch.io/sleep-ambience-loops',
+};
+test('tool pages: buy link to the matching paid product, inside <main>, opens normally (A-217)', () => {
+  for (const [slug, url] of Object.entries(BUY)) {
+    const html = read('tools', slug, 'index.html');
+    const main = html.slice(html.indexOf('<main'), html.indexOf('</main>'));
+    const hits = main.split(`href="${url}"`).length - 1;
+    assert.equal(hits, 1, `${slug}: expected exactly one link to ${url} inside <main>`);
+    const tag = main.slice(main.lastIndexOf('<a ', main.indexOf(`href="${url}"`)), main.indexOf('>', main.indexOf(`href="${url}"`)) + 1);
+    assert.match(tag, /rel="noopener"/, `${slug}: buy link needs rel="noopener"`);
+    assert.doesNotMatch(tag, /target=/, `${slug}: no new tab`);
+    assert.match(html, /\.buy\{/, `${slug}: .buy style missing`);
+  }
+});
