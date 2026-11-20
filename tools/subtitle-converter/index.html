@@ -153,9 +153,9 @@ textarea[readonly]#inp{opacity:.85}
    Nur Optik als Ueberlagerung, Engine unveraendert. Systemschrift (Segoe UI Variable) = keine externen Schriften. */
 :root{color-scheme:light;--bg:#fafafa;--panel:#ffffff;--panel2:#ffffff;--line:#e6e6e9;--line2:#d4d4d8;--fg:#18181b;--mut:#52525b;--dim:#71717a;
 --acc:#e0531f;--acc2:#e0531f;--brk:#16a34a;--soft:#f4f4f5;--onacc:#ffffff;--shadow:0 1px 2px #18181b0d,0 1px 1px #18181b08;--r:12px}
-:root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#8f8f98;
+:root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
 --acc:#ff8a5c;--acc2:#ff8a5c;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#8f8f98;
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
 --acc:#ff8a5c;--acc2:#ff8a5c;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}}
 body{background:var(--bg)!important;color:var(--fg)!important;font:15px/1.55 "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif!important}
 .mark{background:var(--fg)!important;box-shadow:none!important;border-radius:8px!important}.mark svg{stroke:var(--bg)}
@@ -238,6 +238,9 @@ small,.tag,.tile span{font-size:12px!important}
 }
 </style>
 <!-- /handy-ergo -->
+<!-- faq-ld:start (generated from tools/tools.json by scripts/build-tools.mjs - do not edit by hand) -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I convert SRT to VTT?","acceptedAnswer":{"@type":"Answer","text":"Drop or paste the .srt file and pick “VTT”. The result appears right away – press Download. Commas in timestamps become dots and the WEBVTT header is added."}},{"@type":"Question","name":"How do I convert VTT to SRT?","acceptedAnswer":{"@type":"Answer","text":"Same steps with “SRT”. Cue settings (position, align) and styling tags are removed, cues are numbered."}},{"@type":"Question","name":"Is my file uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. The conversion is plain JavaScript in this page. You can even use it offline after it has loaded."}},{"@type":"Question","name":"My subtitles are out of sync – can I fix that?","acceptedAnswer":{"@type":"Answer","text":"Yes. If they are late or early by the same amount everywhere, use “Shift timing”: a positive number delays all subtitles, a negative number shows them earlier (e.g. -1.5 or -0.25)."}},{"@type":"Question","name":"The subtitles drift – fine at the start, wrong at the end. What now?","acceptedAnswer":{"@type":"Answer","text":"That is a speed problem, usually a frame rate mismatch. Open “Fix drift”. If you know the frame rates, pick “Frame rate” (for example subtitles made for 25 fps, video has 23.976 fps). If you don’t, pick “Two lines”: choose one line near the start and one near the end and type when each is really spoken – the tool stretches everything in between."}},{"@type":"Question","name":"Can I convert several files at once?","acceptedAnswer":{"@type":"Answer","text":"Yes. Choose or drop several files. They all get the same format and timing settings and are saved as one ZIP – built in your browser, nothing is uploaded."}},{"@type":"Question","name":"Which formats are supported?","acceptedAnswer":{"@type":"Answer","text":"Input: SRT, VTT, ASS/SSA. Output: SRT, VTT, ASS (1080×1920, ready for CapCut and Aegisub), text only, text with timestamps. Lines that would end before 0:00 after shifting are removed."}}]}</script>
+<!-- faq-ld:end -->
 </head>
 <body>
 <header>

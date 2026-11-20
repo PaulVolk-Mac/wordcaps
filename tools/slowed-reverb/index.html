@@ -117,9 +117,9 @@ footer a{color:var(--mut)}footer a:hover{color:var(--fg)}
    Nur Optik als Ueberlagerung, Engine unveraendert. Systemschrift (Segoe UI Variable) = keine externen Schriften. */
 :root{color-scheme:light;--bg:#fafafa;--panel:#ffffff;--panel2:#ffffff;--line:#e6e6e9;--line2:#d4d4d8;--fg:#18181b;--mut:#52525b;--dim:#71717a;
 --acc:#7c3aed;--acc2:#7c3aed;--brk:#16a34a;--soft:#f4f4f5;--onacc:#ffffff;--shadow:0 1px 2px #18181b0d,0 1px 1px #18181b08;--r:12px}
-:root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#8f8f98;
+:root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
 --acc:#a78bfa;--acc2:#a78bfa;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#8f8f98;
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
 --acc:#a78bfa;--acc2:#a78bfa;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}}
 body{background:var(--bg)!important;color:var(--fg)!important;font:15px/1.55 "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif!important}
 .mark{background:var(--fg)!important;box-shadow:none!important;border-radius:8px!important}.mark svg{stroke:var(--bg)}
@@ -223,6 +223,9 @@ small,.tag,.tile span{font-size:12px!important}
 }
 </style>
 <!-- /handy-ergo -->
+<!-- faq-ld:start (generated from tools/tools.json by scripts/build-tools.mjs - do not edit by hand) -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does slowed + reverb work?","acceptedAnswer":{"@type":"Answer","text":"The song is played slower, like a record or tape at a lower speed – so the pitch drops with it (0.85× is about 2.8 semitones lower). That is the classic “slowed” sound. Then a reverb adds a big, soft room behind it. Super slowed goes further (0.75×, more reverb), nightcore and sped up do the opposite. Tip: most slowed + reverb edits sit between 0.80× and 0.90× with 30–45 % reverb. Add 2–3 dB bass if the slower song feels thin."}},{"@type":"Question","name":"How do I loop one part of a song?","acceptedAnswer":{"@type":"Answer","text":"Switch on “Loop a section”, press play and set start and end with the sliders or with “Start at playhead” / “End at playhead”. You hear the loop right away with your effect on it. Choose how often it repeats – the download is that part, repeated, with a tiny 12 ms blend at each repeat so it does not click. “1×” simply cuts the part out. A download is at most 15 minutes long."}},{"@type":"Question","name":"What is 8D audio?","acceptedAnswer":{"@type":"Answer","text":"A stereo trick, not real surround sound: the song slowly travels from one ear to the other and back while the reverb stays wide, so on headphones it feels as if it circles around your head. On speakers you mostly hear it move left and right. Pick the “8D Audio” preset or switch it on for any other preset, and set how many seconds one circle takes."}},{"@type":"Question","name":"Is my file uploaded? Which formats work?","acceptedAnswer":{"@type":"Answer","text":"No. The file is decoded and processed by your browser (Web Audio). Nothing goes to a server, there is no account and no tracking. Everything your browser can play works – MP3, WAV, OGG and on most systems M4A/AAC and FLAC. The download is a 16-bit WAV, peaks limited to −1 dB so it does not clip."}},{"@type":"Question","name":"Can I upload my slowed version to YouTube or TikTok?","acceptedAnswer":{"@type":"Answer","text":"Only if you own the song or are allowed to edit and share it. Slowing a song down does not change who owns it. Use your own music, royalty-free tracks with a license that allows edits, or songs you have permission for."}}]}</script>
+<!-- faq-ld:end -->
 </head>
 <body>
 <header>

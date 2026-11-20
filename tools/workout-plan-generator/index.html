@@ -76,9 +76,9 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var
    Nur Optik als Ueberlagerung, Engine unveraendert. Systemschrift (Segoe UI Variable) = keine externen Schriften. */
 :root{color-scheme:light;--bg:#fafafa;--panel:#ffffff;--panel2:#ffffff;--line:#e6e6e9;--line2:#d4d4d8;--fg:#18181b;--mut:#52525b;--dim:#71717a;
 --acc:#e0531f;--acc2:#e0531f;--brk:#16a34a;--soft:#f4f4f5;--onacc:#ffffff;--shadow:0 1px 2px #18181b0d,0 1px 1px #18181b08;--r:12px}
-:root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#8f8f98;
+:root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
 --acc:#ff8a5c;--acc2:#ff8a5c;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#8f8f98;
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
 --acc:#ff8a5c;--acc2:#ff8a5c;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}}
 body{background:var(--bg)!important;color:var(--fg)!important;font:15px/1.55 "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif!important}
 .mark{background:var(--fg)!important;box-shadow:none!important;border-radius:8px!important}.mark svg{stroke:var(--bg)}
@@ -168,6 +168,9 @@ small,.tag,.tile span{font-size:12px!important}
 .seg button.on small{color:var(--mut)}
 @media print{.seg,.tabs{display:none}}
 </style>
+<!-- faq-ld:start (generated from tools/tools.json by scripts/build-tools.mjs - do not edit by hand) -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is the plan built?","acceptedAnswer":{"@type":"Answer","text":"2 days = full body A/B, 3 days = full body (beginners alternate A-B-A / B-A-B), 4 days = upper/lower, 5 days = push/pull/legs + upper/lower, 6 days = push/pull/legs twice. Every week trains a squat or lunge, a hinge, a push and a pull. The first big lift of each day gets the most sets and the longest rest."}},{"@type":"Question","name":"Why a deload in week 4?","acceptedAnswer":{"@type":"Answer","text":"Weeks 1–3 get harder: about 3, 2, then 1 rep left in the tank. Week 4 halves the sets at about 90 % of the weight so your joints and energy recover. Then start again at week 1 with the weights you reached."}}]}</script>
+<!-- faq-ld:end -->
 <script src="engine.js"></script>
 </head>
 <body>
@@ -201,7 +204,7 @@ small,.tag,.tile span{font-size:12px!important}
   <div class="cta"><p><b>Want to track it?</b> The Workout Planner &amp; Tracker (Excel / Google Sheets) logs every set, shows your next target per exercise and your personal records.</p><a class="btn" id="gum" href="https://volkster45.gumroad.com/l/ogtgbq?ref=plan-generator" rel="noopener">Get the tracker</a></div>
 </section>
 <div class="info">
-<details><summary>How the plan is built</summary>
+<details><summary>How is the plan built?</summary>
 <p>2 days = full body A/B, 3 days = full body (beginners alternate A-B-A / B-A-B), 4 days = upper/lower, 5 days = push/pull/legs + upper/lower, 6 days = push/pull/legs twice. Every week trains a squat or lunge, a hinge, a push and a pull. The first big lift of each day gets the most sets and the longest rest.</p></details>
 <details><summary>Why a deload in week 4?</summary>
 <p>Weeks 1–3 get harder: about 3, 2, then 1 rep left in the tank. Week 4 halves the sets at about 90 % of the weight so your joints and energy recover. Then start again at week 1 with the weights you reached.</p></details>
