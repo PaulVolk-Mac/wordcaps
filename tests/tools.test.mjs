@@ -6,7 +6,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, dirname, relative, sep } from 'node:path';
-import { ROOT, MARK, loadData, liveTools, plan, renderList, renderRelated, putRegion, esc } from '../scripts/build-tools.mjs';
+import { ROOT, MARK, loadData, liveTools, plan, renderList, renderRelated, putRegion, esc, faqItems, renderFaq } from '../scripts/build-tools.mjs';
 
 const data = loadData();
 const live = liveTools(data);
@@ -185,4 +185,32 @@ test('safe zone checker: platform tabs are in the HTML from the start (CLS, A-21
   assert.ok(m, 'tabs container missing');
   for (const p of ['tiktok', 'reels', 'shorts', 'combined']) assert.ok(m[1].includes(`data-p="${p}"`), `tab ${p} missing`);
   assert.match(m[1], /data-p="combined" role="radio" aria-checked="true" class="on"/, 'default tab must match cur=combined');
+});
+
+test('tool pages: FAQPage JSON-LD in <head> matches the visible FAQ word for word (A-256)', () => {
+  let pages = 0;
+  for (const t of live) {
+    const html = read('tools', t.slug, 'index.html');
+    const items = faqItems(html);
+    const m = html.match(/<!-- faq-ld:start[^>]*-->\s*<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    if (items.length < 2) { assert.equal(m, null, `${t.slug}: FAQ JSON-LD without visible FAQ`); continue; }
+    assert.ok(m, `${t.slug}: visible FAQ but no FAQPage JSON-LD`);
+    assert.ok(html.indexOf('faq-ld:start') < html.indexOf('</head>'), `${t.slug}: FAQ JSON-LD not in <head>`);
+    const ld = JSON.parse(m[1]);
+    assert.equal(ld['@type'], 'FAQPage');
+    assert.deepEqual(ld.mainEntity.map((e) => [e.name, e.acceptedAnswer.text]), items.map((i) => [i.q, i.a]));
+    pages++;
+  }
+  assert.ok(pages >= 4, `only ${pages} tool pages with FAQ JSON-LD`);
+});
+
+test('build helpers: FAQ skips UI panels and non-questions, decodes entities, never closes the script', () => {
+  const html = '<details class="sync"><summary>Fix drift?</summary><p>ui</p></details>' +
+    '<details><summary>Good to know</summary><p>x</p></details>' +
+    '<details><summary>A &amp; B?</summary><p>Use <b>&lt;/script&gt;</b> safely.</p></details>' +
+    '<details><summary>Two?</summary><p>Yes.</p></details>';
+  assert.deepEqual(faqItems(html), [{ q: 'A & B?', a: 'Use </script> safely.' }, { q: 'Two?', a: 'Yes.' }]);
+  const out = renderFaq(html);
+  assert.ok(!out.slice(0, -'</script>'.length).includes('</'), 'answer text must not close the script tag');
+  assert.equal(renderFaq('<details><summary>Only one?</summary><p>a</p></details>'), null);
 });
