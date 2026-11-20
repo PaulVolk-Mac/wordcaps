@@ -214,3 +214,12 @@ test('build helpers: FAQ skips UI panels and non-questions, decodes entities, ne
   assert.ok(!out.slice(0, -'</script>'.length).includes('</'), 'answer text must not close the script tag');
   assert.equal(renderFaq('<details><summary>Only one?</summary><p>a</p></details>'), null);
 });
+
+test('workout plan generator: engine.js loads in <head>, plan renders before first paint (CLS 0.26 -> 0, A-217)', () => {
+  const html = read('tools', 'workout-plan-generator', 'index.html');
+  const headEnd = html.indexOf('</head>');
+  const tag = '<script src="engine.js"></script>';
+  assert.ok(html.indexOf(tag) > 0 && html.indexOf(tag) < headEnd, 'engine.js must be a blocking script in <head>');
+  assert.equal(html.split(tag).length - 1, 1, 'engine.js loaded exactly once');
+  assert.ok(html.indexOf('cfg=load();save();render();') > headEnd, 'render() still runs in <body>');
+});
