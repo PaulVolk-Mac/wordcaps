@@ -252,6 +252,19 @@ test('a11y: dark --dim text reaches 4.5:1 on every dark surface of every tool pa
   }
 });
 
+test('a11y: light --dim / --ok text reaches 4.5:1 on light tinted surfaces (axe live 20.11., A-256)', () => {
+  const pages = ['tools/index.html', ...readdirSync(join(ROOT, 'tools'), { withFileTypes: true })
+    .filter(e => e.isDirectory() && existsSync(join(ROOT, 'tools', e.name, 'index.html')))
+    .map(e => `tools/${e.name}/index.html`)];
+  for (const p of pages) {
+    for (const m of read(p).matchAll(/color-scheme:light;[^}]*?--dim:#([0-9a-fA-F]{6})/g))
+      for (const bg of ['fcf0eb', 'f4f4f5', 'fafafa'])
+        assert.ok(ratio(m[1], bg) >= 4.5, `${p}: light --dim #${m[1]} on #${bg} = ${ratio(m[1], bg).toFixed(2)}:1`);
+    for (const m of read(p).matchAll(/color-scheme:light;[^}]*?--ok:#([0-9a-fA-F]{6})/g))
+      assert.ok(ratio(m[1], 'e8f0eb') >= 4.5, `${p}: light --ok #${m[1]} on #e8f0eb = ${ratio(m[1], 'e8f0eb').toFixed(2)}:1`);
+  }
+});
+
 test('a11y: safe zone checker – every button with aria-checked has role="radio"', () => {
   const html = read('tools', 'safe-zone-checker', 'index.html');
   for (const m of html.matchAll(/<button\b[^>]*aria-checked[^>]*>/g))
