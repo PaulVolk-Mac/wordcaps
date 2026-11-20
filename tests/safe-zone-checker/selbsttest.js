@@ -109,9 +109,11 @@ for (const k in Z) for (const typ of ['safe_zone', 'guide_lines']) { const f = p
 // --- ZIP for the download button (stored/deflated central directory names)
 const zipf = path.join(dir, 'SafeZoneOverlays_2026.zip'); t(fs.existsSync(zipf), 'ZIP exists');
 if (fs.existsSync(zipf)) { const b = fs.readFileSync(zipf), names = {}; let i = b.lastIndexOf(Buffer.from([0x50, 0x4b, 5, 6])); const n = b.readUInt16LE(i + 10); let o = b.readUInt32LE(i + 16);
-  for (let k = 0; k < n; k++) { const nl = b.readUInt16LE(o + 28), el = b.readUInt16LE(o + 30), cl = b.readUInt16LE(o + 32); names[b.toString('utf8', o + 46, o + 46 + nl)] = { size: b.readUInt32LE(o + 24) }; o += 46 + nl + el + cl; }
+  for (let k = 0; k < n; k++) { const nl = b.readUInt16LE(o + 28), el = b.readUInt16LE(o + 30), cl = b.readUInt16LE(o + 32); names[b.toString('utf8', o + 46, o + 46 + nl)] = { size: b.readUInt32LE(o + 24), crc: b.readUInt32LE(o + 16) }; o += 46 + nl + el + cl; }
   for (const k in Z) for (const typ of ['safe_zone', 'guide_lines']) { const nm = `${k}_${typ}_1080x1920.png`; t(names[nm] && names[nm].size === fs.statSync(path.join(dir, 'png', nm)).size, `ZIP has the current ${nm}`); }
-  t(names['zones.json'] && names['zones.json'].size === fs.statSync(path.join(dir, 'zones.json')).size, 'ZIP has zones.json (sources + date)');
+  // zones.json is text: a Windows checkout (core.autocrlf) has CRLF, the ZIP and the live site have LF -> compare LF-normalised content
+  const zj = Buffer.from(fs.readFileSync(path.join(dir, 'zones.json'), 'latin1').replace(/\r\n/g, '\n'), 'latin1'), zcrc = require('zlib').crc32;
+  t(names['zones.json'] && names['zones.json'].size === zj.length && (!zcrc || names['zones.json'].crc === zcrc(zj) >>> 0), 'ZIP has zones.json (sources + date)');
   t(names['README.txt'] && names['LICENSE.txt'], 'ZIP has README + LICENSE');
   t(!Object.keys(names).some(x => x.startsWith('checker/')), 'ZIP no longer ships the old checker copy with old values'); }
 console.log(`Self-test safe zone checker: ${ok} OK, ${fail} FAIL`); process.exit(fail ? 1 : 0);
