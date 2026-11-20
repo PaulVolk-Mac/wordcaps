@@ -219,6 +219,32 @@ small,.tag,.tile span{font-size:12px!important}
 }
 </style>
 <!-- /handy-ergo -->
+<!-- my-workouts + pwa (A-311) -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+.mine{display:flex;gap:8px}
+.mine input{flex:1;min-width:0;font:inherit;font-size:14px;color:var(--fg);background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:9px 12px}
+.mine input::placeholder{color:var(--dim)}
+.mine input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.btn2{flex:none;font:inherit;font-size:14px;font-weight:600;color:var(--bg);background:var(--fg);border:0;border-radius:10px;padding:9px 16px;cursor:pointer}
+.btn2:hover{opacity:.88}
+.wl{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.wl:empty{display:none}
+.wl li{display:flex;gap:6px}
+.wload{flex:1;min-width:0;font:inherit;text-align:left;display:flex;flex-direction:column;line-height:1.3;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer}
+.wload b{font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wload small{font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
+.wload:hover{border-color:var(--line2);background:var(--soft)}
+.wload.on{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 9%,var(--panel))}
+.wdel{flex:none;width:44px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--mut);cursor:pointer;font:inherit;font-size:18px;line-height:1}
+.wdel:hover{color:var(--fg);border-color:var(--line2)}
+.wnote{margin:8px 0 0;font-size:12.5px;color:var(--mut);min-height:19px}
+.pwa{margin-top:14px;border-top:1px solid var(--line);padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px}
+.pwa small{display:block;color:var(--mut);font-size:12px}
+.pwa[hidden]{display:none}
+</style>
+<!-- /my-workouts + pwa -->
 </head>
 <body>
 <header>
@@ -257,11 +283,16 @@ small,.tag,.tile span{font-size:12px!important}
     <div class="num"><span>Get ready</span><div class="st"><button type="button" data-f="prep" data-d="-5" aria-label="Get ready minus 5 seconds">−</button><input type="number" id="prep" min="0" max="60" value="10" inputmode="numeric" aria-label="Get ready seconds"><button type="button" data-f="prep" data-d="5" aria-label="Get ready plus 5 seconds">+</button></div><small>seconds</small></div>
   </form>
   <div id="total"></div>
+  <h2 class="h2b">My workouts</h2>
+  <div class="mine"><input type="text" id="wname" maxlength="40" autocomplete="off" enterkeyhint="done" placeholder="Name, e.g. Leg day finisher" aria-label="Name for this workout"><button type="button" class="btn2" id="wsave">Save</button></div>
+  <ul class="wl" id="wlist" aria-label="Saved workouts"></ul>
+  <p class="wnote" id="wnote" role="status"></p>
   <div class="opts">
     <label class="sw"><span>Beeps<small>3-2-1 countdown, long beep on change</small></span><input type="checkbox" id="beep" checked><span class="t"></span></label>
     <label class="sw"><span>Voice<small>“Work”, “Rest”, “Set break”</small></span><input type="checkbox" id="voice"><span class="t"></span></label>
     <label class="sw"><span>Vibrate<small>on phones that support it</small></span><input type="checkbox" id="vib" checked><span class="t"></span></label>
   </div>
+  <div class="pwa" id="pwa" hidden><span>Install as an app<small>Opens without the browser bar, works offline</small></span><button type="button" class="btn2" id="install">Install</button></div>
 </section>
 <div class="info" id="how">
 <details><summary>A free interval timer that just works</summary>
@@ -269,7 +300,7 @@ small,.tag,.tile span{font-size:12px!important}
 <details><summary>Presets: Tabata, HIIT 45/15, EMOM, Boxing</summary>
 <p><b>Tabata</b> 20 s work / 10 s rest × 8 · <b>HIIT 45/15</b> × 10 · <b>HIIT 40/20</b> × 8 · <b>30/30</b> × 10 · <b>EMOM 10</b> (every minute on the minute for 10 minutes) · <b>Boxing</b> 3 min rounds / 1 min rest × 5. Change any number and the link in your address bar updates, so you can bookmark your own workout.</p></details>
 <details><summary>Good to know</summary>
-<p>No ads, no account, nothing to install. Your settings stay in your browser. The screen stays awake while the timer runs (on browsers that support it), and the timer keeps exact time even if your phone is slow. Keyboard: Space = start/pause, → = skip, R = reset. Tip: add it to your home screen.</p></details>
+<p>No ads, no account, nothing to install. Your settings stay in your browser. The screen stays awake while the timer runs (on browsers that support it), and the timer keeps exact time even if your phone is slow. Keyboard: Space = start/pause, → = skip, R = reset. Name your own intervals under “My workouts” and they are one tap away next time; they are stored on this device only. You can install the timer as an app (Install button below the settings, or “Add to Home Screen” on iPhone): it then opens without the browser and works without internet.</p></details>
 </div>
 </main>
 <!-- related-tools:start (generated from tools/tools.json by scripts/build-tools.mjs - do not edit by hand) -->
@@ -310,7 +341,19 @@ function fmt(sec){sec=Math.max(0,Math.ceil(sec-1e-6));const m=Math.floor(sec/60)
 function clampCfg(c){const n=(v,lo,hi,d)=>{v=Math.round(+v);return isFinite(v)?Math.min(hi,Math.max(lo,v)):d};
   return{work:n(c.work,1,3600,45),rest:n(c.rest,0,3600,15),rounds:n(c.rounds,1,99,10),sets:n(c.sets,1,20,1),setrest:n(c.setrest,0,3600,60),prep:n(c.prep,0,60,10)}}
 const PRESETS={'Tabata':{work:20,rest:10,rounds:8,sets:1,setrest:60},'HIIT 45/15':{work:45,rest:15,rounds:10,sets:1,setrest:60},'HIIT 40/20':{work:40,rest:20,rounds:8,sets:1,setrest:60},'30/30':{work:30,rest:30,rounds:10,sets:1,setrest:60},'EMOM 10':{work:60,rest:0,rounds:10,sets:1,setrest:0},'Boxing 3×1':{work:180,rest:60,rounds:5,sets:1,setrest:0}};
-if(typeof module!=='undefined'){module.exports={buildPlan,totalSec,stateAt,fmt,clampCfg,PRESETS};}
+// My workouts (A-311): pure list helpers, stored as JSON in localStorage 'hiit5w'
+const WK_MAX=30,WK_NAME=40;
+function wkName(c){return c.work+'/'+c.rest+' × '+c.rounds+(c.sets>1?' · '+c.sets+' sets':'')}
+function wkClean(name){return String(name==null?'':name).replace(/\s+/g,' ').trim().slice(0,WK_NAME).trim()}
+function wkParse(s){let a;try{a=JSON.parse(s||'[]')}catch(e){return[]}if(!Array.isArray(a))return[];
+  const out=[];for(const x of a){if(!x||typeof x!=='object')continue;const n=wkClean(x.name);if(!n||out.some(y=>y.name.toLowerCase()===n.toLowerCase()))continue;out.push({name:n,...clampCfg(x)});if(out.length>=WK_MAX)break}
+  return out}
+function wkAdd(list,name,c){c=clampCfg(c);const n=wkClean(name)||wkName(c),it={name:n,...c};const i=list.findIndex(y=>y.name.toLowerCase()===n.toLowerCase());
+  if(i>=0){const l=list.slice();l[i]=it;return l}
+  if(list.length>=WK_MAX)return list; // full: caller shows a hint, nothing is dropped silently
+  return[it,...list]}
+function wkDel(list,name){return list.filter(y=>y.name!==name)}
+if(typeof module!=='undefined'){module.exports={buildPlan,totalSec,stateAt,fmt,clampCfg,PRESETS,wkName,wkClean,wkParse,wkAdd,wkDel,WK_MAX};}
 
 // ===== UI =====
 if(typeof document!=='undefined'){
@@ -328,7 +371,7 @@ $('prog').style.strokeDasharray=C.toFixed(2);
 function cfg(){const c={};F.forEach(f=>c[f]=$(f).value);return clampCfg(c)}
 function setCfg(c){F.forEach(f=>{if(c[f]!=null)$(f).value=c[f]})}
 function save(){const c=cfg();try{localStorage.setItem('hiit5',JSON.stringify({...c,beep:$('beep').checked,voice:$('voice').checked,vib:$('vib').checked}))}catch(e){}
-  const q=new URLSearchParams({w:c.work,r:c.rest,n:c.rounds,s:c.sets,sr:c.setrest,p:c.prep});history.replaceState(null,'','?'+q+location.hash);markPreset();showTotal()}
+  const q=new URLSearchParams({w:c.work,r:c.rest,n:c.rounds,s:c.sets,sr:c.setrest,p:c.prep});history.replaceState(null,'','?'+q+location.hash);markPreset();wkMark();showTotal()}
 function load(){let c={};try{c=JSON.parse(localStorage.getItem('hiit5')||'{}')}catch(e){}
   const q=new URLSearchParams(location.search);if(q.has('w'))c={...c,work:q.get('w'),rest:q.get('r'),rounds:q.get('n'),sets:q.get('s')||1,setrest:q.get('sr')||60,prep:q.get('p')||10};
   setCfg(clampCfg({work:45,rest:15,rounds:10,sets:1,setrest:60,prep:10,...c}));['beep','voice','vib'].forEach(k=>{if(c[k]!=null)$(k).checked=!!c[k]})}
@@ -377,7 +420,30 @@ F.forEach(f=>$(f).addEventListener('change',()=>{setCfg(cfg());save();if(!runnin
 $('shareLink').onclick=()=>{save();if(navigator.clipboard)navigator.clipboard.writeText(location.href.split('#')[0]);$('shareLink').querySelector('span').textContent='Link copied'};
 document.addEventListener('keydown',e=>{const tg=e.target.tagName;if(tg==='INPUT')return;
   if(e.code==='Space'){if(tg==='BUTTON'||tg==='SUMMARY')return;e.preventDefault();start()}else if(e.code==='ArrowRight')skip();else if(e.key==='r'||e.key==='R')reset()});
-load();save();reset();
+// My workouts
+let mine=[];const WK_HINT='Name the intervals above and save them. Stored on this device only.';
+function wkMsg(s){$('wnote').textContent=s||WK_HINT}
+function wkStore(){try{localStorage.setItem('hiit5w',JSON.stringify(mine));return true}catch(e){return false}}
+function wkMark(){const c=cfg();[...$('wlist').children].forEach((li,i)=>{const w=mine[i];if(w)li.firstChild.classList.toggle('on',F.every(f=>w[f]===c[f]))})}
+function wkDraw(){const ul=$('wlist');ul.innerHTML='';mine.forEach(w=>{const li=document.createElement('li'),b=document.createElement('button'),n=document.createElement('b'),s=document.createElement('small'),d=document.createElement('button');
+  b.type='button';b.className='wload';n.textContent=w.name;s.textContent=wkName(w)+' · '+fmt(totalSec(buildPlan(w)))+' total';b.append(n,s);
+  b.onclick=()=>{setCfg(w);save();if(!running)reset();wkMsg('Loaded “'+w.name+'”.')};
+  d.type='button';d.className='wdel';d.textContent='×';d.title='Delete';d.setAttribute('aria-label','Delete workout '+w.name);
+  d.onclick=()=>{mine=wkDel(mine,w.name);wkStore();wkDraw();wkMsg('Deleted “'+w.name+'”.');$('wname').focus()};
+  li.append(b,d);ul.appendChild(li)});wkMark()}
+function wkSave(){const c=cfg(),n=wkClean($('wname').value)||wkName(c),neu=wkAdd(mine,n,c);
+  if(neu===mine){wkMsg('You have '+WK_MAX+' saved workouts. Delete one to save another.');return}
+  const upd=neu.length===mine.length;mine=neu;const ok=wkStore();wkDraw();$('wname').value='';
+  wkMsg(ok?(upd?'Updated “':'Saved “')+n+'”.':'Could not save: this browser blocks storage (private mode?).')}
+$('wsave').onclick=wkSave;$('wname').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();wkSave()}});
+try{mine=wkParse(localStorage.getItem('hiit5w'))}catch(e){mine=[]}
+// Installable app (PWA): the service worker caches this page, so it also opens without internet
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})});
+let installEvt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEvt=e;$('pwa').hidden=false});
+window.addEventListener('appinstalled',()=>{installEvt=null;$('pwa').hidden=true});
+$('install').onclick=async()=>{if(!installEvt)return;const ev=installEvt;installEvt=null;ev.prompt();try{await ev.userChoice}catch(e){}$('pwa').hidden=true};
+load();wkDraw();wkMsg();save();reset();
 if(location.hash==='#demo'){plan=buildPlan(cfg());paused=(plan[0].k==='prep'?plan[0].d:0)+plan[1].d*0.4+plan[2].d+plan[3].d;render();document.body.className='work running';$('go').innerHTML=PAUSE}
 }
 </script>
