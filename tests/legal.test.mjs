@@ -33,3 +33,10 @@ test('every page links to the legal notice with a working relative path', () => 
 test('legal notice is not listed in sitemap.xml', () => {
   assert.ok(!readFileSync(join(root, 'sitemap.xml'), 'utf8').includes('impressum.html'));
 });
+
+test('impressum.html has no unfilled [[...]] placeholder or TODO left', () => {
+  const h = readFileSync(join(root, 'impressum.html'), 'utf8');
+  assert.ok(!/\[\[[^\]]*\]\]/.test(h), 'placeholder left in impressum.html');
+  assert.ok(!h.includes('TODO'), 'TODO left in impressum.html');
+  assert.ok(/href="mailto:[^"@]+@[^"]+"/.test(h), 'no contact e-mail link');
+});
