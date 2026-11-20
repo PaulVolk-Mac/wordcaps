@@ -84,7 +84,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .exp{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px}
 .btn{text-decoration:none;display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:14px;font-weight:650;border-radius:14px;padding:12px 18px;cursor:pointer;border:1px solid var(--line2);background:#ffffff08;color:var(--fg);transition:background .15s,transform .12s,opacity .15s}
 .btn:hover{background:#ffffff12}.btn:active{transform:scale(.98)}.btn svg{width:16px;height:16px}
-.btn.pri{background:var(--acc);border-color:transparent;color:#0a0b12;box-shadow:0 8px 22px #a78bfa33}.btn.pri:hover{background:#b9a2fb}
+.btn.pri{background:var(--acc);border-color:transparent;color:var(--onacc,#0a0b12);box-shadow:0 8px 22px #a78bfa33}.btn.pri:hover{background:#b9a2fb}
 .btn:disabled{opacity:.4;cursor:default;transform:none}
 .facts{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--mut);font-variant-numeric:tabular-nums}
 .facts b{color:var(--fg);font-weight:650}
@@ -115,12 +115,12 @@ footer a{color:var(--mut)}footer a:hover{color:var(--fg)}
 <style>
 /* v4 "Schlicht" (Paul R-1395, 16.11.): weiss und ruhig, Hell/Dunkel folgt Windows (prefers-color-scheme), Umschalter Auto/Light/Dark.
    Nur Optik als Ueberlagerung, Engine unveraendert. Systemschrift (Segoe UI Variable) = keine externen Schriften. */
-:root{color-scheme:light;--bg:#fafafa;--panel:#ffffff;--panel2:#ffffff;--line:#e6e6e9;--line2:#d4d4d8;--fg:#18181b;--mut:#52525b;--dim:#71717a;
---acc:#7c3aed;--acc2:#7c3aed;--brk:#16a34a;--soft:#f4f4f5;--onacc:#ffffff;--shadow:0 1px 2px #18181b0d,0 1px 1px #18181b08;--r:12px}
+:root{color-scheme:light;--bg:#fafafa;--panel:#ffffff;--panel2:#ffffff;--line:#e6e6e9;--line2:#d4d4d8;--fg:#18181b;--mut:#52525b;--dim:#63636b;
+--acc:#7c3aed;--acc2:#7c3aed;--brk:#16a34a;--ok:#166534;--soft:#f4f4f5;--onacc:#ffffff;--shadow:0 1px 2px #18181b0d,0 1px 1px #18181b08;--r:12px}
 :root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
---acc:#a78bfa;--acc2:#a78bfa;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}
+--acc:#a78bfa;--acc2:#a78bfa;--brk:#4ade80;--ok:#6fd3a0;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
---acc:#a78bfa;--acc2:#a78bfa;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}}
+--acc:#a78bfa;--acc2:#a78bfa;--brk:#4ade80;--ok:#6fd3a0;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}}
 body{background:var(--bg)!important;color:var(--fg)!important;font:15px/1.55 "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif!important}
 .mark{background:var(--fg)!important;box-shadow:none!important;border-radius:8px!important}.mark svg{stroke:var(--bg)}
 .brand{font-weight:600!important}
@@ -229,9 +229,10 @@ small,.tag,.tile span{font-size:12px!important}
   <div class="brand"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0b12" stroke-width="2.4" stroke-linecap="round"><path d="M3 12h2M7 8v8M11 5v14M15 9v6M19 7v10M21 12h0"/></svg></span>Slowed + Reverb Maker</div>
   <div class="theme" role="group" aria-label="Appearance"><button type="button" data-t="auto" title="Follow your system (Windows/phone setting)" aria-pressed="true">Auto</button><button type="button" data-t="light" title="Light mode" aria-pressed="false">Light</button><button type="button" data-t="dark" title="Dark mode" aria-pressed="false">Dark</button></div><button class="ghost" id="shareLink" type="button" aria-label="Copy link to these settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Copy link</span></button>
 </header>
+<main>
 <div class="lead"><h1>Make your song slowed + reverb – free, right in your browser</h1>
 <p>Open an audio file, pick a preset, fine-tune speed, reverb and bass while it plays, loop your favourite part or make it 8D, then download a WAV. Your file never leaves your device.</p></div>
-<main>
+
 <section class="card" aria-labelledby="h-track">
   <h2 id="h-track">Your track</h2>
   <label class="drop" id="drop"><input id="file" type="file" accept="audio/*,.mp3,.wav,.ogg,.m4a,.flac,.aac" aria-label="Open an audio file">

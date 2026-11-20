@@ -5,7 +5,7 @@ a{color:var(--accent2)}
 header.top{display:flex;justify-content:space-between;align-items:center;max-width:1040px;margin:0 auto;padding:18px 24px}
 header.top .logo{font-weight:800;font-size:1.25em;color:var(--text);text-decoration:none}
 header.top .logo span{color:var(--accent)}
-header.top nav a{color:var(--muted);margin-left:18px;text-decoration:none;font-size:.95em}
+header.top nav a{color:var(--muted);margin-left:18px;text-decoration:none;font-size:.95em;display:inline-block;padding:4px 0}
 main{max-width:1040px;margin:0 auto;padding:0 24px 60px}
 .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:30px 0 40px}
 .hero h1{font-size:2.6em;line-height:1.1;margin:0 0 .4em}
