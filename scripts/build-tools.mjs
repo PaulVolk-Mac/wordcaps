@@ -16,6 +16,7 @@ const NOTE = 'generated from tools/tools.json by scripts/build-tools.mjs - do no
 export const MARK = {
   list: [`<!-- tools-list:start (${NOTE}) -->`, '<!-- tools-list:end -->'],
   related: [`<!-- related-tools:start (${NOTE}) -->`, '<!-- related-tools:end -->'],
+  faq: [`<!-- faq-ld:start (${NOTE}) -->`, '<!-- faq-ld:end -->'],
 };
 
 export const esc = (s) =>
@@ -109,6 +110,37 @@ export function renderRelated(data, tool) {
   ].join('\n');
 }
 
+const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'", apos: "'", nbsp: ' ' };
+const text = (h) =>
+  h.replace(/<[^>]+>/g, ' ').replace(/&(#39|[a-z]+);/g, (m, e) => ENT[e] ?? m).replace(/\s+/g, ' ').trim();
+
+/**
+ * FAQ questions of a tool page: every plain <details><summary>…?</summary>…</details>
+ * in the visible page (UI panels have a class and are skipped).
+ */
+export function faqItems(html) {
+  const re = /<details>\s*<summary>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/g;
+  const out = [];
+  for (const m of html.matchAll(re)) {
+    const q = text(m[1]);
+    const a = text(m[2]);
+    if (q.endsWith('?') && a) out.push({ q, a });
+  }
+  return out;
+}
+
+/** FAQPage JSON-LD built from the visible FAQ, so both always say the same. Null if < 2 questions. */
+export function renderFaq(html) {
+  const items = faqItems(html);
+  if (items.length < 2) return null;
+  const ld = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+  };
+  return `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>`;
+}
+
 /** Replace the region between the markers; insert before `anchor` when the markers are missing. */
 export function putRegion(html, [start, end], body, anchor) {
   const block = `${start}\n${body}\n${end}`;
@@ -136,7 +168,11 @@ export function plan(root = ROOT) {
   };
   add(join(root, 'tools', 'index.html'), (h) => putRegion(h, MARK.list, renderList(data), '<ul class="tools">'));
   for (const t of liveTools(data)) {
-    add(join(root, 'tools', t.slug, 'index.html'), (h) => putRegion(h, MARK.related, renderRelated(data, t), '<footer'));
+    add(join(root, 'tools', t.slug, 'index.html'), (h) => {
+      const withRel = putRegion(h, MARK.related, renderRelated(data, t), '<footer');
+      const faq = renderFaq(withRel);
+      return faq ? putRegion(withRel, MARK.faq, faq, '</head>') : withRel;
+    });
   }
   return out;
 }
