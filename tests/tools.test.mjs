@@ -187,6 +187,15 @@ test('safe zone checker: platform tabs are in the HTML from the start (CLS, A-21
   assert.match(m[1], /data-p="combined" role="radio" aria-checked="true" class="on"/, 'default tab must match cur=combined');
 });
 
+test('workout plan generator: engine.js loads in <head>, plan renders before first paint (CLS 0.26 -> 0, A-217)', () => {
+  const html = read('tools', 'workout-plan-generator', 'index.html');
+  const headEnd = html.indexOf('</head>');
+  const tag = '<script src="engine.js"></script>';
+  assert.ok(html.indexOf(tag) > 0 && html.indexOf(tag) < headEnd, 'engine.js must be a blocking script in <head>');
+  assert.equal(html.split(tag).length - 1, 1, 'engine.js loaded exactly once');
+  assert.ok(html.indexOf('cfg=load();save();render();') > headEnd, 'render() still runs in <body>');
+});
+
 // Lighthouse 19.11.: --dim #8f8f98 had 4.03:1 on the dark tile (#3a2f2b) and 4.41:1 on #2b2b2b (WCAG AA needs 4.5:1).
 function lum(hex) {
   const c = [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
