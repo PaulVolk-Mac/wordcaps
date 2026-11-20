@@ -257,3 +257,10 @@ test('a11y: safe zone checker – every button with aria-checked has role="radio
   for (const m of html.matchAll(/<button\b[^>]*aria-checked[^>]*>/g))
     assert.match(m[0], /role="radio"/, m[0]);
 });
+
+test('home page links the tools overview and every live tool (crawl path for search engines)', () => {
+  const html = stripCode(read('index.html'));
+  const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
+  assert.ok(hrefs.includes('tools/'), 'home links tools/');
+  for (const t of live) assert.ok(hrefs.includes(`tools/${t.slug}/`), `home links tools/${t.slug}/`);
+});
