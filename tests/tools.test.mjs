@@ -146,7 +146,7 @@ test('build helpers: escaping, idempotent regions, unknown related tool fails', 
   const once = putRegion('<main></main>\n<footer>x</footer>', MARK.related, 'BODY', '<footer');
   assert.equal(putRegion(once, MARK.related, 'BODY', '<footer'), once);
   assert.ok(once.indexOf('BODY') < once.indexOf('<footer'));
-  assert.throws(() => renderRelated(data, { slug: 'x', related: ['protein-cost-calculator'] }), /missing or not live/);
+  assert.throws(() => renderRelated(data, { slug: 'x', related: ['no-such-tool'] }), /missing or not live/);
 });
 
 test('link checker: no dead internal links, tool links only to live tools', () => {
