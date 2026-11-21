@@ -9,6 +9,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pages = [
   ...readdirSync(root).filter((f) => f.endsWith('.html') && !f.startsWith('google')).map((f) => [f, '']),
   ['tools/index.html', '../'],
+  ['coach-kit/index.html', '../'],
   ...readdirSync(join(root, 'tools'), { withFileTypes: true })
     .filter((d) => d.isDirectory() && existsSync(join(root, 'tools', d.name, 'index.html')))
     .map((d) => [`tools/${d.name}/index.html`, '../../']),
