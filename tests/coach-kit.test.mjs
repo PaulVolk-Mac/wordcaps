@@ -1,92 +1,89 @@
-// Coach Kit product page: the demo maths equals the Excel workbook, the static HTML equals the maths,
-// structured data equals the visible text, and the legal / honesty lines are present.
-import { test } from 'node:test';
+// Static checks for the v2 page draft (browser edition). Run: node --test seite.test.mjs
+// The page may only claim what the app really does. The checks against the app source (core.js, app.js, packaging script) live in the product folder, not in this repo.
+import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { createRequire } from 'node:module';
-import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIR = path.join(ROOT, 'coach-kit');
 const html = readFileSync(path.join(DIR, 'index.html'), 'utf8');
-const D = createRequire(import.meta.url)(path.join(DIR, 'demo.js'));
+const require = createRequire(import.meta.url);
+const D = require(path.join(DIR, 'demo.js'));
 const BUY = 'https://volkster45.gumroad.com/l/daqeao';
-const PRICE = '14.99';
-const decode = (s) => s.replace(/<[^>]+>/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+const text = html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<style[\s\S]*?<\/style>/g, ' ').replace(/<[^>]+>/g, ' ')
+  .replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&').replace(/\s+/g, ' ');
 const ld = (id) => JSON.parse(html.match(new RegExp(`<script type="application/ld\\+json" id="${id}">([\\s\\S]*?)</script>`))[1]);
 
-test('demo maths: Epley and Brzycki as in the workbook (1-10 reps only)', () => {
-  // values from the workbook's own test (bauen_coach.py) and the plan screenshot: 100 kg x 5 -> 116.7, 80 % -> 92.5
-  assert.equal(D.epley(100, 5), 116.7);
-  assert.equal(D.brzycki(100, 5), 112.5);
-  assert.equal(D.epley(100, 1), 100);
-  assert.equal(D.brzycki(100, 1), 100);
-  assert.equal(D.epley(60, 10), 80);
-  assert.equal(D.brzycki(60, 10), 80);
-  assert.equal(D.epley(72.5, 8), 91.8);
-  for (const bad of [[100, 0], [100, 11], [100, 2.5], [0, 5], [-5, 5], [NaN, 5], [100, NaN], [1001, 5], ['100', 5]]) {
-    assert.equal(D.epley(...bad), null, `epley(${bad})`);
-    assert.equal(D.brzycki(...bad), null, `brzycki(${bad})`);
-  }
+test('head: title, description, canonical, one h1', () => {
+  const title = html.match(/<title>([^<]+)<\/title>/)[1];
+  assert.ok(title.length <= 65 && title.includes('Personal Trainers'), title);
+  const desc = html.match(/<meta name="description" content="([^"]+)"/)[1];
+  assert.ok(desc.length >= 120 && desc.length <= 170, `description ${desc.length}`);
+  assert.ok(desc.includes('€14.99'));
+  assert.match(html, /<link rel="canonical" href="https:\/\/paulvolk-mac\.github\.io\/wordcaps\/coach-kit\/">/);
+  assert.equal([...html.matchAll(/<h1[ >]/g)].length, 1);
+  assert.ok(!/noindex/i.test(html));
 });
 
-test('demo maths: target kg is rounded to 2.5 kg like Excel MROUND', () => {
-  assert.equal(D.targetKg(116.7, 80), 92.5);
-  assert.equal(D.targetKg(80, 70), 55); // bench press row in the screenshot
-  assert.equal(D.targetKg(100, 51.25), 52.5); // 51.25 is exactly half a step: rounds up
-  assert.equal(D.targetKg(0, 80), null);
-  const t = D.loadTable(116.7);
-  assert.deepEqual(t.map((r) => r.percent), [50, 55, 60, 65, 70, 75, 80, 85, 90, 95]);
-  for (const r of t) assert.equal((r.kg / 2.5) % 1, 0, `${r.percent} % -> ${r.kg} is not a 2.5 kg step`);
-  assert.deepEqual(D.loadTable(0), []);
-});
-
-test('static HTML shows exactly what the script computes for the default 100 kg x 5 (no jump on load)', () => {
-  assert.match(html, /id="kg"[^>]*value="100"/);
-  assert.match(html, /id="reps"[^>]*value="5"/);
+test('static demo values equal the computed ones (Epley only, like the app)', () => {
   assert.ok(html.includes(`<b id="epley">${D.fmt(D.epley(100, 5))}</b>`));
-  assert.ok(html.includes(`<b id="brzycki">${D.fmt(D.brzycki(100, 5))}</b>`));
   const rows = D.loadTable(D.epley(100, 5)).map((r) => `<tr><td>${r.percent} %</td><td>${D.fmt(r.kg)}</td></tr>`).join('');
   assert.ok(html.includes(`<tbody id="loads">${rows}</tbody>`), 'static load table differs from the computed one');
+  assert.ok(!/brzycki/i.test(html), 'the app only uses Epley – the page must not show Brzycki');
+  assert.equal(D.targetKg(116.7, 80), 92.5); // squat row in the screenshot alt text
 });
 
-test('buy links, price and Product JSON-LD agree', () => {
-  const buys = [...html.matchAll(/<a class="btn"[^>]*href="([^"]+)"/g)].map((m) => m[1]);
+test('price, buy links and Product data agree', () => {
+  const buys = [...html.matchAll(/<a class="btn" id="buy-(?:top|bottom)" href="([^"]+)"/g)].map((m) => m[1]);
   assert.equal(buys.length, 2);
   for (const b of buys) assert.ok(b.startsWith(BUY + '?ref='), b);
   const p = ld('ld-product');
   assert.equal(p['@type'], 'Product');
-  assert.equal(p.offers.price, PRICE);
+  assert.equal(p.offers.price, '14.99');
   assert.equal(p.offers.priceCurrency, 'EUR');
   assert.equal(p.offers.url, BUY);
-  assert.equal([...html.matchAll(/<b>€14\.99<\/b>/g)].length, 2, 'visible price next to both buy buttons');
-  assert.ok(html.match(/<meta name="description" content="([^"]+)"/)[1].includes('€14.99'));
+  assert.equal([...html.matchAll(/<b>€14\.99<\/b>/g)].length, 2);
   assert.ok(!/aggregateRating|"review"/i.test(html), 'no ratings or reviews without real ones');
 });
 
-test('FAQPage JSON-LD matches the visible questions and answers word for word', () => {
-  const faq = html.slice(html.indexOf('id="faq"'));
-  const visible = [...faq.matchAll(/<div><h3>([\s\S]*?)<\/h3><p>([\s\S]*?)<\/p><\/div>/g)].map((m) => [decode(m[1]), decode(m[2])]);
+test('FAQ data equals the visible FAQ', () => {
   const data = ld('ld-faq').mainEntity.map((q) => [q.name, q.acceptedAnswer.text]);
-  assert.ok(visible.length >= 5);
+  const block = html.match(/<div class="faq" id="faq">([\s\S]*?)\n<\/div>/)[1];
+  const visible = [...block.matchAll(/<h3>([^<]+)<\/h3><p>([^<]+)<\/p>/g)]
+    .map((m) => [m[1], m[2]].map((s) => s.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&')));
+  assert.ok(visible.length >= 6);
   assert.deepEqual(data, visible);
 });
 
-test('honesty and legal lines: no promises, § 19 note, legal notice link, sample data marked', () => {
-  const text = decode(html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, ''));
-  for (const must of ['§ 19 UStG', 'not coaching or medical advice', 'not a tested maximum', 'has not been test-imported', 'Sample data']) {
+test('claims match the app (limits, rules, package content)', () => {
+  assert.ok(text.includes('Up to 60 rows per plan'));
+  assert.ok(text.includes('14 days or more without a log entry'));
+  assert.ok(text.includes('in no backup file for 7 days'));
+  assert.ok(text.includes('double-click CoachKit.html'));
+  assert.ok(text.includes('Excel version as an extra'));
+  for (const knopf of ['Load sample data', 'Save backup file']) { assert.ok(text.includes(knopf), knopf); }
+});
+
+test('honest limits are on the page, unproven claims are not', () => {
+  for (const must of ['Please read before you buy', 'There is no sync', 'clearing the browser data deletes', 'Firefox and Safari were not tested',
+    'tested in Microsoft Edge and Google Chrome on Windows', 'not a tested maximum', 'A logo upload is not included',
+    'not coaching or medical advice', '§ 19 UStG', 'Sample data', 'made up']) {
     assert.ok(text.includes(must), `missing: ${must}`);
   }
   assert.ok(html.includes('href="../impressum.html"'));
-  for (const banned of [/guarantee/i, /best[- ]selling/i, /\b\d[\d,.]* (coaches|trainers|customers)\b/i, /only \d+ left/i, /lose weight/i, /build muscle fast/i, /trusted by/i]) {
+  for (const banned of [/\b(best (?:app|tool|template|software)|#1|guaranteed|proven|scientifically|trusted by|thousands of|limited time|only \d+ left)\b/i,
+    /works in (all|every) browsers?/i, /\bsync(s|ed)? (across|between)\b/i, /\bmacro-free app\b/i, /\bcloud backup\b/i, /GDPR[- ]compliant/i]) {
     assert.ok(!banned.test(text), `claim without proof: ${banned}`);
   }
+  assert.ok(!/Excel kit for (coaches|personal trainers)/i.test(text), 'the lead must describe the browser app, not the Excel kit');
 });
 
-test('images exist and reserve their size (no layout shift)', () => {
-  const imgs = [...html.matchAll(/<img\b[^>]*>/g)].map((m) => m[0]);
-  assert.equal(imgs.length, 2);
+test('images exist, have sizes and alt text', () => {
+  const imgs = [...html.matchAll(/<img [^>]+>/g)].map((m) => m[0]);
+  assert.equal(imgs.length, 4);
   for (const tag of imgs) {
     const src = tag.match(/src="([^"]+)"/)[1];
     assert.ok(existsSync(path.join(DIR, src)), `${src} missing`);
@@ -95,5 +92,13 @@ test('images exist and reserve their size (no layout shift)', () => {
     assert.ok((tag.match(/alt="([^"]*)"/) || [])[1]?.length > 20, `${src}: alt text`);
   }
   assert.ok(existsSync(path.join(DIR, 'og.jpg')));
-  assert.match(html, /<div class="theme" role="group"/, 'theme switcher is in the HTML, not injected');
+  assert.match(html, /<div class="theme" role="group"/);
+});
+
+test('progress sheet and templates: page text and screenshot', () => {
+  assert.ok(text.includes('first, best and latest estimated 1RM per exercise'));
+  assert.ok(text.includes('two starting templates (2 and 4 days)'));
+  assert.ok(existsSync(path.join(DIR, 'app-progress.webp')));
+  const m = html.match(/<img src="app-progress\.webp" width="1180" height="(\d+)"/);
+  assert.equal(m[1], '620');
 });

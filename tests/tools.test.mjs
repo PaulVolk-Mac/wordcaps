@@ -146,7 +146,7 @@ test('build helpers: escaping, idempotent regions, unknown related tool fails', 
   const once = putRegion('<main></main>\n<footer>x</footer>', MARK.related, 'BODY', '<footer');
   assert.equal(putRegion(once, MARK.related, 'BODY', '<footer'), once);
   assert.ok(once.indexOf('BODY') < once.indexOf('<footer'));
-  assert.throws(() => renderRelated(data, { slug: 'x', related: ['protein-cost-calculator'] }), /missing or not live/);
+  assert.throws(() => renderRelated(data, { slug: 'x', related: ['no-such-tool'] }), /missing or not live/);
 });
 
 test('link checker: no dead internal links, tool links only to live tools', () => {
@@ -276,4 +276,53 @@ test('home page links the tools overview and every live tool (crawl path for sea
   const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
   assert.ok(hrefs.includes('tools/'), 'home links tools/');
   for (const t of live) assert.ok(hrefs.includes(`tools/${t.slug}/`), `home links tools/${t.slug}/`);
+});
+
+// A-217 (20.11.): every free tool with a matching paid product shows one plain link to it
+// (buyer path from tool traffic; before this only the plan generator had one).
+const BUY = {
+  'hiit-timer': 'https://volkster45.gumroad.com/l/ogtgbq?ref=hiit-timer',
+  'noise-machine': 'https://jaulana.itch.io/sleep-ambience-loops',
+};
+test('tool pages: buy link to the matching paid product, inside <main>, opens normally (A-217)', () => {
+  for (const [slug, url] of Object.entries(BUY)) {
+    const html = read('tools', slug, 'index.html');
+    const main = html.slice(html.indexOf('<main'), html.indexOf('</main>'));
+    const hits = main.split(`href="${url}"`).length - 1;
+    assert.equal(hits, 1, `${slug}: expected exactly one link to ${url} inside <main>`);
+    const tag = main.slice(main.lastIndexOf('<a ', main.indexOf(`href="${url}"`)), main.indexOf('>', main.indexOf(`href="${url}"`)) + 1);
+    assert.match(tag, /rel="noopener"/, `${slug}: buy link needs rel="noopener"`);
+    assert.doesNotMatch(tag, /target=/, `${slug}: no new tab`);
+    assert.match(html, /\.buy\{/, `${slug}: .buy style missing`);
+  }
+});
+
+// A-332 (20.11.): buyer path audit. (1) Every guide that sends readers to the itch.io shop
+// also offers the second shop (Gumroad) – shift-subtitle-timing.html had itch only.
+// (2) The tools overview names the two paid products that match its fitness and audio tools.
+test('guides: a page that links the itch.io shop also links the Gumroad shop (A-332)', () => {
+  const ITCH = 'href="https://jaulana.itch.io/wordcaps';
+  const GUM = 'href="https://volkster45.gumroad.com/l/ekgiuk';
+  const guides = readdirSync(ROOT).filter((f) => f.endsWith('.html'));
+  let checked = 0;
+  for (const f of guides) {
+    const html = read(f);
+    if (!html.includes(ITCH)) continue;
+    checked++;
+    assert.ok(html.includes(GUM), `${f}: links itch.io but not Gumroad`);
+  }
+  assert.ok(checked >= 18, `expected at least 18 pages with a shop link, got ${checked}`);
+});
+
+test('tools overview: one link each to the two paid products, inside <main> (A-332)', () => {
+  const html = read('tools', 'index.html');
+  const main = html.slice(html.indexOf('<main'), html.indexOf('</main>'));
+  for (const url of ['https://volkster45.gumroad.com/l/ogtgbq?ref=tools', 'https://jaulana.itch.io/sleep-ambience-loops']) {
+    const hits = main.split(`href="${url}"`).length - 1;
+    assert.equal(hits, 1, `tools overview: expected exactly one link to ${url}`);
+    const at = main.indexOf(`href="${url}"`);
+    const tag = main.slice(main.lastIndexOf('<a ', at), main.indexOf('>', at) + 1);
+    assert.match(tag, /rel="noopener"/, `${url}: needs rel="noopener"`);
+    assert.doesNotMatch(tag, /target=/, `${url}: no new tab`);
+  }
 });
