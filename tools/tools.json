@@ -17,7 +17,7 @@
       "categories": ["video"],
       "keywords": ["srt", "vtt", "ass", "txt", "subtitles", "captions", "timing", "sync", "shift"],
       "icon": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M7 15h4M13 15h4M7 11h10\"/>",
-      "related": ["safe-zone-checker", "slowed-reverb", "noise-machine"]
+      "related": ["safe-zone-checker", "slowed-reverb", "teleprompter"]
     },
     {
       "slug": "safe-zone-checker",
@@ -73,6 +73,39 @@
       "keywords": ["music", "song", "nightcore", "sped up", "bass", "wav", "mp3", "pitch", "tempo"],
       "icon": "<path d=\"M9 18V5l11-2v13\"/><circle cx=\"6\" cy=\"18\" r=\"3\"/><circle cx=\"17\" cy=\"16\" r=\"3\"/>",
       "related": ["noise-machine", "safe-zone-checker", "subtitle-converter"]
+    },
+    {
+      "slug": "pomodoro-noise",
+      "status": "live",
+      "name": "Pomodoro Timer with Noise",
+      "desc": "Free Pomodoro timer with built-in brown noise, white noise and rain sounds: 25/5, 50/10 or 90/20, soft chime, no ads, no sign-up.",
+      "tagline": "Pomodoro focus timer with brown noise and rain.",
+      "categories": ["focus", "audio"],
+      "keywords": ["pomodoro", "focus", "study", "brown noise", "rain", "timer", "work", "break"],
+      "icon": "<circle cx=\"12\" cy=\"13\" r=\"8\"/><path d=\"M12 9v4l3 2M9 2h6\"/>",
+      "related": ["noise-machine", "hiit-timer", "protein-cost-calculator"]
+    },
+    {
+      "slug": "protein-cost-calculator",
+      "status": "live",
+      "name": "Protein Cost Calculator",
+      "desc": "Compare protein sources by price per 100 g protein: bars, shakes, powder and food – free, runs in your browser, no sign-up.",
+      "tagline": "Price per 100 g protein for bars, powder and food.",
+      "categories": ["fitness"],
+      "keywords": ["protein", "price", "cost", "bar", "powder", "per gram", "cheapest", "macros"],
+      "icon": "<path d=\"M4 20h16M7 20V10M12 20V4M17 20v-7\"/>",
+      "related": ["workout-plan-generator", "hiit-timer", "pomodoro-noise"]
+    },
+    {
+      "slug": "teleprompter",
+      "status": "live",
+      "name": "Online Teleprompter",
+      "desc": "Free online teleprompter and script timer: paste your script, set speed and font size, mirror mode for a phone rig. No upload, no sign-up.",
+      "tagline": "Scrolling script with speed, mirror mode and timer.",
+      "categories": ["video"],
+      "keywords": ["teleprompter", "script", "prompter", "reading", "speed", "mirror", "video", "tiktok"],
+      "icon": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"12\" rx=\"2\"/><path d=\"M8 20h8M12 16v4M7 8h10M7 12h6\"/>",
+      "related": ["subtitle-converter", "safe-zone-checker", "slowed-reverb"]
     }
   ]
 }

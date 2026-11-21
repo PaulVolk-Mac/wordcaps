@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pomodoro Timer with Brown Noise &amp; Rain Sounds – Free, No Ads</title>
+<meta name="description" content="Free Pomodoro timer with brown noise, white noise and rain. 25/5, 50/10 or 90/20, soft chime, noise pauses in breaks. No ads, no sign-up.">
+<link rel="canonical" href="https://paulvolk-mac.github.io/wordcaps/tools/pomodoro-noise/">
+<meta name="theme-color" content="#0b0d12">
+<style>
+:root{--bg:#0b0d12;--fg:#e9ecf2;--mut:#8b93a3;--acc:#ff8a65;--brk:#7ad7a2;--card:#141823}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;max-width:760px;margin:0 auto}
+header h1{font-size:17px;margin:0;font-weight:700}
+header a{color:var(--mut);font-size:13px;white-space:nowrap}
+main{max-width:760px;margin:0 auto;padding:0 16px 24px}
+#clock{font-size:min(26vw,128px);font-weight:800;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:-2px;margin:6px 0 0;color:var(--acc)}
+#clock.brk{color:var(--brk)}
+#phase{text-align:center;color:var(--mut);font-size:15px;margin-bottom:12px}
+.bar{height:6px;background:#ffffff14;border-radius:3px;overflow:hidden;margin:0 0 16px}.bar i{display:block;height:100%;width:0;background:var(--acc)}
+.top{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 0 16px}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 18px;background:#ffffff17;color:var(--fg);cursor:pointer}
+button.big{background:var(--fg);color:#0b0d12;font-size:20px;min-width:140px}
+button:focus-visible,input:focus-visible{outline:3px solid var(--acc)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.row button{padding:8px 12px;font-size:14px}.row button.on{background:var(--acc);color:#0b0d12}
+.ch{display:grid;grid-template-columns:110px 1fr 46px;align-items:center;gap:10px;background:var(--card);border-radius:12px;padding:10px 14px;margin:8px 0}
+.ch b{font-size:15px}.ch span{color:var(--mut);font-variant-numeric:tabular-nums;text-align:right;font-size:14px}
+input[type=range]{width:100%;accent-color:var(--acc);height:28px}input[type=checkbox]{accent-color:var(--acc);width:18px;height:18px}
+label.opt{display:flex;gap:8px;align-items:center;color:var(--mut);font-size:14px;margin:8px 0}
+h2{font-size:15px;margin:18px 0 6px;color:var(--mut)}
+.note{color:var(--mut);font-size:14px;margin-top:20px}.note a{color:var(--acc)}
+details{margin-top:18px;background:var(--card);border-radius:12px;padding:10px 14px}summary{cursor:pointer;font-weight:700}
+</style>
+<!-- look-v4 -->
+<style>
+/* v4 "Schlicht" (Paul R-1395, 16.11.): weiss und ruhig, Hell/Dunkel folgt Windows (prefers-color-scheme), Umschalter Auto/Light/Dark.
+   Nur Optik als Ueberlagerung, Engine unveraendert. Systemschrift (Segoe UI Variable) = keine externen Schriften. */
+:root{color-scheme:light;--bg:#fafafa;--panel:#ffffff;--panel2:#ffffff;--line:#e6e6e9;--line2:#d4d4d8;--fg:#18181b;--mut:#52525b;--dim:#5f5f67;
+--acc:#e0531f;--acc2:#e0531f;--brk:#16a34a;--soft:#f4f4f5;--onacc:#ffffff;--shadow:0 1px 2px #18181b0d,0 1px 1px #18181b08;--r:12px}
+:root[data-theme=dark]{color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
+--acc:#ff8a5c;--acc2:#ff8a5c;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1c1c1c;--panel:#262626;--panel2:#262626;--line:#ffffff17;--line2:#ffffff26;--fg:#f4f4f5;--mut:#b4b4bb;--dim:#9d9da6;
+--acc:#ff8a5c;--acc2:#ff8a5c;--brk:#4ade80;--soft:#ffffff0d;--onacc:#1c1c1c;--shadow:none}}
+body{background:var(--bg)!important;color:var(--fg)!important;font:15px/1.55 "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif!important}
+.mark{background:var(--fg)!important;box-shadow:none!important;border-radius:8px!important}.mark svg{stroke:var(--bg)}
+.brand{font-weight:600!important}
+.ghost{background:var(--panel)!important;color:var(--fg)!important;border-color:var(--line2)!important;border-radius:8px!important}
+.ghost:hover{border-color:var(--dim)!important}
+.card{background:var(--panel)!important;border:1px solid var(--line)!important;border-radius:16px!important;box-shadow:var(--shadow)!important}
+.seg{background:var(--soft)!important;border:0!important;border-radius:10px!important}
+.seg button.on{background:var(--panel)!important;color:var(--fg)!important;box-shadow:0 0 0 1px var(--line2),var(--shadow)!important}
+.ring circle{stroke-width:5!important}.ring .track{stroke:var(--line)!important}.ring .prog{filter:none!important}
+#clock{font-weight:600!important;letter-spacing:-.035em!important;color:var(--fg)}
+.pill{text-transform:none!important;letter-spacing:0!important;font-size:13px!important}
+.dots i{background:var(--line2)!important}.dots i.done{background:var(--cur)!important}.dots i.now{background:transparent!important}
+.ib{background:var(--panel)!important;border-color:var(--line2)!important;color:var(--fg)!important}
+.ib:hover{background:var(--soft)!important}
+.play{background:var(--cur)!important;color:var(--onacc)!important;box-shadow:none!important}
+.hint kbd{background:var(--soft)!important;border-color:var(--line2)!important}
+h2{text-transform:none!important;letter-spacing:0!important;font-size:15px!important;font-weight:600!important;color:var(--fg)!important}
+.tile{background:var(--panel)!important;border-color:var(--line)!important;color:var(--fg)!important;border-radius:10px!important}
+.tile:hover{background:var(--soft)!important;border-color:var(--line2)!important}
+.tile.on{background:color-mix(in srgb,var(--acc) 9%,var(--panel))!important;border-color:var(--acc)!important}
+input[type=range]{background:linear-gradient(var(--acc),var(--acc)) 0/var(--p,0%) 100% no-repeat,var(--line2)!important}
+input[type=range]::-webkit-slider-thumb{background:var(--panel)!important;box-shadow:0 0 0 1.5px var(--acc),0 1px 3px #0003!important}
+input[type=range]::-moz-range-thumb{background:var(--panel)!important;box-shadow:0 0 0 1.5px var(--acc)}
+.sw .t{background:var(--line2)!important}.sw .t::after{box-shadow:0 1px 2px #0003}
+.sw input:checked+.t{background:var(--acc)!important}
+.info details{background:var(--panel)!important;border-color:var(--line)!important}
+footer a{color:var(--fg)!important}
+/* Umschalter Auto / Light / Dark */
+.theme{display:inline-flex;background:var(--soft);border-radius:8px;padding:3px;gap:2px;margin-left:auto}
+.theme button{font:inherit;font-size:12.5px;font-weight:550;color:var(--mut);background:transparent;border:0;border-radius:6px;padding:5px 10px;cursor:pointer}
+.theme button[aria-pressed=true]{background:var(--panel);color:var(--fg);box-shadow:0 0 0 1px var(--line2)}
+.theme button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+@media(max-width:480px){.theme button{padding:5px 7px;font-size:12px}.ghost svg+span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
+
+/* v4 Einbau: Reste aus v2 (dunkle Flaechen) */
+textarea,.wave{background:var(--soft)!important}
+.wave .ph{background:var(--fg)!important;box-shadow:none!important}
+.ic{background:var(--soft)!important}
+.bar2{background:var(--line)!important}
+</style>
+<script data-look="v4">
+/* v4 Umschalter: Auto (wie Windows) / Light / Dark, Wahl in localStorage. Laeuft vor dem ersten Zeichnen. */
+(function(){var K="tool-theme",d=document.documentElement,m=document.querySelector('meta[name=theme-color]');
+function setz(w){if(w==="light"||w==="dark")d.setAttribute("data-theme",w);else d.removeAttribute("data-theme");
+ if(m)m.setAttribute("content",getComputedStyle(d).getPropertyValue("--bg").trim()||"#fafafa");
+ document.querySelectorAll(".theme button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.t===w))});}
+var w="auto";try{w=localStorage.getItem(K)||"auto"}catch(e){}
+if(w!=="auto")d.setAttribute("data-theme",w);
+document.addEventListener("DOMContentLoaded",function(){var h=document.querySelector("header");if(!h)return;
+ var g=h.querySelector(".theme");if(!g){g=document.createElement("div");g.className="theme";g.setAttribute("role","group");g.setAttribute("aria-label","Appearance");
+  [["auto","Auto"],["light","Light"],["dark","Dark"]].forEach(function(x){var b=document.createElement("button");b.type="button";b.dataset.t=x[0];b.textContent=x[1];
+   b.title=x[0]==="auto"?"Follow your system (Windows/phone setting)":x[1]+" mode";g.appendChild(b)});
+  h.insertBefore(g,h.querySelector(".ghost"))}
+ g.querySelectorAll("button").forEach(function(b){b.onclick=function(){w=b.dataset.t;try{localStorage.setItem(K,w)}catch(e){}setz(w)}});setz(w);
+ matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){setz(w)});});})();
+
+</script>
+<!-- /look-v4 -->
+<!-- handy-ergo -->
+<style>
+@media (pointer:coarse),(max-width:600px){
+button,.btn,select,[role=button],input:not([type=range]):not([type=checkbox]):not([type=radio]){min-height:44px!important}
+a.btn{display:inline-flex!important;align-items:center;justify-content:center}
+summary{padding-block:12px!important}
+/* Regler: 44 px hohe Tippflaeche, sichtbare Spur bleibt duenn (Hintergrund nur im Inhaltsbereich) */
+input[type=range]{box-sizing:content-box!important;height:8px!important;padding-block:18px!important;
+  background-clip:content-box!important;background-origin:content-box!important}
+small,.tag,.tile span{font-size:12px!important}
+/* Schmale Knoepfe (Backlog spiel 16.11., nach #42): gezielt je Bauteil statt pauschaler Mindestbreite */
+.theme button,.ghost{min-width:44px!important;justify-content:center}
+/* Stepper -/+: Tippflaeche 44x44, sichtbarer Ring bleibt klein (transparenter Rand + innerer Schatten) */
+.st button{width:44px!important;height:44px!important;border:8px solid transparent!important;background-clip:padding-box!important;
+  box-shadow:inset 0 0 0 1px var(--line2)!important}
+.num .st{grid-template-columns:44px minmax(0,1fr) 44px!important;gap:0!important}
+.num{padding-inline:4px!important}
+.st:not(.num .st){grid-template-columns:44px 76px 44px!important;gap:0!important}
+/* Noise-Machine Timer: 7 Segmente brauchen 7x44 px -> Leiste nutzt die Kartenpolsterung mit */
+.player .seg{gap:0!important;padding:2px!important;width:calc(100% + 12px)!important;margin-inline:-6px!important}
+}
+</style>
+<!-- /handy-ergo -->
+<style>:root{--card:var(--panel)}header{max-width:760px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:10px}header h1{margin-right:auto}.theme{margin-left:0}main{padding-top:4px}footer{max-width:760px;margin:0 auto;padding:18px 16px 28px;color:var(--mut);font-size:13px}footer a{text-decoration:underline}</style>
+</head>
+<body>
+<header><h1>Pomodoro Timer with Noise</h1><div class="theme" role="group" aria-label="Appearance"><button type="button" data-t="auto" title="Follow your system (Windows/phone setting)" aria-pressed="true">Auto</button><button type="button" data-t="light" title="Light mode" aria-pressed="false">Light</button><button type="button" data-t="dark" title="Dark mode" aria-pressed="false">Dark</button></div><a href="#" id="shareLink" class="ghost">copy link</a></header>
+<main>
+<div id="clock">25:00</div>
+<div id="phase">Focus 1 of 4 · press Start</div>
+<div class="bar"><i id="bar"></i></div>
+<div class="top">
+  <button class="big" id="play">▶ Start</button>
+  <button id="skip">Skip ⏭</button>
+  <button id="reset">Reset</button>
+</div>
+<h2>Timer</h2>
+<div class="row" id="modes"></div>
+<h2>Sound while you focus</h2>
+<div class="row" id="presets"></div>
+<div id="mixer"></div>
+<label class="opt"><input type="checkbox" id="brkQuiet" checked> Noise pauses during breaks</label>
+<label class="opt"><input type="checkbox" id="chime" checked> Soft chime when a phase ends</label>
+<details><summary>How the Pomodoro technique works</summary>
+<p>Work on one task for one focus block (classic: 25 minutes), then take a short break (5 minutes). After four blocks take a long break (15–30 minutes). Longer blocks like 50/10 or 90/20 suit deep work.</p>
+<p><b>Why noise?</b> Brown noise and rain mask voices, typing and traffic, so there is less to react to. Keep it quiet – it should cover sounds, not drown them. Everything is generated live in your browser: no recordings, no tracking, works offline once loaded.</p>
+<p>Tip: the remaining time shows in the browser tab, so you can switch tabs. On phones keep this tab open; some phones pause audio when the screen locks.</p></details>
+<p class="note">Need 10 hours of calm with a picture? Our channel <a href="https://www.youtube.com/playlist?list=PLDYaQoytyqDc" rel="noopener">Silent Bunk – sleep in impossible places</a>. More free tools: <a href="../noise-machine/">noise machine</a> · <a href="../hiit-timer/">HIIT timer</a> · <a href="../">all tools</a>. Free tool by Paul Volk – no ads, no account. Your settings are saved in the link.</p>
+</main>
+<!-- related-tools:start (generated from tools/tools.json by scripts/build-tools.mjs - do not edit by hand) -->
+<style>.rel{max-width:1040px;margin:0 auto;padding:0 20px 26px}.rel h2{font-size:17px;font-weight:650;letter-spacing:-.01em;margin:0 0 10px;color:var(--fg)}.rel ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr))}.rel li a{display:flex;gap:12px;align-items:center;height:100%;min-height:64px;padding:12px 14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;color:var(--fg);text-decoration:none;transition:border-color .15s}.rel li a:hover{border-color:var(--line2)}.rel a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.rel .ic{flex:none;width:36px;height:36px;border-radius:10px;background:var(--soft);display:grid;place-items:center}.rel .ic svg{width:18px;height:18px;stroke:var(--fg);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.rel b{display:block;font-weight:600;font-size:14.5px;line-height:1.3}.rel li span span{display:block;color:var(--mut);font-size:13px;line-height:1.4;margin-top:2px}.rel .all{margin:12px 0 0;font-size:14px}.rel .all a{display:inline-block;padding:10px 0;color:var(--fg);font-weight:600}@media(max-width:820px){.rel ul{grid-template-columns:1fr}}@media print{.rel{display:none}}</style>
+<nav class="rel" aria-labelledby="rel-h">
+<h2 id="rel-h">More free tools</h2>
+<ul>
+<li><a href="../noise-machine/"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h2M7 8v8M11 5v14M15 9v6M19 7v10"/></svg></span><span><b>Brown &amp; White Noise Machine</b><span>Brown, pink and white noise with a sleep timer.</span></span></a></li>
+<li><a href="../hiit-timer/"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg></span><span><b>HIIT &amp; Tabata Timer</b><span>Tabata, EMOM and custom rounds with beeps and voice.</span></span></a></li>
+<li><a href="../protein-cost-calculator/"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M7 20V10M12 20V4M17 20v-7"/></svg></span><span><b>Protein Cost Calculator</b><span>Price per 100 g protein for bars, powder and food.</span></span></a></li>
+</ul>
+<p class="all"><a href="../">All free tools →</a></p>
+</nav>
+<!-- related-tools:end -->
+<footer>Made by a coach who actually trains. No ads, no account, nothing leaves your browser. · Privacy: visits are counted with <a href="https://www.cloudflare.com/web-analytics/">Cloudflare Web Analytics</a> (no cookies, no fingerprinting). · <a href="../../impressum.html">Legal notice (Impressum)</a></footer>
+<script>
+// ===== Engine (pure, tested in selbsttest.js) =====
+const CH=[['brown','Brown noise'],['pink','Pink noise'],['white','White noise'],['rain','Rain']];
+const PRESETS={'Brown noise':{brown:66},'Rain':{rain:58,pink:13},'Deep focus':{brown:60,pink:38},'White noise':{white:60},'Silence':{}};
+const MODES={'25/5':[25,5,15],'50/10':[50,10,30],'90/20':[90,20,30],'15/3':[15,3,10]};
+function rng(seed){let s=(seed>>>0)||1;return()=>{s^=s<<13;s>>>=0;s^=s>>>17;s^=s<<5;s>>>=0;return s/4294967296*2-1}}
+function makeNoise(type,n,seed){
+  const r=rng(seed||7),o=new Float32Array(n);
+  if(type==='white'){for(let i=0;i<n;i++)o[i]=r()*0.5}
+  else if(type==='pink'){let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+    for(let i=0;i<n;i++){const w=r();b0=.99886*b0+w*.0555179;b1=.99332*b1+w*.0750759;b2=.969*b2+w*.153852;b3=.8665*b3+w*.3104856;b4=.55*b4+w*.5329522;b5=-.7616*b5-w*.016898;o[i]=(b0+b1+b2+b3+b4+b5+b6+w*.5362)*.11;b6=w*.115926}}
+  else{let l=0;for(let i=0;i<n;i++){l=(l+.02*r())/1.02;o[i]=l*3.5}}
+  // seamless loop (brown drifts, white/pink do not): spread the jump between last and first sample over the whole buffer (no click at the loop point)
+  if(type==='brown'){const d=o[n-1]-o[0]+(o[1]-o[0]);for(let i=0;i<n;i++)o[i]-=d*i/(n-1)}
+  let m=0;for(let i=0;i<n;i++)m+=o[i];m/=n;for(let i=0;i<n;i++)o[i]-=m;
+  return o}
+
+function volToGain(v){v=Math.max(0,Math.min(100,+v||0));return v===0?0:Math.pow(v/100,2)}
+// Plan: focus, short, focus, short, focus, short, focus, long (repeats).
+function plan(m){const[f,s,l]=MODES[m]||MODES['25/5'];const out=[];for(let i=0;i<4;i++){out.push({k:'focus',n:i+1,d:f*60});out.push({k:i===3?'long':'short',n:i+1,d:(i===3?l:s)*60})}return out}
+function cycle(m){return plan(m).reduce((a,x)=>a+x.d,0)}
+function phaseAt(el,m){const p=plan(m),cyc=cycle(m);el=Math.max(0,+el||0);const round=Math.floor(el/cyc);let r=el-round*cyc;
+  for(let i=0;i<p.length;i++){if(r<p[i].d)return{i,k:p[i].k,n:p[i].n,round,left:p[i].d-r,dur:p[i].d};r-=p[i].d}
+  return{i:0,k:'focus',n:1,round:round+1,left:p[0].d,dur:p[0].d}}
+function startOf(i,round,m){const p=plan(m);let s=round*cycle(m);for(let j=0;j<i;j++)s+=p[j].d;return s}
+function nextStart(el,m){const ph=phaseAt(el,m);return ph.i+1<8?startOf(ph.i+1,ph.round,m):startOf(0,ph.round+1,m)}
+function fmt(s){s=Math.max(0,Math.ceil(+s||0));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function noiseGain(k,quiet){return(k!=='focus'&&quiet)?0:1}
+function parseState(h){const st={};CH.forEach(([k])=>st[k]=0);let mode='25/5',quiet=true,chime=true,any=false;
+  String(h||'').replace(/^#/,'').split('&').forEach(p=>{const[k,v]=p.split('=');
+    if(k==='m'){let d='';try{d=decodeURIComponent(v||'')}catch(e){}if(Object.prototype.hasOwnProperty.call(MODES,d))mode=d}
+    else if(k==='q')quiet=v!=='0';else if(k==='c')chime=v!=='0';
+    else if(Object.prototype.hasOwnProperty.call(st,k)){any=true;const x=parseInt(v,10);st[k]=isNaN(x)?0:Math.max(0,Math.min(100,x))}});
+  if(!any)Object.assign(st,PRESETS['Brown noise']);return{st,mode,quiet,chime}}
+function stateToHash(st,mode,quiet,chime){const p=CH.map(([k])=>k+'='+(st[k]||0));p.push('m='+encodeURIComponent(mode));if(!quiet)p.push('q=0');if(!chime)p.push('c=0');return'#'+p.join('&')}
+if(typeof module!=='undefined'){module.exports={CH,PRESETS,MODES,makeNoise,volToGain,plan,cycle,phaseAt,startOf,nextStart,fmt,noiseGain,parseState,stateToHash}}
+
+// ===== UI =====
+if(typeof document!=='undefined'){
+const $=id=>document.getElementById(id);let {st,mode,quiet,chime}=parseState(location.hash);
+let ctx=null,nodes={},master=null,running=false,acc=0,t0=0,tick=null,wake=null,lastI=-1;
+const LEVEL={brown:1.0,pink:0.9,white:0.45,rain:1.1};const NAME={focus:'Focus',short:'Short break',long:'Long break'};
+const mixer=$('mixer');
+CH.forEach(([k,name])=>{const d=document.createElement('label');d.className='ch';d.innerHTML='<b>'+name+'</b><input type="range" min="0" max="100" step="1" value="'+st[k]+'" id="v_'+k+'" aria-label="'+name+' volume"><span id="n_'+k+'">'+st[k]+'</span>';mixer.appendChild(d);
+  d.querySelector('input').addEventListener('input',e=>{st[k]=+e.target.value;$('n_'+k).textContent=st[k];apply();save();markP(null)})});
+const pr=$('presets'),md=$('modes');
+function markP(b){[...pr.children].forEach(x=>x.classList.toggle('on',x===b))}
+Object.keys(PRESETS).forEach(n=>{const b=document.createElement('button');b.textContent=n;b.onclick=()=>{CH.forEach(([k])=>st[k]=PRESETS[n][k]||0);sync();apply();save();markP(b)};pr.appendChild(b)});
+Object.keys(MODES).forEach(n=>{const b=document.createElement('button');b.textContent=n;b.classList.toggle('on',n===mode);b.onclick=()=>{mode=n;[...md.children].forEach(x=>x.classList.toggle('on',x===b));acc=0;t0=performance.now();lastI=-1;save();draw()};md.appendChild(b)});
+$('brkQuiet').checked=quiet;$('chime').checked=chime;
+$('brkQuiet').onchange=e=>{quiet=e.target.checked;save();draw()};$('chime').onchange=e=>{chime=e.target.checked;save()};
+function sync(){CH.forEach(([k])=>{$('v_'+k).value=st[k];$('n_'+k).textContent=st[k]})}
+function save(){history.replaceState(null,'',stateToHash(st,mode,quiet,chime))}
+function elapsed(){return acc+(running?(performance.now()-t0)/1000:0)}
+function build(){ctx=new (window.AudioContext||window.webkitAudioContext)();master=ctx.createGain();master.gain.value=0;master.connect(ctx.destination);
+  const L=ctx.sampleRate*12;
+  const buf=t=>{const b=ctx.createBuffer(2,L,ctx.sampleRate);b.getChannelData(0).set(makeNoise(t,L,11));b.getChannelData(1).set(makeNoise(t,L,29));return b};
+  const src=t=>{const s=ctx.createBufferSource();s.buffer=buf(t);s.loop=true;s.start();return s};
+  const filt=(type,f,q,g)=>{const x=ctx.createBiquadFilter();x.type=type;x.frequency.value=f;if(q)x.Q.value=q;if(g)x.gain.value=g;return x};
+  const chain=(k,s,list)=>{const g=ctx.createGain();g.gain.value=0;let a=s;list.forEach(f=>{a.connect(f);a=f});a.connect(g);g.connect(master);nodes[k]=g};
+  chain('brown',src('brown'),[filt('lowpass',900)]);chain('pink',src('pink'),[]);chain('white',src('white'),[filt('lowpass',9000)]);
+  chain('rain',src('pink'),[filt('highpass',500),filt('peaking',3200,0.8,4)])}
+function apply(){if(!ctx)return;const t=ctx.currentTime;CH.forEach(([k])=>nodes[k].gain.setTargetAtTime(volToGain(st[k])*LEVEL[k],t,0.15))}
+function ding(){if(!ctx||!chime)return;const t=ctx.currentTime;[880,1320].forEach((f,j)=>{const o=ctx.createOscillator(),g=ctx.createGain(),a=t+j*0.35;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,a);g.gain.linearRampToValueAtTime(0.18,a+0.02);g.gain.exponentialRampToValueAtTime(0.0001,a+1.6);o.connect(g);g.connect(ctx.destination);o.start(a);o.stop(a+1.7)})}
+function draw(){const ph=phaseAt(elapsed(),mode);$('clock').textContent=fmt(ph.left);$('clock').classList.toggle('brk',ph.k!=='focus');
+  $('phase').textContent=NAME[ph.k]+' '+ph.n+' of 4'+(running?'':' · paused');$('bar').style.width=(100*(1-ph.left/ph.dur)).toFixed(1)+'%';$('bar').style.background=ph.k==='focus'?'var(--acc)':'var(--brk)';
+  document.title=fmt(ph.left)+' '+NAME[ph.k]+' – Pomodoro';
+  if(ctx&&running)master.gain.setTargetAtTime(noiseGain(ph.k,quiet),ctx.currentTime,0.8);
+  if(lastI!==-1&&ph.i!==lastI&&running)ding();lastI=ph.i}
+async function start(){if(!ctx)build();await ctx.resume();apply();running=true;t0=performance.now();$('play').textContent='❚❚ Pause';
+  try{if(navigator.wakeLock)wake=await navigator.wakeLock.request('screen')}catch(e){}clearInterval(tick);tick=setInterval(draw,250);draw()}
+function pause(){acc=elapsed();running=false;if(ctx)master.gain.setTargetAtTime(0,ctx.currentTime,0.3);$('play').textContent='▶ Start';clearInterval(tick);try{if(wake)wake.release()}catch(e){};draw()}
+$('play').onclick=()=>running?pause():start();
+$('skip').onclick=()=>{acc=nextStart(elapsed(),mode)+0.01;t0=performance.now();draw()};
+$('reset').onclick=()=>{acc=0;t0=performance.now();lastI=-1;draw()};
+$('shareLink').onclick=e=>{e.preventDefault();save();if(navigator.clipboard)navigator.clipboard.writeText(location.href);e.target.textContent='link copied'};
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&e.target.tagName!=='INPUT'){e.preventDefault();running?pause():start()}});
+save();draw();
+}
+</script>
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c310764ce891411fbe074a6826875ccf"}'></script>
+</body>
+</html>
