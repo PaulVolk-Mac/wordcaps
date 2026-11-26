@@ -68,9 +68,9 @@ test('claims match the app (limits, rules, package content)', () => {
 });
 
 test('honest limits are on the page, unproven claims are not', () => {
-  for (const must of ['Please read before you buy', 'There is no sync', 'clearing the browser data deletes', 'Firefox and Safari were not tested',
+  for (const must of ['Please read before you buy', 'There is no sync', 'clearing the browser data deletes', 'Firefox and Safari (including iPhone) were not tested',
     'tested in Microsoft Edge and Google Chrome on Windows', 'not a tested maximum', 'A logo upload is not included',
-    'not coaching or medical advice', '§ 19 UStG', 'Sample data', 'made up']) {
+    'not coaching or medical advice', 'Gumroad calculates and remits VAT', 'Sample data', 'made up']) {
     assert.ok(text.includes(must), `missing: ${must}`);
   }
   assert.ok(html.includes('href="../impressum.html"'));
@@ -101,4 +101,33 @@ test('progress sheet and templates: page text and screenshot', () => {
   assert.ok(existsSync(path.join(DIR, 'app-progress.webp')));
   const m = html.match(/<img src="app-progress\.webp" width="1180" height="(\d+)"/);
   assert.equal(m[1], '620');
+});
+
+// A-477 / J-226 (FernUSG) + J-224: runs on both public pages, English and German
+const PAGES = { en: html, de: readFileSync(path.join(DIR, 'de', 'index.html'), 'utf8') };
+
+test('no draft placeholder is left on a public page', () => {
+  for (const [lang, h] of Object.entries(PAGES)) {
+    assert.ok(!/PLACEHOLDER|PLATZHALTER|LIVE BLOCK|LIVE-SPERRE|data-live-sperre|-placeholder/i.test(h), `${lang}: draft placeholder`);
+  }
+});
+
+test('FernUSG: required sentence is there, forbidden words are not', () => {
+  assert.ok(PAGES.de.includes('Gebaut von mir, Paul Volk. Ein Werkzeug für Trainer, kein Coaching durch mich.'), 'de: sentence missing');
+  assert.ok(PAGES.en.includes('Built by me, Paul Volk. A tool for trainers, not coaching by me.'), 'en: sentence missing');
+  for (const [lang, h] of Object.entries(PAGES)) {
+    const hit = h.match(/coaching[\s-]?programm?|ausbildung|betreuung|zertifi[kz]|certifi(?:cate|cation|ed)/i);
+    assert.ok(!hit, `${lang}: forbidden word ${hit && hit[0]}`);
+  }
+});
+
+test('return policy and tax line: 14 days money back, Gumroad handles VAT, no small-business VAT claim', () => {
+  assert.match(PAGES.de, /<section id="returns"[\s\S]*14 Tage Geld zurück[\s\S]*Widerrufsrecht[\s\S]*<\/section>/);
+  assert.match(PAGES.en, /<section id="returns"[\s\S]*14-day money back[\s\S]*right of withdrawal[\s\S]*<\/section>/);
+  assert.ok(PAGES.de.includes('Gumroad berechnet und führt die Umsatzsteuer ab'));
+  assert.ok(PAGES.en.includes('Gumroad calculates and remits VAT'));
+  for (const [lang, h] of Object.entries(PAGES)) {
+    assert.ok(!/§ ?19/.test(h), `${lang}: old § 19 sentence`);
+    assert.ok(h.includes('href="mailto:kontakt@excelbrief.de"'), `${lang}: contact address from the legal notice`);
+  }
 });
