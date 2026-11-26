@@ -17,9 +17,14 @@ const pages = [
 
 test('impressum.html exists with the required sections and noindex', () => {
   const h = readFileSync(join(root, 'impressum.html'), 'utf8');
-  for (const part of ['§ 5 DDG', 'Kontakt', '§ 19 UStG', '§ 18 Abs. 2 MStV', '<meta name="robots" content="noindex">']) {
+  for (const part of ['§ 5 DDG', 'Kontakt', '§ 18 Abs. 2 MStV', '<meta name="robots" content="noindex">']) {
     assert.ok(h.includes(part), `missing: ${part}`);
   }
+});
+
+test('impressum.html carries no tax note or tax number (J-215)', () => {
+  const h = readFileSync(join(root, 'impressum.html'), 'utf8');
+  assert.ok(!/UStG|Umsatzsteuer|Steuernummer|USt-IdNr|MwSt|VAT/i.test(h), 'tax statement left in impressum.html');
 });
 
 test('every page links to the legal notice with a working relative path', () => {
